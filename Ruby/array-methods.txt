@@ -1,0 +1,92 @@
+1. arr[0] , arr.at(0), arr.value_at()
+--> for accessing elements of array
+
+2. arr.first, arr.last
+--> Gives the firts and last element of array
+
+3. arr.take(n)
+--> gives the first n elements of array
+
+4. arr.drop(n)
+--> deletes the first n elements of the array
+
+5. arr.count, arr.length, arr.size
+--> gives the size of array
+
+6. arr.empty?
+--> check whether array contains elements or not
+
+7. arr.inlude?()
+--> check whether the particular element is present or not
+
+8. arr.push(), arr<<, arr.append
+--> put the element at the last of the array
+
+9. arr.unshift
+--> insert the element at the begining of the array
+
+10. arr.insert(index, '')
+--> insert the element at the given index
+
+11. arr.pop
+--> removes the last element of the array and returns it
+
+12. arr.delete_at()
+--> delete element at particular index
+
+13. arr.shift
+--> permanently remove the first element of the array and returns it
+
+14. arr.uniq
+--> remove the duplicate eleement from the array
+
+15. arr.reverse
+--> reverse the array
+
+16. arr.each {|a| print a___,""}
+--> print the array according to the operation
+
+17. arr.select{|a| cond} / arr.keep_if{}
+--> select elements according to the condition
+
+18. arr.reject{|a| cond} / arr.delete_if{}
+--> reject elements according to the condition
+
+19. arr.index, arr.find_index
+--> gives the index of the particular element
+
+20. arr.max, arr.min
+--> gives the maximum and minumum values among all elements of array
+
+21. arr.sample 
+--> gives one or more random elements
+
+22. arr.shuffle
+--> return elements in random order
+
+23. arr.intersection()
+--> returns the common elements found in the given arrays
+
+24. arr.union(), arr.concat()
+--> combines the elements of given arrays
+
+25. arr.difference()
+--> returns the elements from self array which are not present in given array
+
+26. arr.inspect, arr.to_s
+--> converts the elements of the array to string
+
+27. arr.to_a
+--> returns a new array containing all its elements
+
+28. arr.to_h
+--> returns a new hash formed from the elements
+
+29. arr.delete()
+--> delete the specific element
+
+30. arr.join()
+-->join the elements of the array with the specific parameter
+
+31. arr.map{}
+--> iterates over each element of array and perform action on them

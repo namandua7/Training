@@ -1,0 +1,45 @@
+Q. What is Database?
+
+A. A database is a collection of organized data, which can easily accessed and managed. Data can be organized in the form of tables, rows, columns and 
+   index it to make it easier to find relavent information.
+
+Q. What is SQL?
+
+A. SQL stands for Structured Query Language. It is a database language mainly used for maintaining data in relational database management systems. SQL is 
+   used for storing data at backend.
+
+Q. What is MySQL?
+
+A. MySQL is the most commonly used relational database management systems software. It is open source database software. It is fast, scalable, easy to 
+   use database management systems software in comparision to Microsoft SQL server and Oracle database.
+
+--> Downloading and Installation process:
+
+1. Go to mysql.com
+2. Go to Downloads
+3. Select MySQL commun ity downloads
+4. Now select OS (Windows, MAC, Linux) according to your PC.
+5. Now click on download
+6. After complete downloading of setup, install the MySQL and click on next during installion i.e remain setting as given by them, don't change it
+7. In between installation they ask to set password, so set password.
+
+Q. What is Datatype?
+
+A. A datatype specifies the partiular data like int, float, char, etc. Each column in database has a name and a datatype. It identifies the possible values for the column i.e gives a range.
+There are different datatypes in MySQL:
+
+INT - It is a normal-sized integer that can be signed or unsigned. Range for signed integer is -2147483648 to 2147483647. Range for unsigned is from 0
+      to 4294967295.
+
+CHAR(size) - Here size is the number of characters stored. Maximum size is 255 characters
+
+DECIMAL(d,m) - It is used for storing floating point numbers that cannot be unsigned. Here d meand total digits number have and m means total digits number
+               have after decimal.
+
+VARCHAR() - It is a type of string datatype. Value of string store variablly. Maximum size - 255 characters.
+
+DATE - Format is 'YYYY-MM-DD'. Range is from '1000-01-01' to '9999-12-31'
+
+TIME - Format is 'HH:MM:SS'. Range is from '-838:59:59' to '838:59:59'.
+
+DATETIME - Format is 'YYYY-MM-DD HH:MM:SS'. Range from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'

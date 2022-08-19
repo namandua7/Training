@@ -1,0 +1,602 @@
+1. Install MySQL
+
+2. Learn MySQL from YouTube
+
+3. Practice SQL in SQL shell
+
+    3.1  Creating a Database
+
+           CREATE DATABASE result;
+
+    3.2  Select the database
+
+           USE result;
+    
+    3.3  Create a table
+
+           CREATE TABLE marks (first_name VARCHAR(20), last_name VARCHAR(20), birth DATE, gender CHAR(1), CGPA FLOAT(4));
+
+    3.4  Loading data into table
+
+           INSERT INTO marks
+           VALUES
+           ('NAMAN', 'DUA', '2002-11-06', 'M', '8.48'),
+           ('NANCY', 'SAINI', '2001-01-30', 'F', '8.30'),
+           ('KARINA', 'KUMAR', '1997-04-30', 'F', '8.10'),
+           ('NISHCHAY', 'GUPTA', '2002-10-16', 'M', '7.35'),
+           ('VRINDA', 'SHARMA', '2003-10-23', 'F', '9.05');
+     
+    3.5  SELECT and FROM Clause
+
+           SELECT --> used to select data from database
+           FROM --> from which table data is to be shown
+
+    3.6  Showing all the data from Database using:
+
+           SELECT *
+           FROM marks;
+
++------------+-----------+------------+--------+------+
+| first_name | last_name | birth      | gender | CGPA |
++------------+-----------+------------+--------+------+
+| NAMAN      | DUA       | 2002-11-06 | M      | 8.48 |
+| NANCY      | SAINI     | 2001-01-30 | F      |  8.3 |
+| KARINA     | KUMAR     | 1997-04-30 | F      |  8.1 |
+| NISHCHAY   | GUPTA     | 2002-10-16 | M      | 7.35 |
+| VRINDA     | SHARMA    | 2003-10-23 | F      | 9.05 |
++------------+-----------+------------+--------+------+
+
+    3.7  WHERE clause
+
+           --> used to filter the records 
+
+            SELECT *
+            FROM marks
+            WHERE gender = 'F';
+
++------------+-----------+------------+--------+------+
+| first_name | last_name | birth      | gender | CGPA |
++------------+-----------+------------+--------+------+
+| NANCY      | SAINI     | 2001-01-30 | F      |  8.3 |
+| KARINA     | KUMAR     | 1997-04-30 | F      |  8.1 |
+| VRINDA     | SHARMA    | 2003-10-23 | F      | 9.05 |
++------------+-----------+------------+--------+------+
+
+    3.8  AND OR NOT operator
+
+            SELECT * FROM marks
+            WHERE NOT(gender='F');
+
++------------+-----------+------------+--------+------+
+| first_name | last_name | birth      | gender | CGPA |
++------------+-----------+------------+--------+------+
+| NAMAN      | DUA       | 2002-11-06 | M      | 8.48 |
+| NISHCHAY   | GUPTA     | 2002-10-16 | M      | 7.35 |
++------------+-----------+------------+--------+------+
+
+     3.9  IN operator
+
+            -->allow us to specify multiple value
+            -->works as a OR operator for multiple values
+
+     3.10  BETWEEN operator
+
+            -->filter the record between the range of some values
+
+                  SELECT * FROM marks
+                  WHERE CGPA BETWEEN '8.0' AND '8.5';
+
++------------+-----------+------------+--------+------+
+| first_name | last_name | birth      | gender | CGPA |
++------------+-----------+------------+--------+------+
+| NAMAN      | DUA       | 2002-11-06 | M      | 8.48 |
+| NANCY      | SAINI     | 2001-01-30 | F      |  8.3 |
+| KARINA     | KUMAR     | 1997-04-30 | F      |  8.1 |
++------------+-----------+------------+--------+------+
+
+    3.11  LIKE operator
+
+             -->used to check the specified pattern is present or not
+
+               % = represents multiple character
+               _ = represents a single character
+
+            SELECT * FROM marks
+            WHERE last_name LIKE ('%A');
+
++------------+-----------+------------+--------+------+
+| first_name | last_name | birth      | gender | CGPA |
++------------+-----------+------------+--------+------+
+| NAMAN      | DUA       | 2002-11-06 | M      | 8.48 |
+| NISHCHAY   | GUPTA     | 2002-10-16 | M      | 7.35 |
+| VRINDA     | SHARMA    | 2003-10-23 | F      | 9.05 |
++------------+-----------+------------+--------+------+
+
+    3.12  REGEXP operator
+
+             -->Just like LIKE operator
+
+                      ^ = used for beginning of the string
+                      $ = used for the end of the string
+                  [abc] = match any one of the character a,b,c
+                  [a-f] = match any character from a to f
+
+            SELECT * FROM marks
+            WHERE last_name REGEXP ('^KU');
+
++------------+-----------+------------+--------+------+
+| first_name | last_name | birth      | gender | CGPA |
++------------+-----------+------------+--------+------+
+| KARINA     | KUMAR     | 1997-04-30 | F      |  8.1 |
++------------+-----------+------------+--------+------+
+
+
+		 SELECT * FROM marks
+    		 WHERE first_name REGEXP ('N[abd]');
++------------+-----------+------------+--------+------+
+| first_name | last_name | birth      | gender | CGPA |
++------------+-----------+------------+--------+------+
+| NAMAN      | DUA       | 2002-11-06 | M      | 8.48 |
+| NANCY      | SAINI     | 2001-01-30 | F      |  8.3 |
+| KARINA     | KUMAR     | 1997-04-30 | F      |  8.1 |
+| VRINDA     | SHARMA    | 2003-10-23 | F      | 9.05 |
++------------+-----------+------------+--------+------+
+
+    3.13  IS NULL operator
+
+            -->helps in checking whether any information is empty or not 
+
+            SELECT * FROM marks
+
+                 WHERE last_name IS NULL;
+
+                  Empty set (0.00 sec)
+
+    3.14  ORDER BY clause
+          -->used to sort the column in ascending or descending order
+
+	SELECT * FROM marks
+    	ORDER BY first_name;
++------------+-----------+------------+--------+------+
+| first_name | last_name | birth      | gender | CGPA |
++------------+-----------+------------+--------+------+
+| KARINA     | KUMAR     | 1997-04-30 | F      |  8.1 |
+| NAMAN      | DUA       | 2002-11-06 | M      | 8.48 |
+| NANCY      | SAINI     | 2001-01-30 | F      |  8.3 |
+| NISHCHAY   | GUPTA     | 2002-10-16 | M      | 7.35 |
+| VRINDA     | SHARMA    | 2003-10-23 | F      | 9.05 |
++------------+-----------+------------+--------+------+
+
+    3.15  LIMIT clause
+          -->specify the number of record to return
+
+	 SELECT * FROM marks
+    	 ORDER BY first_name
+     	 LIMIT 3;
++------------+-----------+------------+--------+------+
+| first_name | last_name | birth      | gender | CGPA |
++------------+-----------+------------+--------+------+
+| KARINA     | KUMAR     | 1997-04-30 | F      |  8.1 |
+| NAMAN      | DUA       | 2002-11-06 | M      | 8.48 |
+| NANCY      | SAINI     | 2001-01-30 | F      |  8.3 |
++------------+-----------+------------+--------+------+
+
+    3.16  AS keyword
+          -->used to rename a column whether modified or not
+
+SELECT first_name, gender, CGPA, (CGPA*9.5) AS Percent FROM marks;
++------------+--------+------+-------------------+
+| first_name | gender | CGPA | Percent           |
++------------+--------+------+-------------------+
+| NAMAN      | M      | 8.48 | 80.55999565124512 |
+| NANCY      | F      |  8.3 |  78.8500018119812 |
+| KARINA     | F      |  8.1 |  76.9500036239624 |
+| NISHCHAY   | M      | 7.35 |  69.8249990940094 |
+| VRINDA     | F      | 9.05 |  85.9750018119812 |
++------------+--------+------+-------------------+
+
+4. Precedence of using clause
+   SELECT
+   FROM
+   WHERE
+   ORDER BY
+   LIMIT
+
+5. DELETE statement
+   -->used to delete existing records
+   
+ DELETE FROM marks WHERE first_name = 'KARINA';
+
+  SELECT * FROM marks;
++------------+-----------+------------+--------+------+
+| first_name | last_name | birth      | gender | CGPA |
++------------+-----------+------------+--------+------+
+| NAMAN      | DUA       | 2002-11-06 | M      | 8.48 |
+| NANCY      | SAINI     | 2001-01-30 | F      |  8.3 |
+| NISHCHAY   | GUPTA     | 2002-10-16 | M      | 7.35 |
+| VRINDA     | SHARMA    | 2003-10-23 | F      | 9.05 |
++------------+-----------+------------+--------+------+
+
+6. DROP TABLE
+   -->used to delete the exisiting tables
+
+   DROP TABLE marks;
+ 
+   SHOW TABLES;
+   Empty set (0.00 sec)
+
+7. DROP DATABASE
+   -->used to delete the existing database from the system
+
+   DROP DATABASE result;
+
+   SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| school             |           --> Not include result database
+| sql_hr             |
+| sql_inventory      |
+| sql_invoicing      |
+| sql_store          |
+| sys                |
+| world              |
++--------------------+
+
+NOTE :  Here I deleted the previous table and database , so I created a new database which contains information of school students.
+
+		New database name = school , Tables = student and result
+
+Student TABLE:			
++------------+-----------+---------+------------+--------+----------+		
+| first_name | last_name | roll_no | birth      | gender | city     |	
++------------+-----------+---------+------------+--------+----------+
+| Naman      | Dua       |      69 | 2002-11-06 | M      | Karnal   |
+| Nancy      | Saini     |      70 | 2001-01-30 | F      | Jind     |
+| Vaishali   | Munjal    |     121 | 2002-08-03 | F      | Ludhiana |
+| Payal      | Sharma    |      81 | 2000-06-19 | F      | Panipat  |
+| Prince     | Mor       |      85 | 1999-04-08 | M      | Hisar    |
+| Ritik      | Kumar     |      94 | 2002-05-17 | M      | Hisar    |
++------------+-----------+---------+------------+--------+----------+
+
+Result TABLE:
++---------+---------+
+| roll_no | Percent |
++---------+---------+
+|      69 |   84.60 |
+|      85 |   87.00 |
+|      81 |   83.40 |
+|      70 |   90.50 |
+|     121 |   87.80 |
+|      94 |   70.00 |
++---------+---------+
+
+
+8. UPDATE statement
+   -->used to modify the existing record
+
+   UPDATE student
+   SET city = 'Karnal', last_name = 'Sharma'
+   WHERE first_name= 'Vaishali';
+
+   SELECT * FROM student;
++------------+-----------+---------+------------+--------+---------+
+| first_name | last_name | roll_no | birth      | gender | city    |
++------------+-----------+---------+------------+--------+---------+
+| Naman      | Dua       |      69 | 2002-11-06 | M      | Karnal  |
+| Nancy      | Saini     |      70 | 2001-01-30 | F      | Jind    |
+| Vaishali   | Sharma    |     121 | 2002-08-03 | F      | Karnal  |
+| Payal      | Sharma    |      81 | 2000-06-19 | F      | Panipat |
+| Prince     | Mor       |      85 | 1999-04-08 | M      | Hisar   |
+| Ritik      | Kumar     |      94 | 2002-05-17 | M      | Hisar   |
++------------+-----------+---------+------------+--------+---------+
+
+9. MIN() and MAX() functions
+   MIN()--> used to give the minimun value
+   MAX()--> used to give the maximum value
+ 
+   SELECT MIN(Percent) 				SELECT MAX(Percent)
+   FROM result; 				      FROM result;
++--------------+					+--------------+
+| MIN(Percent) |					| MAX(Percent) |
++--------------+					+--------------+
+|        70.00 |					|        90.50 |
++--------------+					+--------------+		
+							
+10. COUNT(), AVG(), SUM() functions
+    COUNT()-->calculate the total number of rows of specified column
+    AVG()--> calculate the average of specified numeric column
+    SUM()--> calculate the sum of numeric column							
+		
+SELECT COUNT(gender)			SELECT AVG(Percent)				SELECT SUM(roll_no)
+FROM STUDENT;				FROM result;					FROM student;
++---------------+				+--------------+					+--------------+
+| COUNT(gender) |				| AVG(Percent) |					| SUM(roll_no) |
++---------------+				+--------------+					+--------------+
+|             6 |				|    83.883333 |					|          520 |
++---------------+				+--------------+					+--------------+
+					
+11. INNER JOIN
+    -->used to join two or more tables
+   # Automatically sort the table according to information which is same
+
+SELECT * FROM student
+JOIN result ON student.roll_no = result.roll_no;
++------------+-----------+---------+------------+--------+---------+---------+---------+
+| first_name | last_name | roll_no | birth      | gender | city    | roll_no | Percent |
++------------+-----------+---------+------------+--------+---------+---------+---------+
+| Naman      | Dua       |      69 | 2002-11-06 | M      | Karnal  |      69 |   84.60 |
+| Prince     | Mor       |      85 | 1999-04-08 | M      | Hisar   |      85 |   87.00 |
+| Payal      | Sharma    |      81 | 2000-06-19 | F      | Panipat |      81 |   83.40 |
+| Nancy      | Saini     |      70 | 2001-01-30 | F      | Jind    |      70 |   90.50 |
+| Vaishali   | Sharma    |     121 | 2002-08-03 | F      | Karnal  |     121 |   87.80 |
+| Ritik      | Kumar     |      94 | 2002-05-17 | M      | Hisar   |      94 |   70.00 |
++------------+-----------+---------+------------+--------+---------+---------+---------+
+
+
+SELECT first_name, student.roll_no, Percent FROM student
+JOIN result ON student.roll_no = result.roll_no
+ORDER BY roll_no;
++------------+---------+---------+
+| first_name | roll_no | Percent |
++------------+---------+---------+
+| Naman      |      69 |   84.60 |
+| Nancy      |      70 |   90.50 |
+| Payal      |      81 |   83.40 |
+| Prince     |      85 |   87.00 |
+| Ritik      |      94 |   70.00 |
+| Vaishali   |     121 |   87.80 |
++------------+---------+---------+
+
+12. OUTER JOIN (LEFT JOIN AND RIGHT JOIN)
+    LEFT JOIN --> print all the content from 1st table and content matching with 2nd table
+    RIGHT JOIN--> print all the content from 2nd table and content matching with 1st table
+
+SELECT c.customer_id, c.first_name, o.order_id				SELECT c.customer_id, c.first_name, o.order_id
+FROM customers c									FROM customers c
+LEFT JOIN orders o								RIGHT JOIN orders o
+ON c.customer_id = o.customer_id;						ON c.customer_id = o.customer_id
++-------------+------------+----------+ 					ORDER BY order_id;
+| customer_id | first_name | order_id |					+-------------+------------+----------+
++-------------+------------+----------+					| customer_id | first_name | order_id |
+|           1 | Babara     |     NULL |					+-------------+------------+----------+
+|           2 | Ines       |        4 |					|           6 | Elka       |        1 |
+|           2 | Ines       |        7 |					|           7 | Ilene      |        2 |
+|           3 | Freddi     |     NULL |					|           8 | Thacher    |        3 |
+|           4 | Ambur      |     NULL |					|           2 | Ines       |        4 |
+|           5 | Clemmie    |        5 |					|           5 | Clemmie    |        5 |
+|           5 | Clemmie    |        8 |					|          10 | Levy       |        6 |
+|           6 | Elka       |        1 |					|           2 | Ines       |        7 |
+|           6 | Elka       |       10 |					|           5 | Clemmie    |        8 |
+|           7 | Ilene      |        2 |					|          10 | Levy       |        9 |
+|           8 | Thacher    |        3 |					|           6 | Elka       |       10 |
+|           9 | Romola     |     NULL |					+-------------+------------+----------+
+|          10 | Levy       |        6 |
+|          10 | Levy       |        9 |
++-------------+------------+----------+
+
+
+13. UNION operator
+    -->used to combine two or more SELECT statment
+      ** Every SELECT statement must have same number of columns
+      ** Every column has similar data type
+
+SELECT first_name
+FROM customers
+UNION
+SELECT last_name
+FROM customers;
++------------+
+| first_name |
++------------+
+| Babara     |
+| Ines       |
+| Freddi     |
+| Ambur      |
+| Clemmie    |
+| Elka       |
+| Ilene      |
+| Thacher    |
+| Romola     |
+| Levy       |
+| MacCaffrey |
+| Brushfield |
+| Boagey     |
+| Roseburgh  |
+| Betchley   |
+| Twiddell   |
+| Dowson     |
+| Naseby     |
+| Rumgay     |
+| Mynett     |
++------------+
+
+14. GROUP BY statement
+    --> group rows which have same values
+    --> used with aggregate functions i.e COUNT() , SUM() , AVG() , MIN() , MAX()
+
+SELECT COUNT(order_id) AS TotalItemsInOrder, order_id
+FROM order_items
+GROUP BY order_id
+ORDER BY order_id;
++-------------------+----------+
+| TotalItemsInOrder | order_id |
++-------------------+----------+
+|                 1 |        1 |
+|                 3 |        2 |
+|                 1 |        3 |
+|                 2 |        4 |
+|                 1 |        5 |
+|                 4 |        6 |
+|                 1 |        7 |
+|                 2 |        8 |
+|                 1 |        9 |
+|                 2 |       10 |
++-------------------+----------+
+
+15. HAVING clause
+    --> used instead of WHERE if aggregate functions is used in condition
+
+SELECT COUNT(order_id) AS TotalItemsInOrder, order_id
+FROM order_items
+GROUP BY order_id
+HAVING COUNT(order_id)=1
+ORDER BY order_id;
++-------------------+----------+
+| TotalItemsInOrder | order_id |
++-------------------+----------+
+|                 1 |        1 |
+|                 1 |        3 |
+|                 1 |        5 |
+|                 1 |        7 |
+|                 1 |        9 |
++-------------------+----------+
+
+16. EXIST operator
+    --> used to test whether the record is existing or not
+    --> returns TRUE if subquery returns one or more record
+
+SELECT customer_id, first_name
+FROM customers
+WHERE EXISTS( SELECT customer_id FROM orders WHERE customers.customer_id = orders.customer_id AND orders.order_id> 4);
++-------------+------------+
+| customer_id | first_name |
++-------------+------------+
+|           2 | Ines       |
+|           5 | Clemmie    |
+|           6 | Elka       |
+|          10 | Levy       |
++-------------+------------+
+
+17. CASE
+    --> firstly it checks the condition and returns the value if the condition is true otherwise returns the value written in else
+
+SELECT product_id, quantity_in_stock, unit_price,
+CASE WHEN unit_price>1 AND unit_price<=2 THEN 'Price is affordable'
+WHEN unit_price >2 THEN 'Price is higher'
+ELSE 'Price is lower'
+END AS PriceDetails
+FROM products;
++------------+-------------------+------------+---------------------+
+| product_id | quantity_in_stock | unit_price | PriceDetails        |
++------------+-------------------+------------+---------------------+
+|          1 |                70 |       1.21 | Price is affordable |
+|          2 |                49 |       4.65 | Price is higher     |
+|          3 |                38 |       3.35 | Price is higher     |
+|          4 |                90 |       4.53 | Price is higher     |
+|          5 |                94 |       1.63 | Price is affordable |
+|          6 |                14 |       2.39 | Price is higher     |
+|          7 |                98 |       3.29 | Price is higher     |
+|          8 |                26 |       0.74 | Price is lower      |
+|          9 |                67 |       2.26 | Price is higher     |
+|         10 |                 6 |       1.09 | Price is affordable |
++------------+-------------------+------------+---------------------+
+
+18. ALTER TABLE statement
+    --> used to add, drop, modify column of specified TABLE
+
+	18.1  Adding a column
+
+ALTER TABLE products
+ADD Total_price DECIMAL(6,2);
+Query OK, 0 rows affected (0.08 sec)
+
+SELECT * FROM products;
++------------+------------------------------+-------------------+------------+-------------+
+| product_id | name                         | quantity_in_stock | unit_price | Total_price |
++------------+------------------------------+-------------------+------------+-------------+
+|          1 | Foam Dinner Plate            |                70 |       1.21 |        NULL |
+|          2 | Pork - Bacon,back Peameal    |                49 |       4.65 |        NULL |
+|          3 | Lettuce - Romaine, Heart     |                38 |       3.35 |        NULL |
+|          4 | Brocolinni - Gaylan, Chinese |                90 |       4.53 |        NULL |   --> Total_price column added
+|          5 | Sauce - Ranch Dressing       |                94 |       1.63 |        NULL |
+|          6 | Petit Baguette               |                14 |       2.39 |        NULL |
+|          7 | Sweet Pea Sprouts            |                98 |       3.29 |        NULL |
+|          8 | Island Oasis - Raspberry     |                26 |       0.74 |        NULL |
+|          9 | Longan                       |                67 |       2.26 |        NULL |
+|         10 | Broom - Push                 |                 6 |       1.09 |        NULL |
++------------+------------------------------+-------------------+------------+-------------+
+
+	18.2  Deleting a column
+
+ALTER TABLE products
+DROP Total_price;
+Query OK, 0 rows affected (0.05 sec)
+
+SELECT * FROM products;
++------------+------------------------------+-------------------+------------+
+| product_id | name                         | quantity_in_stock | unit_price |
++------------+------------------------------+-------------------+------------+
+|          1 | Foam Dinner Plate            |                70 |       1.21 |
+|          2 | Pork - Bacon,back Peameal    |                49 |       4.65 |
+|          3 | Lettuce - Romaine, Heart     |                38 |       3.35 |
+|          4 | Brocolinni - Gaylan, Chinese |                90 |       4.53 |		-->  Total_price column deleted
+|          5 | Sauce - Ranch Dressing       |                94 |       1.63 |
+|          6 | Petit Baguette               |                14 |       2.39 |
+|          7 | Sweet Pea Sprouts            |                98 |       3.29 |
+|          8 | Island Oasis - Raspberry     |                26 |       0.74 |
+|          9 | Longan                       |                67 |       2.26 |
+|         10 | Broom - Push                 |                 6 |       1.09 |
++------------+------------------------------+-------------------+------------+
+
+19 ROLLUP clause
+   --> It is the sub extension GROUP BY clause
+   --> It gives the total sum of the column performing aggregate functions
+
+SELECT order_id, SUM(quantity) AS Quantity, SUM(unit_price*quantity) AS TotalPrice
+FROM order_items
+GROUP BY order_id WITH ROLLUP;
++----------+----------+------------+
+| order_id | Quantity | TotalPrice |
++----------+----------+------------+
+|        1 |        4 |      14.96 |
+|        2 |        8 |      30.72 |
+|        3 |       10 |      91.20 |
+|        4 |       14 |      93.73 |
+|        5 |        3 |      29.67 |
+|        6 |       13 |      81.01 |
+|        7 |        7 |      64.19 |
+|        8 |        4 |      31.06 |
+|        9 |        5 |      36.40 |
+|       10 |       19 |      98.62 |
+|     NULL |       87 |     571.56 |
++----------+----------+------------+
+
+20. IFNULL() and COALESCE()
+    IFNULL()--> gives you an alternate value if the value is NULL
+    COALESCE() --> same as IFNULL
+
+SELECT order_id,customer_id, shipper_id, IFNULL(shipper_id,0)*customer_id AS Result 
+FROM orders 
+ORDER BY order_id;
++----------+-------------+------------+--------+
+| order_id | customer_id | shipper_id | Result |
++----------+-------------+------------+--------+
+|        1 |           6 |       NULL |      0 |
+|        2 |           7 |          4 |     28 |
+|        3 |           8 |       NULL |      0 |
+|        4 |           2 |       NULL |      0 |
+|        5 |           5 |          3 |     15 |
+|        6 |          10 |       NULL |      0 |
+|        7 |           2 |          4 |      8 |
+|        8 |           5 |       NULL |      0 |
+|        9 |          10 |          1 |     10 |
+|       10 |           6 |          2 |     12 |
++----------+-------------+------------+--------+
+
+
+
+
+
+
+
+
+
+
+
+
+

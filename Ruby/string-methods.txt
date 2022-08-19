@@ -1,0 +1,68 @@
+1. str.length
+--> returns the number of characters in string
+
+2. str.empty?
+--> returns true if the number of characters in string is zero
+
+3. str.count()
+--> counts how many times a specific character is repeated     # This method is case sensitive
+
+4. str.insert(index, "")
+--> insert the given characters before the given index
+
+5. str.upcase / str.downcase
+--> transform all the letters of the string in uppercase and downcase
+
+6. str.swapcase
+--> transform the uppercase letter to downcase and downcase letter to uppercase
+
+7. str.captialize
+--> transform the first letter of string in uppercase and rest of the letters in downcase
+
+8. str.reverse
+--> reverse the order of characters in string
+
+9. str.split
+--> split the string into an array and returns the array
+
+10. str.chop
+--> removes the last character of the string and returns the new string and (str.chop!) this mutates the original string
+
+11. str.strip
+--> removes the extra spaces in string (\t, \r, \n)
+
+12. str.chomp
+--> removes the last character if it is a carriage return or a new line  # This method is commonly used with gets command
+
+13. str.to_i , str.to_r
+--> coverts a string to integer and rational number
+
+14. str.gsub("" , "")
+--> replace the first parameter of the string with second parameter   # First parameter can also be a regular expression
+
+15. str.concat, "" + "", "" << ""
+--> to concatenate two strings together
+
+16. str.index() , str.rindex()
+--> gives the index of the first and last occurence of the substring
+
+17. str.clear
+--> removes the content of the string
+
+18. str.start_with? , str.end_with?
+--> returns true if the string is starting and ending with the given substring
+
+19. str.succ
+--> returns the successor of self string
+
+20. str.to_c , str.to_f
+--> converts the string into complex or floating point number
+
+21. str.scan()
+--> returns an array of characters which is present fron given condition
+
+22. str.char
+--> returns an array of all characters given in string
+
+23. str.slice()
+--> remove the substring from the given string

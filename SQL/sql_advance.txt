@@ -1,0 +1,115 @@
+Q. What is Constraints?
+
+A. Constraints is used to specify rule to data in table. It is used with CREATE TABLE and after making table if any modification or addition or deletion of constraints is done by ALTER TABLE 
+Commonly used constraints are:
+-> NOT NULL
+-> UNIQUE
+-> PRIMARY KEY
+-> FOREIGN KEY
+-> AUTO INCREMENT
+-> CHECK
+-> DEFAULT
+
+1. NOT NULL
+   --> enforces a column to not accept NULL values
+   --> always contain a value , cannot add a row without value
+
+   Syntax:  CREATE TABLE table_name(
+            ID INT NOT NULL,
+            first_name VARCHAR(30) NOT NULL,
+            last_name VARCHAR(30) NOT NULL
+            );
+
+   -> If TABLE is already created , then for adding NOT NULL constraint we use:
+ 
+   Syntax :  ALTER TABLE table_name
+             MODIFY column_name datatype NOT NULL;
+
+2. UNIQUE
+   --> ensures that all the values in the column is different
+
+   Syntax: CREATE TABLE table_name (
+           ID int NOT NULL,
+           LastName varchar(255) NOT NULL,
+           FirstName varchar(255),
+           Age int,
+           UNIQUE (ID)
+  	     );
+
+3. PRIMARY KEY
+   --> uniquely defines each record in a table
+   --> cannot contain NULL values
+
+   Syntax: CREATE TABLE table_name (
+           ID int NOT NULL PRIMARY KEY,
+           LastName varchar(255) NOT NULL,
+           FirstName varchar(255),
+           Age int,
+  	     );
+
+4. FOREIGN KEY
+   --> used to link primary key data of other table
+
+   Syntax :	CREATE TABLE table_name (
+   		OrderID int NOT NULL,
+	      OrderNumber int NOT NULL,
+	      PersonID int,
+    		PRIMARY KEY (OrderID),
+    		FOREIGN KEY (PersonID) REFERENCES table_name1(column_name(which have to be linked))
+		);
+
+   If we want to add or drop the FOREIGN KEY for already created table , we use ALTER statement
+
+For adding ->  ALTER TABLE table_name
+		   ADD FOREIGN KEY (column_name) REFERENCES table_name1(column_name(which have to be linked))
+                                                         
+                                                                 OR
+
+               ALTER TABLE table_name
+		   ADD CONSTRAINT foreign_key_name
+		   FOREIGN KEY (column_name) REFERENCES table_name1(column_name(which have to be linked));
+
+For dropping -> ALTER TABLE table_name
+ 		    DROP FOREIGN KEY foreign_key_name
+
+5. AUTO INCREMENT
+   --> allows a unique number to be generated automatically when a new record is inserted
+   --> default value is 1
+
+   Syntax: CREATE TABLE table_name (
+           ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+           LastName varchar(255) NOT NULL,
+           FirstName varchar(255),
+           Age int
+  	     );
+
+6. CHECK
+   --> used to limit the range of values used in columns
+
+   Syntax: CREATE TABLE table_name (
+           ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+           LastName varchar(255) NOT NULL,
+           FirstName varchar(255),
+           Age int,
+	     CHECK(Age>18)
+  	     );
+
+	Using ALTER TABLE:	Adding ->	ALTER TABLE table_name
+							ADD CONSTRAINT constraint_name CHECK (Age>18)
+					Dropping -> ALTER TABLE table_name
+							DROP CHECK constraint_name
+
+7. DEFAULT
+   --> used to set a default value for a column
+   --> automatically set the value if no other value is specififed
+
+   Syntax: CREATE TABLE table_name (
+           ID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+           LastName varchar(255) NOT NULL,
+           FirstName varchar(255),
+           Age int DEFAULT=19;
+
+	Using ALTER TABLE:	Adding ->	ALTER TABLE table_name
+							ALTER column_name SET DEFAULT (Age=19)
+					Dropping -> ALTER TABLE table_name
+							ALTER column_name DROP DEFAULT

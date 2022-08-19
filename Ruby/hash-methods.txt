@@ -1,0 +1,62 @@
+1. hash.store(:__ , __)
+--> if given key exist , then replace its value with the given value
+
+2. hash.any?([])
+--> returns true if any key-value pair exist
+
+3. hash.clear
+--> remove all hash entries
+
+4. hash.compact
+--> returns all entries of hash after removing all nill values keys
+
+5. hash.delete()
+--> delete the mentioned key and if block is given and key is found then ignore the block and remove the key and if key is not found then returns the    	output of block
+
+6. hash.delete_if{}
+--> check the condition of block for all key-value pair and delete those entries who satisfy the condition and returns the rest entries
+
+7. hash.empty?
+--> returns true if the hash is empty
+
+8. hash.eql? object
+--> returns true if hash and object have same keys
+
+9. hash.except()
+--> returns all entries except the given key
+
+10. hash.fetch()
+--> returns the value of given key and if key is not found then return default value
+
+11. hash.fetch_values()
+--> return all values in form of array and if block is given then call block for each missing values
+
+12. hash.has_key() / hash.has_value()
+--> returns true if the given key and value is present 
+
+13. hash.include(key)?
+--> returns true if the given key is present
+
+14. hash.replace()
+--> replace all the entries of the hash with the new given entries
+
+15. hash.inspect
+--> return a new string containing all hash entries
+
+16. hash.invert
+--> return a hash after reverting the order of key-value pair
+
+17. hash.key(value)
+--> returns the key with the given value
+
+18. hash.length
+--> returns the count of entries of hash
+
+19. hash.merge
+--> returns a new hash with the merge of self and given hash
+
+20. hash.reject{}
+--> returns a new hash after removing the entries which gives true for block condition
+
+21. hash.shift
+--> removes the hash first entry

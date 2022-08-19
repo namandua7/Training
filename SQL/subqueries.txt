@@ -1,0 +1,60 @@
+Q. What is Sub-query?
+
+A. A sub-query or nested query is a query embedded within WHERE, SELECT, FROM, INSERT clause.It is used to return the values which is to be used in main query
+
+1. Sub-query in WHERE clause
+
+SELECT employee_id, first_name, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);
++-------------+------------+--------+
+| employee_id | first_name | salary |
++-------------+------------+--------+
+|       37851 | Sayer      |  98926 |
+|       40448 | Mindy      |  94860 |
+|       56274 | Keriann    | 110150 |
+|       67009 | North      | 114257 |
+|       67370 | Elladine   |  96767 |
+|       72540 | Guthrey    | 117690 |
+|       72913 | Kass       |  96401 |
+|       76196 | Mirilla    | 119241 |
+|       84791 | Hazel      |  93760 |
+|       95213 | Cole       |  86119 |
+|      115357 | Ivy        |  92710 |
++-------------+------------+--------+
+
+
+2. Sub-query in SELECT clause
+
+SELECT c.client_id, c.name, SUM(invoice_total) AS total_sales, (SELECT AVG(invoice_total) FROM invoices)AS average,
+	 SUM(invoice_total)-(SELECT AVG(invoice_total) FROM invoices) AS difference
+FROM invoices i
+RIGHT JOIN clients c USING (client_id)
+GROUP BY i.client_id;
++-----------+-------------+-------------+------------+------------+
+| client_id | name        | total_sales | average    | difference |
++-----------+-------------+-------------+------------+------------+
+|         1 | Vinte       |      802.89 | 152.388235 | 650.501765 |
+|         2 | Myworks     |      101.79 | 152.388235 | -50.598235 |
+|         3 | Yadel       |      705.90 | 152.388235 | 553.511765 |
+|         4 | Kwideo      |        NULL | 152.388235 |       NULL |
+|         5 | Topiclounge |      980.02 | 152.388235 | 827.631765 |
++-----------+-------------+-------------+------------+------------+
+
+3. Sub-query in FROM clause
+
+SELECT *
+FROM(SELECT c.client_id, c.name, SUM(invoice_total) AS total_sales, (SELECT AVG(invoice_total) FROM invoices)AS average,
+		SUM(invoice_total)-(SELECT AVG(invoice_total) FROM invoices) AS difference
+     FROM invoices i 
+     RIGHT JOIN clients c USING (client_id)
+     GROUP BY i.client_id) AS short_summary;
++-----------+-------------+-------------+------------+------------+
+| client_id | name        | total_sales | average    | difference |
++-----------+-------------+-------------+------------+------------+
+|         1 | Vinte       |      802.89 | 152.388235 | 650.501765 |
+|         2 | Myworks     |      101.79 | 152.388235 | -50.598235 |
+|         3 | Yadel       |      705.90 | 152.388235 | 553.511765 |
+|         4 | Kwideo      |        NULL | 152.388235 |       NULL |
+|         5 | Topiclounge |      980.02 | 152.388235 | 827.631765 |
++-----------+-------------+-------------+------------+------------+

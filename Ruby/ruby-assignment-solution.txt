@@ -1,0 +1,471 @@
+1. Create a function that takes an array of strings and integers, and filters out the array so that it returns an array of integers only.
+
+def filter_array(arr)
+    arr=arr.select {|x| x.is_a?(Integer)}
+    puts arr
+end
+arr = [1, 2, 'hell', 'hello', 6]
+filter_array(arr);
+
+2. Write a function to return reverse of a string using recursion.
+
+def reverse(str)
+    if str.length==1
+        return str
+    end
+    return str[-1] + reverse(str.chop)
+end
+str = 'Naman Dua'
+puts(reverse(str))
+
+3. Given a string s, reverse only all the vowels in the string and return it.The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both cases.
+
+def reverse(str)
+    return str.scan(/[aeiouAEIOU]/).join.reverse
+end
+str = 'Ruby is a programming language'
+puts reverse(str)
+
+4. Given an n-digit large number in form of string, check whether it is divisible by 7 or not. Print 1 if divisible by 7, otherwise 0.
+
+num = '16'
+num = num.to_i
+if num%7==0
+    puts 1
+else
+    puts 0
+end
+
+5. Given a string S, print all permutations of a given string.
+
+str = 'Naman'
+puts str.chars.permutation.map {|x| x.join}
+
+6. Given a String S, reverse the string without reversing its individual words. Words are separated by dots.
+
+str = 'My name is Naman'
+puts str.split.reverse.join('.')
+
+7. Given a string s, return true if it is a palindrome, or false otherwise
+
+t='Naman'
+t.downcase!
+t_arr = t.chars
+t_reverse_arr = t.reverse.chars
+puts t_arr.eql?(t_reverse_arr)
+
+8. Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+s='rescue'
+t='secure'
+s_arr = s.chars.sort
+t_arr = t.chars.sort
+puts s_arr.eql?(t_arr)
+
+9. Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
+
+10. Given a string s and an array of strings words, determine whether s is a prefix string of words.A string s is a prefix string of words if s can be made 	by concatenating the first k strings in words for some positive k no larger than words.length. Return true if s is a prefix string of words, or false 	otherwise.
+
+def is_prefix_string(s, words)
+    prefix = ""
+  words.each do |word|
+    prefix.concat word until prefix == s
+  end
+  if prefix == s
+    return true
+  else 
+    return false
+  end
+end
+
+11. You are given an array of strings nums and an integer k. Each string in nums represents an integer without leading zeros.Return the string that 	represents the kth largest integer in nums. Note: Duplicate numbers should be counted distinctly. For example, if nums is ["1","2","2"], "2" is the 	first largest integer, "2" is the second-largest integer, and "1" is the third-largest integer.
+
+def kth_largest_number(nums,k)
+    nums.map{|x| x.to_i}.sort{|x,y| x<=>y}.to_s
+    return nums[-k]
+end
+num = ["3", "7", "6", "10"]
+puts kth_largest_number(num, 4)
+
+12. Given two strings s and part, perform the following operation on s until all occurrences of the substring part are removed:Find the leftmost occurrence 	of the substring part and remove it from s.Return s after removing all occurrences of part.
+
+def remove_occurence(s, part)
+    while s.include?(part)
+        s.slice! part
+    end
+    return s
+end
+
+13. You are given the array paths, where paths[i] = [cityAi, cityBi] means there exists a direct path going from cityAi to cityBi. Return the destination 	city, that is, the city without any path outgoing to another city.It is guaranteed that the graph of paths forms a line without any loop, therefore, 	there will be exactly one destination city.
+
+def dest_city(paths)
+    dest = []
+  paths.each do |destination|
+    dest.push(destination[1])
+  end
+  paths.each do |start|
+    dest.delete(start[0])
+  end
+  return dest[0]
+end
+
+14. Write a function which takes an integer (positive) and return an array of factorials of each index in index position till given number.
+
+def factorial(num)
+    def fact1 (num1)
+      if num1==0 or num1==1
+        return 1
+      else
+        return num1*fact1(num1-1)
+      end
+    end
+    fact = []
+    for i in 1..num
+      a = fact1(i)
+      fact[i-1]=a
+    end
+    return fact
+  end
+  puts factorial(5)
+
+15. Create a function that takes an array of numbers and returns a new array containing only prime numbers.
+
+def return_prime(numbers)
+    prime = []
+    def is_prime(num)
+      if num==2
+        return true
+      end
+      for i in 2..num-1
+        if num%i==0
+          return false
+        end
+      end
+      return true
+    end
+  for i in 0..numbers.length-1
+    if is_prime(numbers[i])
+      prime.append(numbers[i])
+    end
+  end
+    return prime
+end
+  n=[2,3,4,9,11]
+  puts return_prime(n)
+
+16. Given an integer limit being the upper limit of the range of interest, implement a function that returns the last 15 palindromes numbers lower or equal 	to limit as an array sorted ascendingly.
+
+def palindrome(num)
+  arr = []
+  def is_palindrome(number)
+    if number.to_s.reverse.to_i != number
+      return false
+    else
+      return true
+    end
+  end
+  for i in 10..num
+    if is_palindrome(i)
+      arr.append(i)
+    end
+  end
+  return arr.last(15)
+end
+puts palindrome(600)
+
+17. Write a function which takes an integer (positive) and return an array of Fibonacci number of each index in index position till given number.
+
+def return_fibonacci(num)
+  arr=[]
+  def fib(num)
+    if num==1
+      return 0
+    elsif num==2
+      return 1
+    else
+      return fib(num-1)+fib(num-2)
+    end
+  end
+  for i in 1..num
+    arr.append(fib(i))
+  end
+  return arr
+end
+puts return_fibonacci(5)
+
+18. Write a function which takes an array of integers, return how many of them contain an even number of digits.
+
+def even_count(arr)
+  arr.count{|x| x%2==0}
+end
+arr=[2,4,3,1,8]
+puts even_count(arr)
+
+19. Given an integer array nums, find a contiguous non-empty subarray within the array that has the largest product, and return the product. Elements can 	also be negative numbers.
+
+def max_product(nums)
+  arr=[]
+  for i in 0..nums.length-2
+    arr.append(nums[i]*nums[i+1])
+  end
+  return arr.max
+end
+nums=[-2,0,-1]
+puts max_product(nums)
+
+20. Given an unsorted array Arr of size N of positive integers. One number 'A' from set {1, 2, …N} is missing and one number 'B' occurs twice in array. Find 	these two numbers.
+
+def find_number(nums)
+    a=nums.find{|x| nums.count(x)==2}
+    for i in 1..nums.length
+      b=nums.include?(i)
+      if b==false
+        return i,a
+      end
+    end
+  end
+  arr=[1,2,3,4,3]
+  puts find_number(arr)
+
+21. Write a function that takes an integer (less than 1000) and return an array of primes till that number.
+
+def return_prime(numbers)
+    prime = []
+    def is_prime(num)
+      if num==2
+        return true
+      end
+      for i in 2..num-1
+        if num%i==0
+          return false
+        end
+      end
+      return true
+    end
+  for i in 2..numbers
+    if is_prime(i)
+      prime.append(i)
+    end
+  end
+    return prime
+end
+  puts return_prime(10)
+
+22. Given an integer array nums and an integer k, return the number of pairs (i, j) where i < j such that |nums[i] - nums[j]| == k.
+	The value of |x| is defined as:
+	x if x >= 0.
+	-x if x < 0.
+
+def pairs(nums, k)
+  count=0
+  for i in 0..nums.length-1
+    for j in 0..nums.length-1
+      if nums[i]-nums[j]==k
+        count+=1
+      end
+    end
+  end
+  return count
+end
+
+23. Given an array nums. We define a running sum of an array as running Sum[i] = sum( nums[0]…nums[i]).Return the running sum of nums.
+
+def running_sum(nums)
+  arr=[]
+  sum=0
+  for i in 0..nums.length-1
+   sum+=nums[i]
+    arr.append(sum)
+  end
+  return arr
+end
+nums=[1,2,3,4]
+puts running_sum(nums)
+  
+24. Write a function which takes square matrix mat, return the sum of the matrix diagonals.Only include the sum of all the elements on the primary diagonal 	and all the elements on the secondary diagonal that are not part of the primary diagonal.
+
+def matrix_sum(mat)
+  sum=0
+  for i in 0..mat.length-1
+    for j in 0..mat.length-1
+      if i==j or i+j==mat.length-1
+        sum+=mat[i][j]
+      end
+    end
+  end
+  return sum
+end
+mat=[[1,2,3], [4,5,6], [7,8,9]]
+puts matrix_sum(mat)
+
+25. Given an array nums of size n, return the majority element. The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume 	that the majority element always exists in the array.
+
+def majority_element(nums)
+  return nums.detect{|x| nums.count(x)>(nums.length/2)}
+end
+nums=[2,3,4,3,3,3]
+puts majority_element(nums)
+
+26. A distinct string is a string that is present only once in an array. Given an array of strings arr, and an integer k, return the kth distinct string 	present in arr. If there are fewer than k distinct strings, return an empty string "".
+
+def distinct_char(arr, k)
+  distinct=[]
+  for i in 0..arr.length-1
+    if arr.count(arr[i])==1
+      distinct.append(arr[i])
+    end
+  end
+  if distinct.length>=k
+    return distinct[k-1]
+  else
+    return ""
+  end
+end
+arr = ["d","b","c","b","c","a"]
+k = 2
+distinct_char(arr,k)
+
+27. Given an integer array nums, move all the even integers at the beginning of the array followed by all the odd integers. Return any array that satisfies 	this condition.
+
+def arr(nums)
+    edited=[]
+    for i in 0..nums.length-1
+      if nums[i]%2==0
+        edited.append(nums[i])
+      end
+    end
+    for i in 0..nums.length-1
+      if nums[i]%2!=0
+        edited.append(nums[i])
+      end
+    end
+    return edited
+  end
+
+28. Given an array of integers nums, return the number of good pairs.A pair (i, j) is called good if nums[i] == nums[j] and i < j
+
+def good_pair(nums)
+  count=0
+  for i in 0..nums.length-1
+    for j in 0..nums.length-1
+      if i<j and nums[i]==nums[j]
+        count+=1
+      end
+    end
+  end
+  return count
+end
+
+29. Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+	Symbol Value
+	I 	  1
+	V 	  5
+	X 	  10
+	L	  50
+	C	  100
+	D	  500
+	M	  1000
+	Write a function which takes roman number and return integer corresponding to that roman number.
+
+def roman_num(str)
+    total = 0
+    values = {
+      'I'=> 1,
+      'V'=> 5,
+      'X'=> 10,
+      'L'=> 50,
+      'C'=> 100,
+      'D'=> 500,
+      'M'=> 1000
+    }
+    count = str.length-1 
+    while count>=0 do
+      if values.fetch(str[count])<=values.fetch(str[count-1]) or count == 0
+        total+=values.fetch(str[count])
+        count-=1
+      else
+        total+= values.fetch(str[count])-values.fetch(str[count-1])
+        count-=2
+      end
+    end
+      return total
+  end
+  puts roman_num('IVV')
+
+30. A pangram is a sentence where every letter of the English alphabet appears at least once.Given a string sentence containing only lowercase English 	letters, return true if sentence is a pangram, or false otherwise.
+
+def pangram(str)
+    if str.chars.uniq.length==26
+        return true
+    else
+        return false
+    end
+end
+
+31. Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input 	would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.
+
+def two_sum(nums, target)
+    a=0
+  for i in 0..nums.length-1
+    a=target-nums[i]
+    if nums.include?(a)
+      return nums.index(a), i
+    end
+  end
+end
+
+32. Given a string s, return true if s is a good string, or false otherwise. A string s is good if all the characters that appear in s have the same number 	of occurrences
+
+def are_occurrences_equal(s)
+    arr = s.chars.uniq
+    count=[]
+  for i in 0..arr.length-1
+    count.append(s.count(arr[i]))
+  end
+    if count.uniq.size==1
+        return true
+    else
+        return false
+    end
+end
+
+33. Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+def missing_number(nums)
+    for i in 0..nums.length
+        if nums.include?(i)
+            next
+        else
+            return i
+        end
+    end
+end
+
+34. Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must be unique and you may return the result 	in any order.
+
+def intersection(nums1, nums2)
+    return nums1.intersection(nums2)
+end
+
+35. You are given two strings of the same length s and t. In one step you can choose any character of t and replace it with another character. Return the 	minimum number of steps to make t an anagram of s. An Anagram of a string is a string that contains the same characters with a different (or the same) 	ordering.
+
+def replacing(s, t)
+    def anagram(str1, str2)
+      arr1=str1.chars.sort
+      arr2=str2.chars.sort
+      puts arr1.eql?(arr2)
+    end
+    steps=0
+    for i in 0..s.length-1
+    if anagram(s,t)
+      return steps
+    elsif t.include?(s[i])
+      next
+    else
+      t.replace(t[i], s[i])
+      steps+=1
+    end
+    end
+    return steps
+  end
