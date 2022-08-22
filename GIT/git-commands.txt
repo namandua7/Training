@@ -1,0 +1,150 @@
+1. What is GIT ?
+
+--> Git is free and open source software for distributed version control: tracking changes in any set of files, usually used for coordinating work among 	programmers collaboratively developing source code during software development
+
+# Installation
+
+1. Go to www.git-scm.com/download
+2. Choose os (Windows / Linux / MAC) according to your PC
+3. Now select bit i.e. 32 or 64 acctording to your system and start downloading
+4. Then install the setup and open git bash
+
+
+Checking Git and Git version :      $ git
+						$ git --version
+
+
+
+						***************************** Different Git commands *****************************
+
+
+1. $ git init
+
+--> The git init command is used to create a new blank repository. It creates a .git subdirectory in the current working directory. It contains all the 	necessary metadata for the new repository
+
+
+2. $ git config --global user.name "your-name"
+
+--> set the name of current user
+
+
+3. $ git config --global user.email "your-email"
+
+--> set the email of current user
+
+
+4. $ git add <file-name>
+
+--> move the file to staging area
+
+
+5. $ git add -A
+
+--> move all the files to staging area
+
+
+6. $ git commit <file-name>
+
+--> after doing all changes, file is ready to move to repository firstly we have to commit file with a message. This command pop-up a window which takes 	message in which we write what is changed in that file
+
+-m "your-message"  = used to give a single line message in a commit commmand
+
+
+7. $ git config --list
+
+--> used to veryfy changes in username and usermail and in which repository we are working
+
+
+8. $ git status
+
+--> list which files are staged, unstaged and untracked
+
+-s = it will give the short version of status report
+
+
+9. $ git log
+
+--> list all the commits
+
+--oneline = gives the summary of the commits
+
+
+10. $ git remote add <remote-name> <url>
+
+--> create a new connection to the a remote repository. After adding a remote, we can use <remote-name> as a shortcut for <url> in other command
+
+
+11. $ git mv <file-name1> <file-name2>
+
+--> used to rename the file
+
+
+12. $ git mv <file-name> <path>
+
+--> used to move the file at a given path
+
+
+13. $ git rm <file-name>
+
+--> used to delete the file
+
+--cached = used to remove the file from staged area and move to untracked area
+
+
+14. $ git restore --staged <file-name>
+
+--> copies the last version of the file
+
+
+15. $ git clean -fd
+
+--> removes all the untracked files
+
+
+16. $ git show
+
+--> show the changes done in file in last commit
+
+
+17. $ git diff HEAD HEAD~1
+
+--> show the difference between two commits
+
+
+18. $ git branch <branch-name>
+
+--> creates a new branch which contain copy of files of acitve branch
+
+-d = used to delete the mentioned branch
+
+
+19. $ git checkout <valid-branch-name>
+
+--> switches to the mentioned branch name
+
+
+20. $ git branch -r
+
+--> list all the branches for the current repository
+
+
+21. $ git clone <url>
+
+--> make a clone of the repository which was mentioned in url
+
+
+22. $ git merge <branch-name>
+
+--> merged the mentioned branch with current branch
+
+
+23. $ git push --set-upstream <remote-name> <branch-name>
+
+--> push all the files and folders to github using this command for first time
+
+After that simply use git push
+
+
+24. $ git pull
+
+--> used to fetch and download content from a remote repository and immediately update the local repository to match that content
