@@ -1,0 +1,101 @@
+Q. What is Rails ? 
+
+A. Rails is a full-stack framework. It ships with all the tools needed to build amazing web apps on both the front and back end. Rails is a model–view–controller framework, providing default structures 	for a database, a web service, and web pages.
+
+
+Q. What is Ruby on Rails ?
+
+A. Ruby on Rails is a server-side web application framework written in Ruby under the MIT License.
+
+
+Installation process :
+
+	$ gem install rails
+	
+	
+	$ rails -v , --version
+	
+	check the version of rails
+	
+
+
+# Rails work on Model-View-Controller (MVC)
+
+ Model : Contains the database
+ View : Request the server
+ Controller : Manage the user request to server
+ 
+ 
+ 
+# New Project
+ 
+ 
+ 		$ rails new project_name
+ 		
+ 		--> creates a project containing all important directories and including git
+ 	
+ 	
+ 	Connection to database
+ 	
+ 		
+ 		$ rails new project_name -d [database]
+ 		
+ 		
+ 		E.g  - rails new friends -d mysql
+ 		
+ 		--> This will create a sample project on friends using mysql database
+ 		
+ 		
+# Files and directories in project
+
+
+	app/ --> Contains the controllers, models, views, helpers, mailers, channels, jobs, and assets for your application
+    	bin/ --> Contains the rails script that starts your ap
+      	config/ --> Contains configuration for your application's routes, database, and more
+      	db/  --> Contains your current database schema, as well as the database migrations.
+    	lib/ --> Extended modules for your application.
+      	log/  --> Application log files.
+      	public/ --> Contains static files and compiled assets. 
+        	storage/
+        	test/
+        	tmp/ --> contains temporary files
+        	vendor/  --> a place for third party code
+        	config.ru
+        	Gemfile     --> contains all the gems on which application is depend
+        	Rakefile --> This file locates and loads tasks that can be run from the command line.
+        	README.md --> this is the brief introduction of the project
+        	.gitignore --> this file tells us which file should ignore
+
+
+# To open a rails console
+
+
+	
+		$ rails c, console
+		
+		Loading development environment (Rails 7.0.3.1)
+		3.0.0 :001 > 	
+
+		Starts the rails console
+		
+		
+# Starting a web server
+
+
+		$ rails s, server
+		
+	=> Booting Puma
+	=> Rails 7.0.3.1 application starting in development 
+	=> Run `bin/rails server --help` for more startup options
+	Puma starting in single mode...
+	* Puma version: 5.6.5 (ruby 3.0.0-p0) ("Birdie's Version")
+	*  Min threads: 5
+	*  Max threads: 5
+	*  Environment: development
+	*          PID: 14842
+	* Listening on http://127.0.0.1:3000
+	* Listening on http://[::1]:3000
+	Use Ctrl-C to stop
+
+
+		-->  After searching localhost:3000 on your web browser you will see a page containing rails image
