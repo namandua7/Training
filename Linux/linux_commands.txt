@@ -203,6 +203,102 @@ Beryl System is located in Faridabad
 11. locate
 --> used to fine the specific file in system
 
-locate -c --> counts the total number of file in system
+	11.1 locate -c --> counts the total number of file in system
 
-12. 
+12. chmod
+--> used to change the mode of permission given to owner, group and others
+
+namandua@NAMAN-Ubuntu:~/Downloads$ ls -l
+total 8
+-rw-rw-r-- 1 namandua namandua  109 Aug 25 16:17 bad.txt
+drwxrwxr-x 2 namandua namandua 4096 Aug 25 16:09 good
+-rw-rw-r-- 1 namandua namandua    0 Aug 25 16:06 house
+-rw-rw-r-- 1 namandua namandua    0 Aug 25 16:06 info
+namandua@NAMAN-Ubuntu:~/Downloads$ chmod u=r house
+namandua@NAMAN-Ubuntu:~/Downloads$ ls -l
+total 8
+-rw-rw-r-- 1 namandua namandua  109 Aug 25 16:17 bad.txt
+drwxrwxr-x 2 namandua namandua 4096 Aug 25 16:09 good
+-r--rw-r-- 1 namandua namandua    0 Aug 25 16:06 house
+-rw-rw-r-- 1 namandua namandua    0 Aug 25 16:06 info
+
+
+[Permission-groups]		[Permission-type]
+owner : u			read : r : 4
+group : g			write : w : 2
+others : o			execute : x : 1
+all users : a
+
+
+13. zip
+--> to create a zip file of mutiplr files and folders
+
+namandua@NAMAN-Ubuntu:~/Downloads$ zip example.zip house info bad.txt
+  adding: house (stored 0%)
+  adding: info (stored 0%)
+  adding: bad.txt (deflated 32%)
+namandua@NAMAN-Ubuntu:~/Downloads$ ls
+bad.txt  example.zip  good  house  info
+
+	13.1 zip -r --> used to zip the subfiles and sub-directories
+	
+14. tail and head
+
+tail file_name --> used to print the last 10 lines of the file
+head file_name --> used to print the top 10 lines of the file
+
+15. tac
+--> works same as cat command but prints the content in reverse order
+
+namandua@NAMAN-Ubuntu:~/Downloads$ cat bad.txt
+Living in Faridabad
+Doing Training in Faridabad
+Doing B.tech in Sonipat
+Beryl System is located in Faridabad
+namandua@NAMAN-Ubuntu:~/Downloads$ tac bad.txt
+Beryl System is located in Faridabad
+Doing B.tech in Sonipat
+Doing Training in Faridabad
+Living in Faridabad
+
+
+16. wc
+--> used to count the words, lines and characters
+
+namandua@NAMAN-Ubuntu:~/Downloads$ cat bad.txt
+Living in Faridabad
+Doing Training in Faridabad
+Doing B.tech in Sonipat
+Beryl System is located in Faridabad
+namandua@NAMAN-Ubuntu:~/Downloads$ wc -l bad.txt
+4 bad.txt
+namandua@NAMAN-Ubuntu:~/Downloads$ wc -m bad.txt
+109 bad.txt
+namandua@NAMAN-Ubuntu:~/Downloads$ wc -w bad.txt
+17 bad.txt
+
+17. nano
+--> a text editor that run in terminal window to edit files
+
+syntax :-
+ 	$ nano file_name
+ 	
+ 	-V  = shows the version that we using
+ 	-h  = shows the help page of nano command
+ 	-l  = prints the line number in every line\
+ 	-m  = enables the use of mouse in text editor
+ 	
+ shortcuts :-
+ 
+ 
+ 	ctrl + X --> exits the nano editor
+ 	
+ 	ctrl + S --> save the file
+ 	
+ 	ctrl + R --> open the new file in new tab
+ 	
+ 	ctrl + c --> display the position of the cursor
+ 	
+ 	alt + U --> undo
+ 	
+ 	alt + E --> redo
