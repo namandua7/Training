@@ -160,4 +160,49 @@ Desktop  Documents  Downloads  Music  Pictures  Public  snap  Templates  Videos
 	namandua@NAMAN-Ubuntu:~/Downloads$ ls
 
 
-8. 
+8. cp
+--> used to copy the file from one folder to another folder
+
+	8.1 cp path1 path2 
+	
+	namandua@NAMAN-Ubuntu:~/Downloads$ cp info.txt good/
+	namandua@NAMAN-Ubuntu:~/Downloads$ ls
+	good  house  info  info.txt
+	namandua@NAMAN-Ubuntu:~/Downloads$ ls good
+	info.txt
+	
+	8.2 cp -r path1 path2 --> copy the subfiles and directories
+	
+9. mv
+--> used to move or rename file
+
+	9.1 mv file1 file2 --> rename the file1 to file2
+	
+	namandua@NAMAN-Ubuntu:~/Downloads$ cp info.txt good/
+	namandua@NAMAN-Ubuntu:~/Downloads$ ls
+	good  house  info  info.txt
+	namandua@NAMAN-Ubuntu:~/Downloads$ ls good
+	info.txt
+	
+	9.2 mv path1 path2 --> move the file of path1 to path2
+	
+10. grep
+--> used to search a text in a file
+
+namandua@NAMAN-Ubuntu:~/Downloads$ cat bad.txt
+Living in Faridabad
+Doing Training in Faridabad
+Doing B.tech in Sonipat
+Beryl System is located in Faridabad
+namandua@NAMAN-Ubuntu:~/Downloads$ grep Faridabad bad.txt
+Living in Faridabad
+Doing Training in Faridabad
+Beryl System is located in Faridabad
+
+
+11. locate
+--> used to fine the specific file in system
+
+locate -c --> counts the total number of file in system
+
+12. 
