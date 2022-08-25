@@ -93,4 +93,71 @@ Desktop  Documents  Downloads  Music  Pictures  Public  snap  Templates  Videos
 	02.html
 	'TXT files'
 	
+4. echo
+--> print the content written after this command
 
+	4.1 echo "" > file_name --> overwrite the content into the file and if file is not present , create a new file
+	
+	namandua@NAMAN-Ubuntu:~$ echo "Linux-commands" > info.txt
+	namandua@NAMAN-Ubuntu:~$ ls
+	Desktop    Downloads  Music     Public  Templates
+	Documents  info.txt   Pictures  snap    Videos
+	
+5. cat
+--> used to transfer data and print the content
+
+	5.1 cat info.ixt --> prints the content present in info.txt file
+	
+	namandua@NAMAN-Ubuntu:~$ cat info.txt
+	Linux-commands
+	
+	5.2 cat file1 > file2 --> overwrite the content of file1 to file2
+	
+6. mkdir
+--> used to create folder in current working directory
+
+	6.1 mkdir folder_name
+	
+	namandua@NAMAN-Ubuntu:~/Downloads$ mkdir linux
+	namandua@NAMAN-Ubuntu:~/Downloads$ ls
+	linux  linux.txt
+	
+	6.2 mkdir -p multipe_parent_dir
+	
+	namandua@NAMAN-Ubuntu:~/Downloads$ mkdir -p window/linux/ubuntu
+	namandua@NAMAN-Ubuntu:~/Downloads$ ls
+	linux  window
+	namandua@NAMAN-Ubuntu:~/Downloads$ cd window
+	namandua@NAMAN-Ubuntu:~/Downloads/window$ ls
+	linux
+	namandua@NAMAN-Ubuntu:~/Downloads/window$ cd linux
+	namandua@NAMAN-Ubuntu:~/Downloads/window/linux$ ls
+	ubuntu
+	
+7. rm
+--> used to delete any file
+
+	7.1 rm info.txt --> delete the info.txt file
+	
+	namandua@NAMAN-Ubuntu:~$ ls
+	Desktop    Downloads  Music     Public  Templates
+	Documents  info.txt   Pictures  snap    Videos
+	namandua@NAMAN-Ubuntu:~$ rm info.txt
+	namandua@NAMAN-Ubuntu:~$ ls
+	Desktop  Documents  Downloads  Music  Pictures  Public  snap  Templates  Videos
+	
+	7.2 rm -d dir_name --> used to delete empty directories
+	
+	namandua@NAMAN-Ubuntu:~/Downloads$ ls
+	linux  window
+	namandua@NAMAN-Ubuntu:~/Downloads$ rm -d linux
+	namandua@NAMAN-Ubuntu:~/Downloads$ ls
+	window
+	
+	7.3 rm -r dir_name --> used to delete the directory containing files and directories
+	
+	namandua@NAMAN-Ubuntu:~/Downloads$ rm -r window
+	namandua@NAMAN-Ubuntu:~/Downloads$ ls
+
+
+8. 
