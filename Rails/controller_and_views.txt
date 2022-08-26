@@ -13,10 +13,10 @@ A. The Rails controller is the logical center of your application. It coordinate
 
 Syntax:	$ rails generate controller [controller_name] [action1 action2 ...] [options]
 	
-Output:	create  app/controllers/articles_controller.rb
+Output:	create  app/controllers/controller_name_controller.rb
 	invoke  erb
 	create    app/views/articles
-	create    app/views/articles/index.html.erb
+	create    app/views/articles/action.html.erb
 	invoke  test_unit
 	create    test/controllers/articles_controller_test.rb
 	invoke  helper
@@ -26,7 +26,43 @@ Output:	create  app/controllers/articles_controller.rb
 	--> This will create several files for us.
 	    But mainly we use files whose name we given in actions and also controller file [controller_name_controller.rb]
 	    
+	--> Controller file i.e controller_name_controller.rb contains methods of all actions we mentiones while generating a controller.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# In these methods , if we give the paths of page then that page will be shown on web-browser and 'render' method is used for this
+	
+==> Suppose we have two action names in a controller index1 and index2
+
+	def index1
+	
+	end
+	
+	def index2
+	
+	    render('controller_name/index1')  or  render('index')    # In same controller, no need to mention the controller name
 	    
+	end
+	
+	--> On searching ( http://localhost:3000/controller_name/index2 ) , this will show the layout of page index1
+	
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# In controller file if we write a ruby code in methods of [actions] and if we want to use any [variable / array / hash / string] in those action file, then we use '@' as a prefix
+
+
+	def index1
+	    
+	    @arr = [5,3,2,6,7]
+	    @text = 'This is the sample text'
+	    
+	end
+	
+	--> Now these arr (Array) and text (String) are now accessable to index1.html.erb file for use
+	    
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 Q. What is views ?
 
@@ -41,8 +77,11 @@ Search : http://localhost:3000/[controller_name]/[action_name]
 
 	--> This will result the webpage designed in [action_name]
 	
+
+==> When a view file searched , then file is firstly searched in public folder and if not found, then it looks in routes.rb that from where this page is to be viewed.
 	
 	
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
 
 # Writing the Ruby code in [action] file
 
