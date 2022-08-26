@@ -1,0 +1,70 @@
+	********************************************************************** Models and Migrations **********************************************************************
+	
+
+Q. What is migration ? 
+
+A. Migrations use ruby to modify changes in database. Migration file is auto-generated while generating a model. 
+   Migrations can
+   	--> create_table
+   	--> drop_table
+   	--> rename_table
+   	--> add_column
+   	--> rename_column
+   	--> remove_column
+   	--> add_index
+   	--> remove_index
+   	
+# If we only want to create migration , then the command is used
+	
+	$ rails generate migration [migration_name]
+	
+	--> This will create a migration file in which we can create table and columns
+	
+	
+
+Q. What is model ?
+
+A. Models are connected with the database of project.
+
+
+# To create a model of a project
+
+	$ ruby generate model details name:string type:string
+	
+	invoke  active_record
+     	create    db/migrate/20220826130100_create_details.rb
+	create    app/models/detail.rb
+      	invoke    test_unit
+      	create      test/models/detail_test.rb
+      	create      test/fixtures/details.yml
+	
+	--> We will focus on only migration file and file inside models directory details
+	
+	--> In migration file we see the create_table method and containing the columns we mentioned while creating a model
+	    and a ID column is auto generated column as a primary key and two columns of timestamps i.e created_at and updated_at
+	    
+	    
+Migration file:	    class CreateDetails < ActiveRecord::Migration[7.0]
+		  def change
+		    create_table :details do |t|
+		      t.string :name
+		      t.string :type
+
+		      t.timestamps
+		    end
+		  end
+	     end
+
+	    
+	    
+# Command used to execute the migration file
+
+	$ rails db:migrate
+	
+	==  CreateArticles: migrating ===================================
+	-- create_table(:articles)
+	   -> 0.0018s
+	==  CreateArticles: migrated (0.0018s) ==========================
+	
+	
+	--> This command will create the table(s) mentioned in migration file
