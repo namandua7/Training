@@ -1,0 +1,51 @@
+
+			****************************************** Controllers and views ******************************************
+
+
+
+
+Q. What is controller ? 
+
+A. The Rails controller is the logical center of your application. It coordinates the interaction between the user, the views, and the model. The controller is also a home to a number of important 	ancillary services. It is responsible for routing external requests to internal actions.
+
+
+# To create a controller we use :
+
+Syntax:	$ rails generate controller [controller_name] [action1 action2 ...] [options]
+	
+Output:	create  app/controllers/articles_controller.rb
+	invoke  erb
+	create    app/views/articles
+	create    app/views/articles/index.html.erb
+	invoke  test_unit
+	create    test/controllers/articles_controller_test.rb
+	invoke  helper
+	create    app/helpers/articles_helper.rb
+	invoke    test_unit
+
+	--> This will create several files for us.
+	    But mainly we use files whose name we given in actions and also controller file [controller_name_controller.rb]
+	    
+	    
+
+Q. What is views ?
+
+A. A Rails View is an erb program that shares data with controllers through mutually accessible variables. Layout of views documents is in HTML syntax and also contains some ruby code whose output is 	shown on the web browser
+
+--> Views are basically action files on which we describe our web-page through html.
+
+
+# To access the view of tha page we created as a action name
+
+Search : http://localhost:3000/[controller_name]/[action_name]
+
+	--> This will result the webpage designed in [action_name]
+	
+	
+	
+
+# Writing the Ruby code in [action] file
+
+	<% -------- %>  = In dashed place we write ruby code, this will execute but not produce any output to page.
+	<%= -------- %> = For ruby program output on webpage this syntax is used.
+	<%# -------- $> = Content written in this syntax is a comment.
