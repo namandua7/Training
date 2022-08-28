@@ -20,12 +20,6 @@ A. Migrations use ruby to modify changes in database. Migration file is auto-gen
 	
 	--> This will create a migration file in which we can create table and columns
 	
-	
-
-Q. What is model ?
-
-A. Models are connected with the database of project.
-
 
 # To create a model of a project
 
@@ -68,3 +62,93 @@ Migration file:	    class CreateDetails < ActiveRecord::Migration[7.0]
 	
 	
 	--> This command will create the table(s) mentioned in migration file
+	
+	
+	
+# Some other commands related to database in rails
+
+	$ rails db:create
+	
+	--> This will create the database for the project
+	
+	$ rails db:drop
+	
+	--> This will drop the database of the project
+	
+	$ rails db:migrate:status
+	
+	--> This will show the status in up and down form of tables
+	
+	$ rails db:migrate VERSION = 20220826130100		: If VERSION = 0 , then revert all the changes.
+	
+	--> This will run migration only for mentioned model
+	
+	
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+Q. What is model ?
+
+A. Models are connected with the database of project. It is a representationof the data. Models can interact with user's database through a feature like
+	--> ActiveRecord
+	--> ActiveRealation
+	
+	
+# ActiveRecord
+
+--> Design pattern for relational database   :Active record
+--> Rails implementation of active record design pattern
+--> Retrieve and manipulate data as objects, not a static row
+
+
+
+# Creating a new first record in a table
+
+: Firstly we have to launch a ruby console using
+	
+	$ rails console / c
+	
+	namandua@NAMAN-Ubuntu:~/Project/blog_system$ rails c
+	Loading development environment (Rails 7.0.3.1)
+	3.0.0 :001 >
+
+
+: Now adding our first record
+
+Syntax : object_name = Model_name.new(-----Data according to column name-----)
+
+3.0.0 :001 > detail = Detail.new(name: 'Marketing')
+ => #<Detail:0x00007fad7831bf00 id: nil, name: "Marketing", type: nil, created_at: nil, updated_at: nil
+ 
+ 
+--> After creating the data we will not able to locate or see the record in table, firstly we have to save the data using
+
+3.0.0 :001 > object_name.save
+
+
+TRANSACTION (0.4ms)  BEGIN
+Detail Create (1.2ms)  INSERT INTO `details` (`name`, `type`, `created_at`, `updated_at`) VALUES ('Marketing', NULL, '2022-08-27 16:33:45.175969', '2022-08-27 16:33:45.175969')
+TRANSACTION (43.1ms)  COMMIT                                         
+ => true
+ 
+ --> Now we can use data
+ 
+ 
+ 
+ # Updating the data
+ 
+ 3.0.0 :009 > once.type = 'Health'
+ => "Health" 
+3.0.0 :010 > once.save
+  TRANSACTION (0.4ms)  BEGIN
+  Detail Update (1.0ms)  UPDATE `details` SET `details`.`type` = 'Health', `details`.`updated_at` = '2022-08-28 10:08:14.476088' WHERE `details`.`id` = 4
+  TRANSACTION (43.8ms)  COMMIT                              
+ => true                               
+ 
+ 
+ # Deleting the data
+ 
+ 3.0.0 :011 > once.destroy
+  TRANSACTION (0.5ms)  BEGIN
+  Detail Destroy (1.0ms)  DELETE FROM `details` WHERE `details`.`id` = 4
+  TRANSACTION (18.7ms)  COMMIT                              
+ => #<Detail:0x000055ea4fb28740 id: 4, name: "Healthcare", type: "Health", created_at: Sun, 28 Aug 2022 10:07:32.946312000 UTC +00:00, updated_at: Sun, 28 Aug 2022 10:08:14.476088000 UTC +00:00>
