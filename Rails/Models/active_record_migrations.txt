@@ -94,4 +94,60 @@ add_reference :[table_name], :[column_name], foreign_key: true
 	  end
 	end
 	
+			OR
+			
+	We can make a migration file then in change method we add this line
+	
+	create_join_table :patients, :histories do |t|
+	end
+	
+	
+----------------------------------------------------------------------------------------------------------------------------------
 
+# Change in a table
+
+--> Just like create_table, change_table is a method used for doing changes in a table
+
+So created a migration file
+
+	$ rails g migration ChangeInPatientTable
+      	
+      	invoke  active_record
+      	create    db/migrate/20220830115811_change_in_patient_table.rb
+      	
+Now in migration file :
+
+	class ChangeInPatientTable < ActiveRecord::Migration[7.0]
+	  def change
+	    change_table :patients do |t|
+	      t.remove :doctor_id_id
+	      t.remove :doctor_id
+	      t.rename(:mobile, :phone)
+	    end
+	  end
+	end
+
+This will remove the columns named (doctor_id, doctor_id_id) and rename the column named mobile with phone
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Change in a column
+
+--> Just like add_column and remove_column, change_column is a method used to do changes in a particular column
+
+o created a migration file
+
+	$ rails g migration ChangeInPatientTablesColumn
+      	
+      	invoke  active_record
+      	create    db/migrate/20220830115811_change_in_patient_tables_column.rb
+      	
+Now in migration file :
+
+	class ChangeInPatientTablesColumn < ActiveRecord::Migration[7.0]
+	  def change
+	    change_column :patients, :address, :string
+	  end
+	end
+	
+This will change the datatype of address column from text to string 
