@@ -1,0 +1,12 @@
+	******************************************* CRUD Operations *******************************************
+	
+
+C - Create
+R - Read
+U - Update
+D - Destroy / Delete
+
+--> In this we make a project in which we link the webpage to a databse which stores the record
+--> In CRUD, we can create a new record, update the existing record, read the full details of existing record
+
+

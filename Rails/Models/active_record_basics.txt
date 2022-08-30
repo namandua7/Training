@@ -1,0 +1,93 @@
+
+        ************************************************ Active record Basics ************************************************
+        
+   
+1. Create a new project using
+	$ rails new hms -d mysql		: hms (Hospital management system)
+	
+		: -d => used for giving database name
+	--> This will create a new project containing required packages and git installed in it with database mysql
+	
+2. Now move to hms directory and open /config/database.yml
+
+--> Set the username and password of your database host
+
+
+3. Now the run the to create the database
+
+	$ rails db:create
+	
+	--> This will create the database in development environment automatically
+	
+	
+=> There are 3 types of environment of database creation in rails
+
+a) Development --> When you sit down and start writing the code
+b) Test --> When you sit down and test your code you just written from all possible angles, test to find bugs
+c) Production --> When you take your code as much as bugs free and launch it on live server
+
+
+4. Now to creating a model
+
+	$ rails g model doctor
+	
+	invoke  active_record
+      create    db/migrate/20220830073225_create_doctors.rb
+      create    app/models/doctor.rb
+      invoke    test_unit
+      create      test/models/doctor_test.rb
+      create      test/fixtures/doctors.yml
+
+	--> This will create the following files and we have to work with first two files
+	    (db/migrate/20220830073225_create_doctors.rb)
+	    (app/models/doctor.rb)
+	    
+	    
+	:Model is just like table
+	
+5. Now creating columns to that table in the file (db/migrate/20220830073225_create_doctors.rb)
+
+	: Before adding columns content looks like
+	
+	class CreateDoctors < ActiveRecord::Migration[7.0]
+	  def change
+	    create_table :doctors do |t|
+
+	      t.timestamps
+	    end
+	  end
+	end
+	
+	
+	
+	: After adding columns
+	
+	class CreateDoctors < ActiveRecord::Migration[7.0]
+	  def change
+	    create_table :doctors do |t|
+      
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.integer :experience
+
+	      t.timestamps
+	    end
+	  end
+	end
+
+	--> We created columns name, mobile, address, experience
+	
+6. For adding this table to database, run
+
+	$ rails db:migrate
+	
+	== 20220830073225 CreateDoctors: migrating ====================================
+	-- create_table(:doctors)
+	   -> 0.0078s
+	== 20220830073225 CreateDoctors: migrated (0.0078s) ===========================
+
+
+	--> This will create the table to database and add columns we define and also make a id column as a primary key, 	     created_at and updated_at
+	
+
