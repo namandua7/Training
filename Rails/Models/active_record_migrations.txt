@@ -1,0 +1,97 @@
+
+       ********************************************* Acitve record migrations *********************************************
+       
+Migrations are the convinient way to alter the database over time in a consistent way. All this is to be done in RUBY , we don't have to use SQL language.
+To do any change in any column i.e add, remove, datatype, etc. we use migrations
+Migration should be logical according to the work we want from that migration file
+
+# Creating a migration file for adding a column		Note: We can migrate migration file only once. After that we have 					      to down the migration file and then migrate again
+
+	$ rails g migration AddEmailToDoctors	
+	
+	invoke  active_record                                   
+	create    db/migrate/20220830104143_add_email_to_doctors.rb
+
+: Now edit this migration file according to your requirements
+
+	class AddEmailToDoctors < ActiveRecord::Migration[7.0]
+	  def change
+	    add_column :doctors, :emails, :string
+	    # add_column :[table_name], :[column_name], :datatype
+	  end
+	end	
+ 
+: Now to execute this migration file, run
+ 
+ 	$ rails db:migrate
+ 	
+ 	== 20220830104143 AddEmailToDoctors: migrating ================================
+	-- add_column(:doctors, :emails, :string)                     
+	   -> 0.0584s                                                 
+	== 20220830104143 AddEmailToDoctors: migrated (0.0585s) =======================
+
+	
+: Now using reading all data we see that emails column was created and have nil data
+
+> Doctor.all
+
+3.0.0 :001 > Doctor.all
+  Doctor Load (0.3ms)  SELECT `doctors`.* FROM `doctors`
+ =>                                                           
+[#<Doctor:0x00007f11b45cb968                                  
+  id: 2,                                                      
+  name: "Subhash Atreja",                                     
+  mobile: "9864572826",                                       
+  address: "SCO-12, Sector - 5, Karnal",                      
+  experience: 10,                                             
+  created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00, 
+  updated_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00, 
+  emails: nil>] 
+  
+  
+# Creating a migration file for removing a column
+
+	$ rails g migration RemoveAddressFromDoctors
+	
+	invoke  active_record                                   
+      	create    db/migrate/20220830105238_remove_address_from_doctors.rb
+
+: Now using reading all data we see that address column is deleted
+
+> Doctor.all
+
+3.0.0 :001 > Doctor.all
+  Doctor Load (0.5ms)  SELECT `doctors`.* FROM `doctors`
+ =>                                                           
+[#<Doctor:0x00007f1e8c672d50                                  
+  id: 2,                                                      
+  name: "Subhash Atreja",                                     
+  mobile: "9864572826",                                       
+  address: "SCO-12, Sector - 5, Karnal",                      
+  experience: 10,                                             
+  created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00, 
+  updated_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00, 
+  emails: nil>]                     
+  
+  
+# To create a foreign key using migration , we will add following in migration file
+
+add_reference :[table_name], :[column_name], foreign_key: true
+
+
+# To create a join table , we use 
+
+	$ rails g migration CreateJoinTable patient history
+	
+	--> This will create a file and contains this content
+	
+	class CreateJoinTable < ActiveRecord::Migration[7.0]
+	  def change
+	    create_join_table :patients, :histories do |t|
+	      # t.index [:patient_id, :history_id]
+	      # t.index [:history_id, :patient_id]
+	    end
+	  end
+	end
+	
+
