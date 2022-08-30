@@ -181,3 +181,114 @@ If we want tomoverride the column that should be table's primary key, we use
  =>                                                                                                                                    
 #<Doctor:0x0000558e7d93ef20                                                                                                            
 ...                           
+
+
+		--------------------------------------------------------------
+		
+# Reading the data
+
+> Doctor.all  --> returns all the records in the table
+
+3.0.0 :013 > Doctor.all
+  Doctor Load (0.9ms)  SELECT `doctors`.* FROM `doctors`
+ =>                                                  
+[#<Doctor:0x00007f43002feb90                         
+  id: 1,                               
+  name: "Suresh Saini",                
+  mobile: "7973726327",
+  address: "SCO-68, Sector - 10, Faridabad",
+  experience: 3,
+  created_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00,
+  updated_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00>,
+  
+ #<Doctor:0x00007f43002fe9d8
+  id: 2,
+  name: "Subhash Atreja",
+  mobile: "9864572826",
+  address: "SCO-12, Sector - 5, Karnal",
+  experience: 10,
+  created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,
+  updated_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00>] 
+
+
+> Doctor.find_by(name: "Subhash Atreja")
+
+3.0.0 :012 > Doctor.find_by(name: "Subhash Atreja")
+  Doctor Load (0.3ms)  SELECT `doctors`.* FROM `doctors` WHERE `doctors`.`name` = 'Subhash Atreja' LIMIT 1
+ =>                                                                   
+#<Doctor:0x00007f4300976ec8                                           
+ id: 2,
+  name: "Subhash Atreja",
+  mobile: "9864572826",
+  address: "SCO-12, Sector - 5, Karnal",
+  experience: 10,
+  created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,
+  updated_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00>] 
+
+
+> Doctor.first
+
+3.0.0 :014 > Doctor.first
+  Doctor Load (0.4ms)  SELECT `doctors`.* FROM `doctors` ORDER BY `doctors`.`id` ASC LIMIT 1
+ =>                                                  
+#<Doctor:0x00007f43007c95f8                          
+ id: 1,                                
+ name: "Suresh Saini",                 
+ mobile: "7973726327",        
+ address: "SCO-68, Sector - 10, Faridabad",
+ experience: 3,               
+ created_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00,
+ updated_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00> 
+
+
+		--------------------------------------------------------------
+		
+# Updating the data
+
+> user = Doctor.find_by(name: "Suresh Saini")
+> user.name
+=> "Suresh Saini" 
+
+> user.name = "Sahil"
+=> "Sahil"
+
+> user.save
+
+TRANSACTION (0.2ms)  BEGIN
+  Doctor Update (0.4ms)  UPDATE `doctors` SET `doctors`.`name` = 'Sahil', `doctors`.`updated_at` = '2022-08-30 09:43:05.834972' WHERE `doctors`.`id` = 1
+  TRANSACTION (43.7ms)  COMMIT                               
+ => true      
+ 
+> user
+
+#<Doctor:0x00007f4300a55bc8                                  
+ id: 1,                                                      
+ name: "Sahil",                                              
+ mobile: "7973726327",                                       
+ address: "SCO-68, Sector - 10, Faridabad",                  
+ experience: 3,                                              
+ created_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00, 
+ updated_at: Tue, 30 Aug 2022 09:43:05.834972000 UTC +00:00> 
+
+
+		--------------------------------------------------------------
+		
+# Deleting the data
+
+> user = Doctor.find_by(name: "Sahil")
+> user.destroy       --> Delete the data
+
+ TRANSACTION (0.4ms)  BEGIN
+  Doctor Destroy (0.8ms)  DELETE FROM `doctors` WHERE `doctors`.`id` = 1
+  TRANSACTION (19.5ms)  COMMIT                               
+ =>                                                          
+#<Doctor:0x00007f4300a55bc8                                  
+ id: 1,                                                      
+ name: "Sahil",                                              
+ mobile: "7973726327",                                       
+ address: "SCO-68, Sector - 10, Faridabad",                  
+ experience: 3,                                              
+ created_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00, 
+ updated_at: Tue, 30 Aug 2022 09:43:05.834972000 UTC +00:00> 
+
+> Doctor.destroy_all    --> Delete all the records
