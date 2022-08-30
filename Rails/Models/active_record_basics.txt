@@ -29,7 +29,7 @@ c) Production --> When you take your code as much as bugs free and launch it on 
 
 4. Now to creating a model
 
-	$ rails g model doctor
+	$ rails g model Doctor
 	
 	invoke  active_record
       create    db/migrate/20220830073225_create_doctors.rb
@@ -90,4 +90,94 @@ c) Production --> When you take your code as much as bugs free and launch it on 
 
 	--> This will create the table to database and add columns we define and also make a id column as a primary key, 	     created_at and updated_at
 	
+----------------------------------------------------------------------------------------------------------------------------------
 
+
+Q. What is active record ?
+
+A. Active record is a model - which is the layer of the system responsible for representing business and data logic. It is an implementation of active record pattern which itself is a description of object relational mapping
+
+: Active record pattern --> Used to access data stored in relational database. It allows us to create, read, update and delete 			data from database
+
+: ORM --> It provides a mapping layer how between how database handles its data and how an object-oriented application handles 		its data
+
+		-------------------------------------------------------------
+
+# Naming convention while creating a model
+
+Model / Class --> Singular with the first letter of each word capitalized (e.g - BookClub)
+Database table --> Plural with underscore separated words (e.g - book_clubs)
+
+For foreign key, it should be --> singularized_table_name_id (e.g - doctor_id)
+Primary key --> By default Active record take integer to make a id column as the table's primary key
+
+
+: There are some optional column names that will add additional features to Active record instances
+--> created_at
+--> updated_at
+--> lock_version
+--> type
+--> [association_name]_type
+--> [table_name]_count
+
+		--------------------------------------------------------------
+
+# Overriding the naming convention
+
+If we want to change the name of any table without using convention, we can use predefined method in ApplicationRecord class named .table_name = "" 
+:Go to file app/models/[model_name].rb
+
+	class Doctor < ApplicationRecord
+	      self.table_name = "doctor_details"
+	end
+
+If you do so you have to define manually the class name that is hosting the fixtures (doctor_details.yml) using the set_fixture_class method in your test definition:
+
+
+	class DoctorTest < ActiveSupport::TestCase
+	      set_fixture_class doctor_details: Doctor
+	      fixtures :doctor_details
+	end
+	
+	
+If we want tomoverride the column that should be table's primary key, we use
+
+	class Doctor < ApplicationRecord
+	      self.primary_key = "doctor_id"
+	end
+	
+	
+		--------------------------------------------------------------
+		
+# Creating a new record
+
+> doc01 = Doctor.new(name: "Suresh Saini", mobile: "7973726327", address: "SCO-68, Sector - 10, Faridabad", experience: 3)
+
+3.0.0 :002 > doc01 = Doctor.new(name: "Suresh Saini", mobile: "7973726327", address: "SCO-68, Sector - 10, Faridabad", experience: 3)
+ => #<Doctor:0x0000558e7d3af028 id: nil, name: "Suresh Saini", mobile: "7973726327", address: "SCO-68, Sector - 10, Faridabad", experience: 3, created_at: nil, updated_at: nil> 
+ 
+
+# For saving the data into table , use
+ 
+ > doc01.save
+ 
+ 3.0.0 :004 > doc01.save
+  TRANSACTION (0.2ms)  BEGIN
+  Doctor Create (0.4ms)  INSERT INTO `doctors` (`name`, `mobile`, `address`, `experience`, `created_at`, `updated_at`) VALUES ('Suresh Saini', '7973726327', 'SCO-68, Sector - 10, Faridabad', 3, '2022-08-30 09:22:14.691639', '2022-08-30 09:22:14.691639')                                                                                    
+  TRANSACTION (44.1ms)  COMMIT                                                                                                        
+ => true  
+ 
+ : This will return true now the doc01 belongs TrueClass
+ 
+ 
+# If we use Doctor.create it will create a new data and automatically save it to table
+
+ > doc01 = Doctor.create(name: "Subhash Atreja", mobile: "9864572826", address: "SCO-12, Sector - 5, Karnal", experience: 10)
+
+3.0.0 :005 > doc01 = Doctor.create(name: "Subhash Atreja", mobile: "9864572826", address: "SCO-12, Sector - 5, Karnal", experience: 10)
+  TRANSACTION (0.4ms)  BEGIN
+  Doctor Create (0.8ms)  INSERT INTO `doctors` (`name`, `mobile`, `address`, `experience`, `created_at`, `updated_at`) VALUES ('Subhash Atreja', '9864572826', 'SCO-12, Sector - 5, Karnal', 10, '2022-08-30 09:29:46.453074', '2022-08-30 09:29:46.453074')                                                                                      
+  TRANSACTION (18.4ms)  COMMIT                                                                                                         
+ =>                                                                                                                                    
+#<Doctor:0x0000558e7d93ef20                                                                                                            
+...                           
