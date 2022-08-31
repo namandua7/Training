@@ -1,0 +1,95 @@
+
+           ****************************************** Active record validations ******************************************
+           
+Q. Why use validations ?
+
+--> Validations are used to ensure that only valid data is saved into your database. Model-level validations are the best way to ensure that only valid data is saved into your database.
+
+: Following methods trigger validations and save it to the database if the data is valid
+--> create
+--> create!
+--> update
+--> update!
+--> save
+--> save!
+
+: Following methods skip validations and save the object without checking the validations. These methods should be used carefully.
+--> decrement!
+--> decrement_counter
+--> increment!
+--> increment_counter
+--> insert
+--> insert!
+--> insert_all
+--> insert_all!
+--> toggle!
+--> touch
+--> touch_all
+--> update_all
+--> update_attribute
+--> update_column
+--> update_columns
+--> update_counters
+--> upsert
+--> upsert_all
+
+Note: save method can also skip validations if use like this - save(validate: false)
+
+=> Validations are put in the file [model_name].rb
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Some different validations
+
+1. acceptance
+
+--> This validates the checkbox at the user interface to check the box and move further. This is used when user need to agree the terms and condition of filling the form.
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :name, acceptance: true
+	end
+	
+		OR
+	
+	class Doctor < ApplicationRecord
+	     validates :name, acceptance: {message: "Must be checked"}	          :Gives the message when an error occured
+	end
+	
+		OR
+	
+	class Doctor < ApplicationRecord
+	     validates :name, acceptance: {accept: ['True', 'False']}	          :Only True and False values are accepted
+	end
+	
+	
+2. validates_associated
+
+--> This is used to take the validations given in another model
+
+Syntax: 	class Library < ApplicationRecord
+	  has_many :books
+	  validates_associated :books
+	end
+	
+	=> This will take all the validatons given in the books table
+	
+Note: Don't use validates_associated at both ends. They would call each other to make infinite loops
+
+: Default error message is "is invalid"
+
+
+3. confirmation
+
+--> This validation is used when we have two text fields and we need same content in both fields. Used for emails and passwords
+
+Syntax: 	class Doctor < ApplicationRecord
+	     validates :emails, confirmation: true
+	     validates :emails_confirmation, presence: true
+	end
+	
+	Now in the form page we can make a separe text field for email confirmation
+	
+: Default error message is "doesn't match confirmation"
+
+
+4. 
