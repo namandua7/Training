@@ -181,4 +181,71 @@ Syntax:	class Doctor < ApplicationRecord
 :message
 
 
-9. 
+9. numericality
+
+--> This validation validates that your attributes have only numeric values.
+--> By default it will check for integer and floating numbers
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :age, numericality: {only_integer: true}
+	end
+	
+	--> This will take age only in integer
+	
+=> Other options are:
+:greater_than
+:greater_than_or_equal_to
+:less_than
+:less_than_or_equal_to
+:equal_to
+:other_than
+:in
+:odd
+:even
+
+Note: By default numericality doesn't allow nil values, we can allow this by allow_nil: true
+
+:Default message when no options are specified is "is not a number".
+
+
+10. presence
+
+--> This validation validates that the attribute value can't be empty. This validation can include whitespaces
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :name, presence: true
+	end
+	
+	--> This means that name column can't be empty
+	
+Note: For the presence of boolean field , inclusion validation is best
+
+
+11. absence
+
+--> This validation checks the attribute is absent. It uses present? method
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :name, absence: true
+	end
+Note: For the absence of boolean field, exclusion validation is best
+
+
+12. uniqueness
+
+--> This validation checks the attribute value used before or not. If used , then return error
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :emails, uniqueness: true
+	end
+	
+: There is a scope option which is used to apply uniqueness validation on two columns
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :emails, uniqueness: {scope: :name}
+	end
+	
+Note: For case-sensitive, we can make it false according to requirements.
+
+
+13. 
