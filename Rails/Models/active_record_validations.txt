@@ -92,4 +92,93 @@ Syntax: 	class Doctor < ApplicationRecord
 : Default error message is "doesn't match confirmation"
 
 
-4. 
+4. comparison
+
+--> This validation will check a comparison between two comparable values. This validate requires a option to compare.
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :age, comparison {greater_than: 18}
+	end
+	
+Some other options:
+--> greater_than
+--> greater_than_or_equal_to
+--> equal_to
+--> less_than
+--> less_than_or_equal_to
+--> other_than
+
+: Default error message is "must be [option] %{count}"
+
+
+5. exclusion
+
+--> This validation is used when some data should not be included in the database
+
+Syntax:	 class Doctor < ApplicationRecord
+	     validates :place, exclusion: {in: %w(Delhi Palwal)}
+	 end
+	 
+	 --> This will not take the data whose place is Delhi or Palwal
+	 
+: Some other literals
+
+%w() array of strings
+%r() regular expression.
+%q() string
+%i() array of symbols
+%s() symbol
+
+: Default error message is "is reserved"
+
+
+6. format
+
+--> This validates the values by testing whether they match given regular expression, which is specified using :with option.
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :place, format: {with: /rub[a-z]/}
+	end
+	
+	--> This will check the place condition that it must be starting with rub and then contain any single alphabet
+	
+: Default error message is "is invalid"
+
+
+7. inclusion
+
+--> This validation is used when only certain number of values should be stored in database.
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :place, inclusion: {in: %w(Delhi Palwal)}
+	end
+	
+	--> This will take only [Delhi Palwal] values not any other
+	
+: Default message is "is not inccluded in the list"
+
+
+8. length
+
+--> This validation deals with the length of the value
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :place, length: {maximum: 20}
+	end
+	
+	--> This will validates the place column that it takes value with maximum length of 20
+	
+=> Other options are
+:minimum
+:maximum
+:in    -for limit in range    # mostly used in passwords
+:is    -for fixed length
+
+=> For error message , we use
+:wrong_length
+:too_long	- For maximum option
+:too_short	- For minimum option
+:message
+
+
+9. 
