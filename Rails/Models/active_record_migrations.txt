@@ -135,7 +135,7 @@ This will remove the columns named (doctor_id, doctor_id_id) and rename the colu
 
 --> Just like add_column and remove_column, change_column is a method used to do changes in a particular column
 
-o created a migration file
+So created a migration file
 
 	$ rails g migration ChangeInPatientTablesColumn
       	
@@ -150,4 +150,63 @@ Now in migration file :
 	  end
 	end
 	
-This will change the datatype of address column from text to string 
+This will change the datatype of address column from text to string
+
+Note: If we want to add null value constraint in a column and default value constraint, it should be done like this
+	change_column_null :[table_name], [column_name], true / false (according to requirement)
+	change_column_default :[table_name], [column_name], true / false (according to requirement)
+	
+: Column modifiers used while creating table and changing the table
+
+--> comment
+--> collation
+--> default		: default cannot be specified using command line
+--> limit
+--> null		: null cannot be specified using command line
+--> precision
+--> scale
+
+
+Note : In add_column and change_column, there is no option of adding a index. It should be done separately by add_index
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Adding a reference of column of one table to another table
+
+--> This will add a new relationship between two tables
+
+So create a new migration file
+		
+		$ rails g migration AddDoctorReference
+		
+		In file :
+		
+		class AddDoctorReference < ActiveRecord::Migration[7.0]
+		  def change
+		    add_reference :patients, :doctor, index: false
+		  end	
+		end
+
+		--> This will add a column name doctor_id in patients table 
+
+-------------------------------------------------------------------------------------------------------------------------------		
+# Adding a foreign key after referring the column 
+
+So create a new migration file
+Note : For adding a foreign key there must be a reference
+
+Syntax: 	add_foreign_key :[table1_name], :[table2_name]
+
+		$ rails g migration AddForeignKey
+		
+		In file :
+		
+		class AddForeignKey < ActiveRecord::Migration[7.0]
+		  def change
+		    add_foreign_key :patients, :doctors	
+		  end
+		end
+
+=> If we want to add foreign key on other column instead of id column we use column option
+
+Syntax:	add_foreign_key :[table1_name], :[table2_name], column: :[column_of_Table1], primary_key: :[column_of_table2]
