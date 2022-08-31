@@ -210,3 +210,101 @@ Syntax: 	add_foreign_key :[table1_name], :[table2_name]
 => If we want to add foreign key on other column instead of id column we use column option
 
 Syntax:	add_foreign_key :[table1_name], :[table2_name], column: :[column_of_Table1], primary_key: :[column_of_table2]
+
+
+Note: Active record supports only single column foreign key
+
+: Some more options in add_foreign_key
+
+--> name
+--> on_delete
+--> if_not_exists
+--> validatee
+--> deferrable
+
+
+# Removal of foreign key
+
+Syntax:	remove_foreign_key :[table1_name], :[table2_name]
+	remove_foreign_key :[table_name], column: :[column_name]
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+#  Using reversible
+
+--> Complex migrations may require processing that Active record doesn't know how to reverse
+--> It specifies what to do while running a migration and what to do while reverting it
+
+
+	reversible do |t|
+	    t.up do
+	    # Execute when run rails db:migrate
+	    end
+	    
+	    t.down do
+	    # Execute when run rails db:rollback
+	    end
+	end
+	
+			               :If we want to execute migration using SQL query, It can be done by
+				
+class UsingReversible < ActiveRecord::Migration[7.0]	
+  def change
+    reversible do |t|			t.up do
+      t.up do				 execute <<-SQL
+        remove_column :doctors, :emails		  # Write SQL query
+      end				 SQL
+     t.down do				end
+        add_column :doctors, :emails, :string                   t. down do
+      end				 execute <<-SQL
+    end				  # Write SQL query
+  end				 SQL
+end				end
+	
+	--> When run rails db:migrate, It will remove column name emails
+	--> When run rails db:rollback,  It will add column emails
+	
+---------------------------------------------------------------------------------------------------------------------------------
+
+# Up / Down method
+
+--> In migration file instead of using change method we can make two method named up and down
+--> The migration written in up method will be executed when rails db:migrate command run 
+--> The migration written in down method will be executed when rails db:rollback command run 
+
+
+	class UsingReversible < ActiveRecord::Migration[7.0]
+	  def up
+	    remove_column :doctors, :emails
+	  end
+	
+	  def down
+	    add_column :doctors, :emails, :string
+	  end	
+	end
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Revert method
+
+--> This method is useful in reverting the migration done previously
+
+Syntax:			 "[file_name]"
+		require_relative "20220831054520_using_reversible"
+		 class UsingRevert < ActiveRecord::Migration[7.0]
+	  	  def change
+	    	   revert UsingReversible
+		  end
+		 end
+
+			OR
+			
+		class UsingRevert < ActiveRecord::Migration[7.0]
+		  def change
+		    revert do
+		     # Copy-paste code from file you want to revert
+		    end
+		  end
+		end
+		
+----------------------------------------------------------------------------------------------------------------------------------
