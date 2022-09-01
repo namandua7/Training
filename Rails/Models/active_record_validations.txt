@@ -230,6 +230,8 @@ Syntax:	class Doctor < ApplicationRecord
 	end
 Note: For the absence of boolean field, exclusion validation is best
 
+:Default error message is "must be blank"
+
 
 12. uniqueness
 
@@ -247,5 +249,81 @@ Syntax:	class Doctor < ApplicationRecord
 	
 Note: For case-sensitive, we can make it false according to requirements.
 
+:Default error message is "has already been taken"
 
-13. 
+
+13. validates_with
+
+--> In this validation a record is passed and check with a complex condition
+
+Note: For this validation we have to inherit a class named - ActiveModel::Validator
+
+Syntax:	class NewValidator < ActiveModel::Validator
+	  def validate(record)
+	    if record.first_name == "Evil"
+	      record.errors.add :base, "This person is evil"	:Used to pass an error message
+	    end
+	  end
+	end
+	
+	class Doctor < ApplicationRecord
+	  validates_with NewValidator
+	end
+
+Note: There is no default error message for this validation, we have to add it manually.
+
+: Options available in this validation
+
+=> :on --> Specifies the context where this validation is active. Run in all validation context by default nil.
+=> :if --> Specifies a method, proc and string to call if validation should occur. Method, proc and string evaluate to true/false
+=> :unless --> Specifies a method, proc and string to call if validation should occur. Method, proc and string evaluate to 
+	true/false
+=> :strict
+
+
+14. validate_each
+
+--> This validator validates against a block. This is not a pre-defined validator. We have to create one using a block.
+--> You can make any condition to check a attribute value.
+
+Syntax:	class Person < ApplicationRecord
+	  validates_each :name, :surname do |record, attr, value|
+	    record.errors.add(attr, 'must start with upper case') if value =~ /\A[[:lower:]]/
+	  end
+	end
+
+	--> In this example, we don't want that name and surname start with lowercase. If validation fails, then it gives 	      an error message
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Some common validation options
+
+1. :allow_nil
+
+--> It is used to take the nil value i.e skip the validation if the value is nil
+
+2. :allow_blank
+
+--> It is similar to allow_nil option. It allows blank attribute's value
+
+3. :message
+
+--> It is used to give a message if the validation fails
+
+4. :on
+
+--> It is used to specify where the validation should happen
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Strict validation
+
+--> We can specify validation to be strict and raise ActiveModel::StrictValidationFailed when object is invalid
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :name, presence: {strict: true}
+	end
+	
+	--> This means name can't be blank if we are using Doctor.new then we also mention the name attribute.
+	
+----------------------------------------------------------------------------------------------------------------------------------
