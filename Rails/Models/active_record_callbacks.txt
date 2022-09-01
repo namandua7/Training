@@ -1,0 +1,137 @@
+
+       ********************************************** Active Record Callbacks **********************************************
+       
+Q. What are callbacks ?
+
+A. Callbacks are methods that get called at certain moments of an object's life cycle. With callbacks it is possible to write code that will run whenever an Active Record object is created, saved, updated, deleted, validated, or loaded from the database.
+
+
+# Available callbacks
+
+1. For creating a object
+
+--> before_validation
+--> after_validation
+--> before_save
+--> after_save
+--> around_save
+--> before_create
+--> around_create
+--> after_create
+--> after_commit / after_rollback
+
+
+2. For updating a object
+
+--> before_validation
+--> after_validation
+--> before_save
+--> around_save
+--> after_save
+--> before_update
+--> around_update
+--> after_update
+--> after_commit / after_rollback
+
+
+3. For destroying a object
+
+--> before_destroy
+--> around_destroy
+--> after_destroy
+--> after_commit / after_rollback
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Some more callbacks
+
+1. after_initialize
+
+--> The after_initialize callback will be called whenever an Active Record object is instantiated, either by directly using new or when a record is loaded from the database.
+
+:Change [model_name].rb like this
+
+class Doctor < ApplicationRecord
+     after_initialize do |user|
+          puts "You are initialized"
+     end
+end
+
+:Now using rails console
+
+3.0.0 :001 > Doctor.new
+You are initialized
+ => #<Doctor:0x00007fa6f41f5930 id: nil, name: nil, mobile: nil, address: nil, experience: nil, created_at: nil, updated_at: nil, emails: nil> 
+ 
+ 
+2. after_find
+
+--> The after_find callback will be called whenever Active Record loads a record from the database. after_find is called before after_initialize if both are defined.
+
+:Change [model_name].rb like this
+
+class Doctor < ApplicationRecord
+     after_initialize do |user|
+          puts "You are initialized"
+     end
+     after_find do |user|
+          puts "You find the data"
+     end
+end
+
+:Now using rails console
+
+3.0.0 :009 > Doctor.first
+  Doctor Load (0.3ms)  SELECT `doctors`.* FROM `doctors` ORDER BY `doctors`.`id` ASC LIMIT 1
+You find the data                                             
+You are initialized                                           
+ =>                                                           
+#<Doctor:0x00007fa6f4965490                                   
+ id: 2,                                                       
+ name: "Subhash Atreja",                                      
+ mobile: "9864572826",                                        
+ address: "SCO-12, Sector - 5, Karnal",                       
+ experience: 10,                                              
+ created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,  
+ updated_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,  
+ emails: nil>                                                 
+
+
+3. after_touch
+
+--> This callback will be called whenever an Active Record object is touched.
+
+:Change [model_name].rb like this
+
+class Doctor < ApplicationRecord
+     after_touch do |user|
+          puts "You are touched"
+     end
+end
+
+:Now using rails console
+
+3.0.0 :014 > u = Doctor.first
+  Doctor Load (0.3ms)  SELECT `doctors`.* FROM `doctors` ORDER BY `doctors`.`id` ASC LIMIT 1
+ =>                                                               
+#<Doctor:0x00007fa6f46e9018                                       
+...                                                               
+3.0.0 :015 > u
+ => 
+#<Doctor:0x00007fa6f46e9018                                       
+ id: 2,                                                           
+ name: "Subhash Atreja",                                          
+ mobile: "9864572826",                                            
+ address: "SCO-12, Sector - 5, Karnal",                           
+ experience: 10,                                                  
+ created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,      
+ updated_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,      
+ emails: nil>                                                     
+3.0.0 :016 > u.touch
+  TRANSACTION (0.5ms)  BEGIN
+  Doctor Update (1.0ms)  UPDATE `doctors` SET `doctors`.`updated_at` = '2022-09-01 11:51:19.552535' WHERE `doctors`.`id` = 2
+You are touched                                                   
+  TRANSACTION (44.3ms)  COMMIT                                    
+ => true                                  
+----------------------------------------------------------------------------------------------------------------------------------
+
