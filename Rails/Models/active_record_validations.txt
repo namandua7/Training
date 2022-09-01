@@ -327,3 +327,110 @@ Syntax:	class Doctor < ApplicationRecord
 	--> This means name can't be blank if we are using Doctor.new then we also mention the name attribute.
 	
 ----------------------------------------------------------------------------------------------------------------------------------
+
+# Performing custom validations
+
+1. validates_with and validate_each are two of them we discussed above
+
+2. Custom methods
+
+--> In this we create a method for which the attribute value should be logical and pass this method to validate option
+
+Syntax:	class Invoice < ApplicationRecord
+	  validate :expiration_date_cannot_be_in_the_past
+	  
+	  def expiration_date_cannot_be_in_the_past
+	    if expiration_date.present? && expiration_date < Date.today
+	      errors.add(:expiration_date, "can't be in the past")
+	    end
+	  end
+	end
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Working with validation errors
+
+1. errors
+
+--> This returns an instance of the class ActiveModel::Errors containing all errors, each error is represented by an ActiveModel::Error object.
+
+
+class Doctor < ApplicationRecord
+     validates :name, presence: true, length: {minimum: 3}
+end
+
+
+3.0.0 :003 > a = Doctor.new
+ => #<Doctor:0x00007f0f5c9b5678 id: nil, name: nil, mobile: nil, address: nil, experience: nil, created_at: nil, updated_at: nil, emails: nil> 
+3.0.0 :004 > a.name = "Ab"
+ => "Ab" 
+3.0.0 :005 > a.valid?
+ => false 
+3.0.0 :007 > a.errors.full_messages
+ => ["Name is too short (minimum is 3 characters)"] 
+
+
+2. errors[]
+
+--> It is used to check the error for the specific attribute
+
+
+class Doctor < ApplicationRecord
+     validates :name, presence: true, length: {minimum: 3}
+end
+
+
+3.0.0 :003 > a = Doctor.new
+ => #<Doctor:0x00007f0f5c9b5678 id: nil, name: nil, mobile: nil, address: nil, experience: nil, created_at: nil, updated_at: nil, emails: nil> 
+3.0.0 :004 > a.name = "Ab"
+ => "Ab" 
+3.0.0 :008 > a.errors[:name]
+ => ["is too short (minimum is 3 characters)"] 
+
+
+3. errors.where(:attribute_name)
+
+--> where returns an array of error objects, filtered by various degree of conditions.
+
+class Doctor < ApplicationRecord
+     validates :name, presence: true, length: {minimum: 3}
+end
+
+
+3.0.0 :003 > a = Doctor.new
+ => #<Doctor:0x00007f0f5c9b5678 id: nil, name: nil, mobile: nil, address: nil, experience: nil, created_at: nil, updated_at: nil, emails: nil> 
+3.0.0 :004 > a.name = "Ab"
+ => "Ab" 
+3.0.0 :010 > a.errors.where(:name)
+ => [#<ActiveModel::Error attribute=name, type=too_short, options={:count=>3}>] 
+
+
+=> We can store errors in a object
+
+3.0.0 :013 > error = a.errors.where(:name).last
+ => #<ActiveModel::Error attribute=name, type=too_short, options={:count=>3}> 
+3.0.0 :014 > error.type
+ => :too_short 
+
+
+4. errors.add
+
+--> add method creates the error object by taking the attribute, the error type and optional hash. This is useful for writing your own validator
+
+class Doctor < ApplicationRecord
+     validates do |person|
+          errors.add :name, :too_short
+     end
+end
+
+3.0.0 :003 > a = Doctor.new
+ => #<Doctor:0x00007f0f5c9b5678 id: nil, name: nil, mobile: nil, address: nil, experience: nil, created_at: nil, updated_at: nil, emails: nil> 
+3.0.0 :004 > a.name = "Ab"
+ => "Ab" 
+3.0.0 :016 > a.errors.messages
+ => {:name=>["is too short (minimum is 3 characters)"]} 
+
+
+5. errors[:base]
+
+--> 
