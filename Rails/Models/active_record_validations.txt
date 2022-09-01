@@ -431,6 +431,10 @@ end
  => {:name=>["is too short (minimum is 3 characters)"]} 
 
 
-5. errors[:base]
+5. errors.clear
 
---> 
+--> The clear method is used when you intentionally want to clear the errors collection. Of course, calling errors.clear upon an invalid object won't actually make it valid: the errors collection will now be empty.
+
+6. errors.size
+
+--> This method is used to return the total number of errors for the object
