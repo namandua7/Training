@@ -1,0 +1,97 @@
+
+	************************************ Active Record Associations ************************************
+	
+Q. What is associations ?
+
+A. An association is a connection between two Active Record models.
+
+
+			# Types of associations #
+
+1. belongs_to
+
+-->  belongs_to association sets up a connection with another model, such that each instance of the declaring model "belongs to" one instance of the other model.
+
+		class Patient < ApplicationRecord
+		    belongs_to :doctor
+		end
+		
+		--> In this we see that every patient belongs to one of the doctors
+
+Note: belongs_to associations must use the singular term.
+
+
+: Corresponding migration file will look like this
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+	
+=> When belongs_to is used alone, then it means that every patient knows from they are treating but doctors don't know about their patients. So to make it bidirectional we have to use has_one or has_many associations in doctors model.
+
+=> belongs_to does not ensure reference consistency, so we need to add databse level foreign key constraint on the reference column like this: 
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor, foreign_key: true
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+	
+	
+2. has_one
+
+--> This association indicates that the model data has only one reference to other model
+
+For e.g -  Each doctor attends only one patient, so doctor model will look like this
+
+	class Doctor < ApplicationRecord
+	     has_one :patient
+	end
+	
+: Corresponding migration file will look like this	:No change in doctors model
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+	
+=> We need to define a foreign key for a reference as we done in belongs_to association
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor, index: {unique: true}, foreign_key: true
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+
+
