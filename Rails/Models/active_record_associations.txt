@@ -94,4 +94,122 @@ For e.g -  Each doctor attends only one patient, so doctor model will look like 
 	  end
 	end
 
+3. has_many
 
+--> A has_many association is similar to has_one, but indicates a one-to-many connection with another model. You'll often find this association on the other side of a belongs_to association. This association indicates that each instance of the model has zero or more instances of another model.
+
+For e.g - Every doctor can treat many patients
+
+	class Doctor < ApplicationRecord
+	     has_many :patients
+	end
+	
+Note: The name of the other model is pluralized when declaring a has_many association.
+
+: Corresponding migration file will look like this	:No change in doctors model
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+	
+=> We need to define a foreign key for a reference as we done in belongs_to association
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor, index: true, foreign_key: true
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+	
+4. has_many :through
+
+--> has_many :through association is often used to set up a many-to-many connection with another model. This association indicates that the declaring model can be matched with zero or more instances of another model by proceeding through a third model.
+
+
+	class Doctor < ApplicationRecord
+	  has_many :appointments
+	  has_many :patients, through: :appointments
+	end
+	
+	class Appointment < ApplicationRecord
+	  belongs_to :doctor
+	  belongs_to :patient
+	end
+	
+	class Patient < ApplicationRecord
+	  has_many :appointments
+	  has_many :doctors, through: :appointments
+	end
+
+:Corresonding migration file will look like this
+
+	class CreateAppointments < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :appointments do |t|
+	      t.belongs_to :doctor
+	      t.belongs_to :patient
+	      t.datetime :appointment_date
+	      t.timestamps
+	    end
+	  end
+	end
+	
+5. has_one :through
+
+--> has_one :through association sets up a one-to-one connection with another model. This association indicates that the declaring model can be matched with one instance of another model by proceeding through a third model.
+
+	
+	class Supplier < ApplicationRecord
+	  has_one :account
+	  has_one :account_history, through: :account
+	end
+
+	class Account < ApplicationRecord
+	  belongs_to :supplier
+	  has_one :account_history
+	end
+	
+	class AccountHistory < ApplicationRecord
+	  belongs_to :account
+	end
+
+6. has_and_belong_to_many
+
+--> has_and_belongs_to_many association creates a direct many-to-many connection with another model, with no intervening model. This association indicates that each instance of the declaring model refers to zero or more instances of another model.
+
+	class Patient < ApplicationRecord
+	  has_and_belongs_to_many :histories
+	end
+	
+	class History < ApplicationRecord
+	  has_and_belongs_to_many :patients
+	end
+
+:Now migration file will look like this
+
+	class CreatePatientsHistories < ActiveRecord::Migration[7.0]
+	  def change
+	  
+	    create_table :patients_histories, id: false do |t|
+	      t.belongs_to :history
+	      t.belongs_to :patient
+	    end
+	  end
+	end
+	
