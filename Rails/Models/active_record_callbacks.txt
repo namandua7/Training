@@ -135,3 +135,154 @@ You are touched
  => true                                  
 ----------------------------------------------------------------------------------------------------------------------------------
 
+# Running callbacks
+
+: Methods which trigger callbacks are
+--> create
+--> create!
+--> destroy
+--> destroy!
+--> destroy_all
+--> destroy_by
+--> save
+--> save!
+--> save(validate: false)
+--> toggle!
+--> touch
+--> update_attribute
+--> update
+--> update!
+--> valid?
+
+: Additionaly, after_find callback is triggered by following finding methods
+--> all
+--> first
+--> find
+--> find_by
+--> find_by_*
+--> find_by_*!
+--> find_by_sql
+--> last
+
+: The after_initialize callback is triggered every time a new object of the class is initialized.
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Skipping callbacks
+
+: Methods which skip the callbacks are
+--> decrement
+--> decrement_counter
+--> delete
+--> delete_all
+--> delete_by
+--> increment
+--> increment_counter
+--> insert
+--> insert!
+--> insert_all
+--> insert_all!
+--> touch_all
+--> update_column
+--> update_columns
+--> update_all
+--> update_counters
+--> upsert
+--> upsert_all
+
+Note: These should be used very carefully because important business rules and application logic may be kept in callbacks.
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Conditional callbacks
+
+--> Calling of a callback after satisfying the condition. In this we use :if and :unless option, which takes a symbol, a proc and a array.
+
+
+1. Using :if and :unless with a symbol
+
+	class Order < ApplicationRecord
+	  before_save :normalize_card_number, if: :paid_with_card?
+	end
+	
+	def normalize_card_number
+	    puts "Card number is normalized"
+	end
+	
+	def paid_with_card
+	    return payment_method=="Card"
+	end
+	
+	
+2. Using :if and :unless with a Proc
+
+	class Order < ApplicationRecord
+	  before_save :normalize_card_number, if: Proc.new { |order| order.paid_with_card? }
+	end
+	
+	def normalize_card_number
+	    puts "Card number is normalized"
+	end
+	
+	def paid_with_card
+	    return payment_method=="Card"
+	end
+	
+	
+Note: we can also make multiple conditional callbacks
+
+	class Order < ApplicationRecord
+	  before_save :normalize_card_number, if: [:paid_with_card?, :paid_today?]
+	end
+	
+	def normalize_card_number
+	    puts "Card number is normalized"
+	end
+	
+	def paid_with_card
+	    return payment_method=="Card"
+	end
+	
+	def paid_today
+	    return date==Date.today
+	end
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Callback classes
+
+--> Sometimes same callback need to be called in different model, so to write it again and again, we can make its class and then call it in other models
+
+
+
+	class CallbackToCall
+	      def after_destroy(file_name)
+	          if File.exist?(file_path)
+	             File.delete(file_path)
+	          end
+	      end
+	end
+	
+	
+	:Now in model
+	
+	class ImageFile < ApplicationRecord
+	    CallbackToCall.new
+	end
+	
+Note: We needed to instantiate a new CallbackToCall object, since we declared our callback as an instance method like this
+
+	class CallbackToCall
+	      def self.after_destroy(file_name)
+	          if File.exist?(file_path)
+	             File.delete(file_path)
+	          end
+	      end
+	end
+	
+	
+	:Now in model
+	
+	class ImageFile < ApplicationRecord
+	    CallbackToCall
+	end
