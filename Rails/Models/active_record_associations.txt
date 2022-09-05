@@ -213,3 +213,120 @@ Note: The name of the other model is pluralized when declaring a has_many associ
 	  end
 	end
 	
+7. polymorphic association
+
+--> With polymorphic associations, a model can belong to more than one other model, on a single association.
+
+
+Syntax:	class Picture < ApplicationRecord
+	  belongs_to :imageable, polymorphic: true
+	end
+	
+	class Employee < ApplicationRecord
+	  has_many :pictures, as: :imageable
+	end
+	
+	class Product < ApplicationRecord
+	  has_many :pictures, as: :imageable
+	end
+	
+:Migration file can be simplified by using reference form
+
+	class CreatePictures < ActiveRecord::Migration[7.0]
+	  def change
+	    create_table :pictures do |t|
+	      t.string :name
+	      t.references :imageable, polymorphic: true
+	      t.timestamps
+	    end
+	  end
+	end
+
+8. self join
+
+--> Sometimes there is a situation in which we have to find a model that should have a relation to itself. For e.g there is a model of employees which include managers, assistant, sales-executive, etc.
+
+Syntax:	class Employee < ApplicationRecord
+	  has_many :subordinates, class_name: "Employee",
+	                          foreign_key: "manager_id"
+	
+	  belongs_to :manager, class_name: "Employee", optional: true
+	end
+
+:In migration file, we have to add reference column to model itself
+
+	class CreateEmployees < ActiveRecord::Migration[7.0]
+	  def change
+	    create_table :employees do |t|
+	      t.references :manager, foreign_key: { to_table: :employees }
+	      t.timestamps
+	    end
+	  end
+	end
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Detailed Association reference
+
+--> Details of methods and opttions available for each association
+
+1. belong_to
+
+Let's take a E.g of book and author model
+
+	class Book < ApplicationRecord
+	  belongs_to :author
+	end
+
+
+:Methods
+
+=> association
+--> returns the associated object if any, otherwise it returns nil.
+
+	@author = @book.author
+
+If the associated object has already been retrieved from the database for this object, the cached version will be returned. To override this behavior, use the reload_[association] method
+
+	@author = @book.reload_author
+
+=> association = (associates)
+--> This method assigns an associated object to his object
+
+	@book.author = @author
+	
+=> build_association(attributes)
+--> This method returns a new object of the associated type. This object will be instantiated from the passed attributes, and the link through this object's foreign key will be set, but the associated object will not yet be saved.
+
+	@author = @book.build_author(author_number: 123, author_name: "John Doe")
+	
+=> create_association(attributes)
+--> This method returns a new object of the associated type. This object will be instantiated from the passed attributes, and the link through this object's foreign key will be set, but the associated object will be saved.
+
+	@author = @book.create_author(author_number: 123, author_name: "John Doe")
+	
+=> create_association!(attributes)
+--> Same as above create_association method 
+
+=> association_changed?
+--> returns true if new associated object is assigned and foreign key will be updated in next save
+
+	@book.author # => #<Book author_number: 123, author_name: "John Doe">
+	@book.author_changed? # => false
+	
+	@book.author = Author.second # => #<Book author_number: 456, author_name: "Jane Smith">
+	@book.author_changed? # => true
+	
+	@book.save!
+	@book.author_changed? # => false
+	
+=> association_previously_changed?
+--> returns true if the previous save updated the association to reference a new associate object.
+
+	@book.author # => #<Book author_number: 123, author_name: "John Doe">
+	@book.author_previously_changed? # => false
+	
+	@book.author = Author.second # => #<Book author_number: 456, author_name: "Jane Smith">
+	@book.save!
+	@book.author_previously_changed? # => true
+	
