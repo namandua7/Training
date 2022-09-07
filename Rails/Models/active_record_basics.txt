@@ -1,0 +1,294 @@
+
+        ************************************************ Active record Basics ************************************************
+        
+   
+1. Create a new project using
+	$ rails new hms -d mysql		: hms (Hospital management system)
+	
+		: -d => used for giving database name
+	--> This will create a new project containing required packages and git installed in it with database mysql
+	
+2. Now move to hms directory and open /config/database.yml
+
+--> Set the username and password of your database host
+
+
+3. Now the run the to create the database
+
+	$ rails db:create
+	
+	--> This will create the database in development environment automatically
+	
+	
+=> There are 3 types of environment of database creation in rails
+
+a) Development --> When you sit down and start writing the code
+b) Test --> When you sit down and test your code you just written from all possible angles, test to find bugs
+c) Production --> When you take your code as much as bugs free and launch it on live server
+
+
+4. Now to creating a model
+
+	$ rails g model Doctor
+	
+	invoke  active_record
+      create    db/migrate/20220830073225_create_doctors.rb
+      create    app/models/doctor.rb
+      invoke    test_unit
+      create      test/models/doctor_test.rb
+      create      test/fixtures/doctors.yml
+
+	--> This will create the following files and we have to work with first two files
+	    (db/migrate/20220830073225_create_doctors.rb)
+	    (app/models/doctor.rb)
+	    
+	    
+	:Model is just like table
+	
+5. Now creating columns to that table in the file (db/migrate/20220830073225_create_doctors.rb)
+
+	: Before adding columns content looks like
+	
+	class CreateDoctors < ActiveRecord::Migration[7.0]
+	  def change
+	    create_table :doctors do |t|
+
+	      t.timestamps
+	    end
+	  end
+	end
+	
+	
+	
+	: After adding columns
+	
+	class CreateDoctors < ActiveRecord::Migration[7.0]
+	  def change
+	    create_table :doctors do |t|
+      
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.integer :experience
+
+	      t.timestamps
+	    end
+	  end
+	end
+
+	--> We created columns name, mobile, address, experience
+	
+6. For adding this table to database, run
+
+	$ rails db:migrate
+	
+	== 20220830073225 CreateDoctors: migrating ====================================
+	-- create_table(:doctors)
+	   -> 0.0078s
+	== 20220830073225 CreateDoctors: migrated (0.0078s) ===========================
+
+
+	--> This will create the table to database and add columns we define and also make a id column as a primary key, 	     created_at and updated_at
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+Q. What is active record ?
+
+A. Active record is a model - which is the layer of the system responsible for representing business and data logic. It is an implementation of active record pattern which itself is a description of object relational mapping
+
+: Active record pattern --> Used to access data stored in relational database. It allows us to create, read, update and delete 			data from database
+
+: ORM --> It provides a mapping layer how between how database handles its data and how an object-oriented application handles 		its data
+
+		-------------------------------------------------------------
+
+# Naming convention while creating a model
+
+Model / Class --> Singular with the first letter of each word capitalized (e.g - BookClub)
+Database table --> Plural with underscore separated words (e.g - book_clubs)
+
+For foreign key, it should be --> singularized_table_name_id (e.g - doctor_id)
+Primary key --> By default Active record take integer to make a id column as the table's primary key
+
+
+: There are some optional column names that will add additional features to Active record instances
+--> created_at
+--> updated_at
+--> lock_version
+--> type
+--> [association_name]_type
+--> [table_name]_count
+
+		--------------------------------------------------------------
+
+# Overriding the naming convention
+
+If we want to change the name of any table without using convention, we can use predefined method in ApplicationRecord class named .table_name = "" 
+:Go to file app/models/[model_name].rb
+
+	class Doctor < ApplicationRecord
+	      self.table_name = "doctor_details"
+	end
+
+If you do so you have to define manually the class name that is hosting the fixtures (doctor_details.yml) using the set_fixture_class method in your test definition:
+
+
+	class DoctorTest < ActiveSupport::TestCase
+	      set_fixture_class doctor_details: Doctor
+	      fixtures :doctor_details
+	end
+	
+	
+If we want tomoverride the column that should be table's primary key, we use
+
+	class Doctor < ApplicationRecord
+	      self.primary_key = "doctor_id"
+	end
+	
+	
+		--------------------------------------------------------------
+		
+# Creating a new record
+
+> doc01 = Doctor.new(name: "Suresh Saini", mobile: "7973726327", address: "SCO-68, Sector - 10, Faridabad", experience: 3)
+
+3.0.0 :002 > doc01 = Doctor.new(name: "Suresh Saini", mobile: "7973726327", address: "SCO-68, Sector - 10, Faridabad", experience: 3)
+ => #<Doctor:0x0000558e7d3af028 id: nil, name: "Suresh Saini", mobile: "7973726327", address: "SCO-68, Sector - 10, Faridabad", experience: 3, created_at: nil, updated_at: nil> 
+ 
+
+# For saving the data into table , use
+ 
+ > doc01.save
+ 
+ 3.0.0 :004 > doc01.save
+  TRANSACTION (0.2ms)  BEGIN
+  Doctor Create (0.4ms)  INSERT INTO `doctors` (`name`, `mobile`, `address`, `experience`, `created_at`, `updated_at`) VALUES ('Suresh Saini', '7973726327', 'SCO-68, Sector - 10, Faridabad', 3, '2022-08-30 09:22:14.691639', '2022-08-30 09:22:14.691639')                                                                                    
+  TRANSACTION (44.1ms)  COMMIT                                                                                                        
+ => true  
+ 
+ : This will return true now the doc01 belongs TrueClass
+ 
+ 
+# If we use Doctor.create it will create a new data and automatically save it to table
+
+ > doc01 = Doctor.create(name: "Subhash Atreja", mobile: "9864572826", address: "SCO-12, Sector - 5, Karnal", experience: 10)
+
+3.0.0 :005 > doc01 = Doctor.create(name: "Subhash Atreja", mobile: "9864572826", address: "SCO-12, Sector - 5, Karnal", experience: 10)
+  TRANSACTION (0.4ms)  BEGIN
+  Doctor Create (0.8ms)  INSERT INTO `doctors` (`name`, `mobile`, `address`, `experience`, `created_at`, `updated_at`) VALUES ('Subhash Atreja', '9864572826', 'SCO-12, Sector - 5, Karnal', 10, '2022-08-30 09:29:46.453074', '2022-08-30 09:29:46.453074')                                                                                      
+  TRANSACTION (18.4ms)  COMMIT                                                                                                         
+ =>                                                                                                                                    
+#<Doctor:0x0000558e7d93ef20                                                                                                            
+...                           
+
+
+		--------------------------------------------------------------
+		
+# Reading the data
+
+> Doctor.all  --> returns all the records in the table
+
+3.0.0 :013 > Doctor.all
+  Doctor Load (0.9ms)  SELECT `doctors`.* FROM `doctors`
+ =>                                                  
+[#<Doctor:0x00007f43002feb90                         
+  id: 1,                               
+  name: "Suresh Saini",                
+  mobile: "7973726327",
+  address: "SCO-68, Sector - 10, Faridabad",
+  experience: 3,
+  created_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00,
+  updated_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00>,
+  
+ #<Doctor:0x00007f43002fe9d8
+  id: 2,
+  name: "Subhash Atreja",
+  mobile: "9864572826",
+  address: "SCO-12, Sector - 5, Karnal",
+  experience: 10,
+  created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,
+  updated_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00>] 
+
+
+> Doctor.find_by(name: "Subhash Atreja")
+
+3.0.0 :012 > Doctor.find_by(name: "Subhash Atreja")
+  Doctor Load (0.3ms)  SELECT `doctors`.* FROM `doctors` WHERE `doctors`.`name` = 'Subhash Atreja' LIMIT 1
+ =>                                                                   
+#<Doctor:0x00007f4300976ec8                                           
+ id: 2,
+  name: "Subhash Atreja",
+  mobile: "9864572826",
+  address: "SCO-12, Sector - 5, Karnal",
+  experience: 10,
+  created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,
+  updated_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00>] 
+
+
+> Doctor.first
+
+3.0.0 :014 > Doctor.first
+  Doctor Load (0.4ms)  SELECT `doctors`.* FROM `doctors` ORDER BY `doctors`.`id` ASC LIMIT 1
+ =>                                                  
+#<Doctor:0x00007f43007c95f8                          
+ id: 1,                                
+ name: "Suresh Saini",                 
+ mobile: "7973726327",        
+ address: "SCO-68, Sector - 10, Faridabad",
+ experience: 3,               
+ created_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00,
+ updated_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00> 
+
+
+		--------------------------------------------------------------
+		
+# Updating the data
+
+> user = Doctor.find_by(name: "Suresh Saini")
+> user.name
+=> "Suresh Saini" 
+
+> user.name = "Sahil"
+=> "Sahil"
+
+> user.save
+
+TRANSACTION (0.2ms)  BEGIN
+  Doctor Update (0.4ms)  UPDATE `doctors` SET `doctors`.`name` = 'Sahil', `doctors`.`updated_at` = '2022-08-30 09:43:05.834972' WHERE `doctors`.`id` = 1
+  TRANSACTION (43.7ms)  COMMIT                               
+ => true      
+ 
+> user
+
+#<Doctor:0x00007f4300a55bc8                                  
+ id: 1,                                                      
+ name: "Sahil",                                              
+ mobile: "7973726327",                                       
+ address: "SCO-68, Sector - 10, Faridabad",                  
+ experience: 3,                                              
+ created_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00, 
+ updated_at: Tue, 30 Aug 2022 09:43:05.834972000 UTC +00:00> 
+
+
+		--------------------------------------------------------------
+		
+# Deleting the data
+
+> user = Doctor.find_by(name: "Sahil")
+> user.destroy       --> Delete the data
+
+ TRANSACTION (0.4ms)  BEGIN
+  Doctor Destroy (0.8ms)  DELETE FROM `doctors` WHERE `doctors`.`id` = 1
+  TRANSACTION (19.5ms)  COMMIT                               
+ =>                                                          
+#<Doctor:0x00007f4300a55bc8                                  
+ id: 1,                                                      
+ name: "Sahil",                                              
+ mobile: "7973726327",                                       
+ address: "SCO-68, Sector - 10, Faridabad",                  
+ experience: 3,                                              
+ created_at: Tue, 30 Aug 2022 09:22:14.691639000 UTC +00:00, 
+ updated_at: Tue, 30 Aug 2022 09:43:05.834972000 UTC +00:00> 
+
+> Doctor.destroy_all    --> Delete all the records

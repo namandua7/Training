@@ -1,0 +1,440 @@
+
+           ****************************************** Active record validations ******************************************
+           
+Q. Why use validations ?
+
+--> Validations are used to ensure that only valid data is saved into your database. Model-level validations are the best way to ensure that only valid data is saved into your database.
+
+: Following methods trigger validations and save it to the database if the data is valid
+--> create
+--> create!
+--> update
+--> update!
+--> save
+--> save!
+
+: Following methods skip validations and save the object without checking the validations. These methods should be used carefully.
+--> decrement!
+--> decrement_counter
+--> increment!
+--> increment_counter
+--> insert
+--> insert!
+--> insert_all
+--> insert_all!
+--> toggle!
+--> touch
+--> touch_all
+--> update_all
+--> update_attribute
+--> update_column
+--> update_columns
+--> update_counters
+--> upsert
+--> upsert_all
+
+Note: save method can also skip validations if use like this - save(validate: false)
+
+=> Validations are put in the file [model_name].rb
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Some different validations
+
+1. acceptance
+
+--> This validates the checkbox at the user interface to check the box and move further. This is used when user need to agree the terms and condition of filling the form.
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :name, acceptance: true
+	end
+	
+		OR
+	
+	class Doctor < ApplicationRecord
+	     validates :name, acceptance: {message: "Must be checked"}	          :Gives the message when an error occured
+	end
+	
+		OR
+	
+	class Doctor < ApplicationRecord
+	     validates :name, acceptance: {accept: ['True', 'False']}	          :Only True and False values are accepted
+	end
+	
+	
+2. validates_associated
+
+--> This is used to take the validations given in another model
+
+Syntax: 	class Library < ApplicationRecord
+	  has_many :books
+	  validates_associated :books
+	end
+	
+	=> This will take all the validatons given in the books table
+	
+Note: Don't use validates_associated at both ends. They would call each other to make infinite loops
+
+: Default error message is "is invalid"
+
+
+3. confirmation
+
+--> This validation is used when we have two text fields and we need same content in both fields. Used for emails and passwords
+
+Syntax: 	class Doctor < ApplicationRecord
+	     validates :emails, confirmation: true
+	     validates :emails_confirmation, presence: true
+	end
+	
+	Now in the form page we can make a separe text field for email confirmation
+	
+: Default error message is "doesn't match confirmation"
+
+
+4. comparison
+
+--> This validation will check a comparison between two comparable values. This validate requires a option to compare.
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :age, comparison {greater_than: 18}
+	end
+	
+Some other options:
+--> greater_than
+--> greater_than_or_equal_to
+--> equal_to
+--> less_than
+--> less_than_or_equal_to
+--> other_than
+
+: Default error message is "must be [option] %{count}"
+
+
+5. exclusion
+
+--> This validation is used when some data should not be included in the database
+
+Syntax:	 class Doctor < ApplicationRecord
+	     validates :place, exclusion: {in: %w(Delhi Palwal)}
+	 end
+	 
+	 --> This will not take the data whose place is Delhi or Palwal
+	 
+: Some other literals
+
+%w() array of strings
+%r() regular expression.
+%q() string
+%i() array of symbols
+%s() symbol
+
+: Default error message is "is reserved"
+
+
+6. format
+
+--> This validates the values by testing whether they match given regular expression, which is specified using :with option.
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :place, format: {with: /rub[a-z]/}
+	end
+	
+	--> This will check the place condition that it must be starting with rub and then contain any single alphabet
+	
+: Default error message is "is invalid"
+
+
+7. inclusion
+
+--> This validation is used when only certain number of values should be stored in database.
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :place, inclusion: {in: %w(Delhi Palwal)}
+	end
+	
+	--> This will take only [Delhi Palwal] values not any other
+	
+: Default message is "is not inccluded in the list"
+
+
+8. length
+
+--> This validation deals with the length of the value
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :place, length: {maximum: 20}
+	end
+	
+	--> This will validates the place column that it takes value with maximum length of 20
+	
+=> Other options are
+:minimum
+:maximum
+:in    -for limit in range    # mostly used in passwords
+:is    -for fixed length
+
+=> For error message , we use
+:wrong_length
+:too_long	- For maximum option
+:too_short	- For minimum option
+:message
+
+
+9. numericality
+
+--> This validation validates that your attributes have only numeric values.
+--> By default it will check for integer and floating numbers
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :age, numericality: {only_integer: true}
+	end
+	
+	--> This will take age only in integer
+	
+=> Other options are:
+:greater_than
+:greater_than_or_equal_to
+:less_than
+:less_than_or_equal_to
+:equal_to
+:other_than
+:in
+:odd
+:even
+
+Note: By default numericality doesn't allow nil values, we can allow this by allow_nil: true
+
+:Default message when no options are specified is "is not a number".
+
+
+10. presence
+
+--> This validation validates that the attribute value can't be empty. This validation can include whitespaces
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :name, presence: true
+	end
+	
+	--> This means that name column can't be empty
+	
+Note: For the presence of boolean field , inclusion validation is best
+
+
+11. absence
+
+--> This validation checks the attribute is absent. It uses present? method
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :name, absence: true
+	end
+Note: For the absence of boolean field, exclusion validation is best
+
+:Default error message is "must be blank"
+
+
+12. uniqueness
+
+--> This validation checks the attribute value used before or not. If used , then return error
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :emails, uniqueness: true
+	end
+	
+: There is a scope option which is used to apply uniqueness validation on two columns
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :emails, uniqueness: {scope: :name}
+	end
+	
+Note: For case-sensitive, we can make it false according to requirements.
+
+:Default error message is "has already been taken"
+
+
+13. validates_with
+
+--> In this validation a record is passed and check with a complex condition
+
+Note: For this validation we have to inherit a class named - ActiveModel::Validator
+
+Syntax:	class NewValidator < ActiveModel::Validator
+	  def validate(record)
+	    if record.first_name == "Evil"
+	      record.errors.add :base, "This person is evil"	:Used to pass an error message
+	    end
+	  end
+	end
+	
+	class Doctor < ApplicationRecord
+	  validates_with NewValidator
+	end
+
+Note: There is no default error message for this validation, we have to add it manually.
+
+: Options available in this validation
+
+=> :on --> Specifies the context where this validation is active. Run in all validation context by default nil.
+=> :if --> Specifies a method, proc and string to call if validation should occur. Method, proc and string evaluate to true/false
+=> :unless --> Specifies a method, proc and string to call if validation should occur. Method, proc and string evaluate to 
+	true/false
+=> :strict
+
+
+14. validate_each
+
+--> This validator validates against a block. This is not a pre-defined validator. We have to create one using a block.
+--> You can make any condition to check a attribute value.
+
+Syntax:	class Person < ApplicationRecord
+	  validates_each :name, :surname do |record, attr, value|
+	    record.errors.add(attr, 'must start with upper case') if value =~ /\A[[:lower:]]/
+	  end
+	end
+
+	--> In this example, we don't want that name and surname start with lowercase. If validation fails, then it gives 	      an error message
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Some common validation options
+
+1. :allow_nil
+
+--> It is used to take the nil value i.e skip the validation if the value is nil
+
+2. :allow_blank
+
+--> It is similar to allow_nil option. It allows blank attribute's value
+
+3. :message
+
+--> It is used to give a message if the validation fails
+
+4. :on
+
+--> It is used to specify where the validation should happen
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Strict validation
+
+--> We can specify validation to be strict and raise ActiveModel::StrictValidationFailed when object is invalid
+
+Syntax:	class Doctor < ApplicationRecord
+	     validates :name, presence: {strict: true}
+	end
+	
+	--> This means name can't be blank if we are using Doctor.new then we also mention the name attribute.
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Performing custom validations
+
+1. validates_with and validate_each are two of them we discussed above
+
+2. Custom methods
+
+--> In this we create a method for which the attribute value should be logical and pass this method to validate option
+
+Syntax:	class Invoice < ApplicationRecord
+	  validate :expiration_date_cannot_be_in_the_past
+	  
+	  def expiration_date_cannot_be_in_the_past
+	    if expiration_date.present? && expiration_date < Date.today
+	      errors.add(:expiration_date, "can't be in the past")
+	    end
+	  end
+	end
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Working with validation errors
+
+1. errors
+
+--> This returns an instance of the class ActiveModel::Errors containing all errors, each error is represented by an ActiveModel::Error object.
+
+
+class Doctor < ApplicationRecord
+     validates :name, presence: true, length: {minimum: 3}
+end
+
+
+3.0.0 :003 > a = Doctor.new
+ => #<Doctor:0x00007f0f5c9b5678 id: nil, name: nil, mobile: nil, address: nil, experience: nil, created_at: nil, updated_at: nil, emails: nil> 
+3.0.0 :004 > a.name = "Ab"
+ => "Ab" 
+3.0.0 :005 > a.valid?
+ => false 
+3.0.0 :007 > a.errors.full_messages
+ => ["Name is too short (minimum is 3 characters)"] 
+
+
+2. errors[]
+
+--> It is used to check the error for the specific attribute
+
+
+class Doctor < ApplicationRecord
+     validates :name, presence: true, length: {minimum: 3}
+end
+
+
+3.0.0 :003 > a = Doctor.new
+ => #<Doctor:0x00007f0f5c9b5678 id: nil, name: nil, mobile: nil, address: nil, experience: nil, created_at: nil, updated_at: nil, emails: nil> 
+3.0.0 :004 > a.name = "Ab"
+ => "Ab" 
+3.0.0 :008 > a.errors[:name]
+ => ["is too short (minimum is 3 characters)"] 
+
+
+3. errors.where(:attribute_name)
+
+--> where returns an array of error objects, filtered by various degree of conditions.
+
+class Doctor < ApplicationRecord
+     validates :name, presence: true, length: {minimum: 3}
+end
+
+
+3.0.0 :003 > a = Doctor.new
+ => #<Doctor:0x00007f0f5c9b5678 id: nil, name: nil, mobile: nil, address: nil, experience: nil, created_at: nil, updated_at: nil, emails: nil> 
+3.0.0 :004 > a.name = "Ab"
+ => "Ab" 
+3.0.0 :010 > a.errors.where(:name)
+ => [#<ActiveModel::Error attribute=name, type=too_short, options={:count=>3}>] 
+
+
+=> We can store errors in a object
+
+3.0.0 :013 > error = a.errors.where(:name).last
+ => #<ActiveModel::Error attribute=name, type=too_short, options={:count=>3}> 
+3.0.0 :014 > error.type
+ => :too_short 
+
+
+4. errors.add
+
+--> add method creates the error object by taking the attribute, the error type and optional hash. This is useful for writing your own validator
+
+class Doctor < ApplicationRecord
+     validates do |person|
+          errors.add :name, :too_short
+     end
+end
+
+3.0.0 :003 > a = Doctor.new
+ => #<Doctor:0x00007f0f5c9b5678 id: nil, name: nil, mobile: nil, address: nil, experience: nil, created_at: nil, updated_at: nil, emails: nil> 
+3.0.0 :004 > a.name = "Ab"
+ => "Ab" 
+3.0.0 :016 > a.errors.messages
+ => {:name=>["is too short (minimum is 3 characters)"]} 
+
+
+5. errors.clear
+
+--> The clear method is used when you intentionally want to clear the errors collection. Of course, calling errors.clear upon an invalid object won't actually make it valid: the errors collection will now be empty.
+
+6. errors.size
+
+--> This method is used to return the total number of errors for the object

@@ -1,0 +1,414 @@
+
+	************************************ Active Record Associations ************************************
+	
+Q. What is associations ?
+
+A. An association is a connection between two Active Record models.
+
+
+			# Types of associations #
+
+1. belongs_to
+
+-->  belongs_to association sets up a connection with another model, such that each instance of the declaring model "belongs to" one instance of the other model.
+
+		class Patient < ApplicationRecord
+		    belongs_to :doctor
+		end
+		
+		--> In this we see that every patient belongs to one of the doctors
+
+Note: belongs_to associations must use the singular term.
+
+
+: Corresponding migration file will look like this
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+	
+=> When belongs_to is used alone, then it means that every patient knows from they are treating but doctors don't know about their patients. So to make it bidirectional we have to use has_one or has_many associations in doctors model.
+
+=> belongs_to does not ensure reference consistency, so we need to add databse level foreign key constraint on the reference column like this: 
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor, foreign_key: true
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+	
+	
+2. has_one
+
+--> This association indicates that the model data has only one reference to other model
+
+For e.g -  Each doctor attends only one patient, so doctor model will look like this
+
+	class Doctor < ApplicationRecord
+	     has_one :patient
+	end
+	
+: Corresponding migration file will look like this	:No change in doctors model
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+	
+=> We need to define a foreign key for a reference as we done in belongs_to association
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor, index: {unique: true}, foreign_key: true
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+
+3. has_many
+
+--> A has_many association is similar to has_one, but indicates a one-to-many connection with another model. You'll often find this association on the other side of a belongs_to association. This association indicates that each instance of the model has zero or more instances of another model.
+
+For e.g - Every doctor can treat many patients
+
+	class Doctor < ApplicationRecord
+	     has_many :patients
+	end
+	
+Note: The name of the other model is pluralized when declaring a has_many association.
+
+: Corresponding migration file will look like this	:No change in doctors model
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+	
+=> We need to define a foreign key for a reference as we done in belongs_to association
+
+	class CreatePatients < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :patients do |t|
+	      t.belongs_to :doctor, index: true, foreign_key: true
+	      t.string :name
+	      t.string :mobile
+	      t.text :address
+	      t.timestamps
+	    end
+	  end
+	end
+	
+4. has_many :through
+
+--> has_many :through association is often used to set up a many-to-many connection with another model. This association indicates that the declaring model can be matched with zero or more instances of another model by proceeding through a third model.
+
+
+	class Doctor < ApplicationRecord
+	  has_many :appointments
+	  has_many :patients, through: :appointments
+	end
+	
+	class Appointment < ApplicationRecord
+	  belongs_to :doctor
+	  belongs_to :patient
+	end
+	
+	class Patient < ApplicationRecord
+	  has_many :appointments
+	  has_many :doctors, through: :appointments
+	end
+
+:Corresonding migration file will look like this
+
+	class CreateAppointments < ActiveRecord::Migration[7.0]
+	  def change
+	
+	    create_table :appointments do |t|
+	      t.belongs_to :doctor
+	      t.belongs_to :patient
+	      t.datetime :appointment_date
+	      t.timestamps
+	    end
+	  end
+	end
+	
+5. has_one :through
+
+--> has_one :through association sets up a one-to-one connection with another model. This association indicates that the declaring model can be matched with one instance of another model by proceeding through a third model.
+
+	
+	class Supplier < ApplicationRecord
+	  has_one :account
+	  has_one :account_history, through: :account
+	end
+
+	class Account < ApplicationRecord
+	  belongs_to :supplier
+	  has_one :account_history
+	end
+	
+	class AccountHistory < ApplicationRecord
+	  belongs_to :account
+	end
+
+6. has_and_belong_to_many
+
+--> has_and_belongs_to_many association creates a direct many-to-many connection with another model, with no intervening model. This association indicates that each instance of the declaring model refers to zero or more instances of another model.
+
+	class Patient < ApplicationRecord
+	  has_and_belongs_to_many :histories
+	end
+	
+	class History < ApplicationRecord
+	  has_and_belongs_to_many :patients
+	end
+
+:Now migration file will look like this
+
+	class CreatePatientsHistories < ActiveRecord::Migration[7.0]
+	  def change
+	  
+	    create_table :patients_histories, id: false do |t|
+	      t.belongs_to :history
+	      t.belongs_to :patient
+	    end
+	  end
+	end
+	
+7. polymorphic association
+
+--> With polymorphic associations, a model can belong to more than one other model, on a single association.
+
+
+Syntax:	class Picture < ApplicationRecord
+	  belongs_to :imageable, polymorphic: true
+	end
+	
+	class Employee < ApplicationRecord
+	  has_many :pictures, as: :imageable
+	end
+	
+	class Product < ApplicationRecord
+	  has_many :pictures, as: :imageable
+	end
+	
+:Migration file can be simplified by using reference form
+
+	class CreatePictures < ActiveRecord::Migration[7.0]
+	  def change
+	    create_table :pictures do |t|
+	      t.string :name
+	      t.references :imageable, polymorphic: true
+	      t.timestamps
+	    end
+	  end
+	end
+
+8. self join
+
+--> Sometimes there is a situation in which we have to find a model that should have a relation to itself. For e.g there is a model of employees which include managers, assistant, sales-executive, etc.
+
+Syntax:	class Employee < ApplicationRecord
+	  has_many :subordinates, class_name: "Employee",
+	                          foreign_key: "manager_id"
+	
+	  belongs_to :manager, class_name: "Employee", optional: true
+	end
+
+:In migration file, we have to add reference column to model itself
+
+	class CreateEmployees < ActiveRecord::Migration[7.0]
+	  def change
+	    create_table :employees do |t|
+	      t.references :manager, foreign_key: { to_table: :employees }
+	      t.timestamps
+	    end
+	  end
+	end
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Detailed Association reference
+
+--> Details of methods and opttions available for each association
+
+1. belong_to
+
+Let's take a E.g of book and author model
+
+	class Book < ApplicationRecord
+	  belongs_to :author
+	end
+
+
+:Methods
+
+=> association
+--> returns the associated object if any, otherwise it returns nil.
+
+	@author = @book.author
+
+If the associated object has already been retrieved from the database for this object, the cached version will be returned. To override this behavior, use the reload_[association] method
+
+	@author = @book.reload_author
+
+=> association = (associates)
+--> This method assigns an associated object to his object
+
+	@book.author = @author
+	
+=> build_association(attributes)
+--> This method returns a new object of the associated type. This object will be instantiated from the passed attributes, and the link through this object's foreign key will be set, but the associated object will not yet be saved.
+
+	@author = @book.build_author(author_number: 123, author_name: "John Doe")
+	
+=> create_association(attributes)
+--> This method returns a new object of the associated type. This object will be instantiated from the passed attributes, and the link through this object's foreign key will be set, but the associated object will be saved.
+
+	@author = @book.create_author(author_number: 123, author_name: "John Doe")
+	
+=> create_association!(attributes)
+--> Same as above create_association method 
+
+=> association_changed?
+--> returns true if new associated object is assigned and foreign key will be updated in next save
+
+	@book.author # => #<Book author_number: 123, author_name: "John Doe">
+	@book.author_changed? # => false
+	
+	@book.author = Author.second # => #<Book author_number: 456, author_name: "Jane Smith">
+	@book.author_changed? # => true
+	
+	@book.save!
+	@book.author_changed? # => false
+	
+=> association_previously_changed?
+--> returns true if the previous save updated the association to reference a new associate object.
+
+	@book.author # => #<Book author_number: 123, author_name: "John Doe">
+	@book.author_previously_changed? # => false
+	
+	@book.author = Author.second # => #<Book author_number: 456, author_name: "Jane Smith">
+	@book.save!
+	@book.author_previously_changed? # => true
+	
+:Options
+
+=> autosave
+--> 
+
+=> class_name
+--> If the name of the other model cannot be derived from the association name, you can use the :class_name option to supply the model name
+
+	class Book < ApplicationRecord
+	  belongs_to :author, class_name: "Patron"
+	end
+
+=> counter_cache
+--> option can be used to make finding the number of belonging objects more efficient.
+
+--> Without using counter_cache, asking for the value of @author.book.size requires to make a call to the database to perform the COUNT(*) query. To avoid this call we add counter_cache option true in the model. With this declaration, Rails will keep the cache value up to date, and then return that value in response to the size method.
+
+	class Book < ApplicationRecord
+	  belongs_to :author, counter_cache: true
+	end
+	
+	class Author < ApplicationRecord
+	  has_many :books
+	end
+	
+	-->In this case, we have to add book_count column in Author model
+	-->To override the default column name, we custom the column name in the declaration of counter_cache instead of 		   true like this
+
+	class Book < ApplicationRecord
+	  belongs_to :author, counter_cache: :count_of_books
+	end
+	
+	class Author < ApplicationRecord
+	  has_many :books
+	end
+	
+=> dependent
+--> If we set dependent option to
+
+:destroy -- when the object is destroyed, destroy will be called on its associated objects.
+
+:delete -- when the object is destroyed, all its associated objects will be deleted directly from the database without calling 		their destroy method.
+
+:destroy_async -- when the object is destroyed, an ActiveRecord::DestroyAssociationAsyncJob job is enqueued which will call 		destroy on its associated objects. Active Job must be set up for this to work.
+
+
+Note :- You should not specify this option on a belongs_to association that is connected with a has_many association on the other 	class.
+
+=> foreign_key
+--> By convention, rails assumes that the column used to hold the foreign key on this model is the name of the association with the suffix _id added.
+
+	class Book < ApplicationRecord
+	  belongs_to :author, class_name: "Patron",
+	                      foreign_key: "patron_id"
+	end
+
+Note: Rails will not create foreign key columns for you. You need to explicitly define them as part of your migrations.
+
+=> primary_key
+--> By convention, rails will create id column as the primary key of the table. This option allows you to specify priiimary key to different column
+
+-->For example, given we have a users table with guid as the primary key. If we want a separate todos table to hold the foreign key user_id in the guid column, then we can use primary_key to achieve this like so:
+
+	class User < ApplicationRecord
+	  self.primary_key = 'guid' # primary key is guid and not id
+	end
+	
+	class Todo < ApplicationRecord
+	  belongs_to :user, primary_key: 'guid'
+	end
+
+=> touch
+--> If you set the :touch option to true, then the updated_at or updated_on timestamp on the associated object will be set to the current time whenever this object is saved or destroyed:
+
+--> In this we can also specify a particular timestamp attribute to update :
+
+	class Book < ApplicationRecord
+	  belongs_to :author, touch: :books_updated_at
+	end
+
+=> validate
+--> If you set the :validate option to true, then new associated objects will be validated whenever you save this object. By default, this is false

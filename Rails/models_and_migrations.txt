@@ -1,0 +1,214 @@
+	********************************************************************** Models and Migrations **********************************************************************
+	
+
+Q. What is migration ? 
+
+A. Migrations use ruby to modify changes in database. Migration file is auto-generated while generating a model. 
+   Migrations can
+   	--> create_table
+   	--> drop_table
+   	--> rename_table
+   	--> add_column
+   	--> rename_column
+   	--> remove_column
+   	--> add_index
+   	--> remove_index
+   	
+# If we only want to create migration , then the command is used
+	
+	$ rails generate migration [migration_name]
+	
+	--> This will create a migration file in which we can create table and columns
+	
+
+# To create a model of a project
+
+	$ ruby generate model details name:string type:string
+	
+	invoke  active_record
+     	create    db/migrate/20220826130100_create_details.rb
+	create    app/models/detail.rb
+      	invoke    test_unit
+      	create      test/models/detail_test.rb
+      	create      test/fixtures/details.yml
+	
+	--> We will focus on only migration file and file inside models directory details
+	
+	--> In migration file we see the create_table method and containing the columns we mentioned while creating a model
+	    and a ID column is auto generated column as a primary key and two columns of timestamps i.e created_at and updated_at
+	    
+	    
+Migration file:	    class CreateDetails < ActiveRecord::Migration[7.0]
+		  def change
+		    create_table :details do |t|
+		      t.string :name
+		      t.string :type
+
+		      t.timestamps
+		    end
+		  end
+	     end
+
+	    
+	    
+# Command used to execute the migration file
+
+	$ rails db:migrate
+	
+	==  CreateArticles: migrating ===================================
+	-- create_table(:articles)
+	   -> 0.0018s
+	==  CreateArticles: migrated (0.0018s) ==========================
+	
+	
+	--> This command will create the table(s) mentioned in migration file
+	
+	
+	
+# Some other commands related to database in rails
+
+	$ rails db:create
+	
+	--> This will create the database for the project
+	
+	$ rails db:drop
+	
+	--> This will drop the database of the project
+	
+	$ rails db:migrate:status
+	
+	--> This will show the status in up and down form of tables
+	
+	$ rails db:migrate VERSION = 20220826130100		: If VERSION = 0 , then revert all the changes.
+	
+	--> This will run migration only for mentioned model
+	
+	
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+Q. What is model ?
+
+A. Models are connected with the database of project. It is a representationof the data. Models can interact with user's database through a feature like
+	--> ActiveRecord
+	--> ActiveRealation
+	
+	
+-------------------------------------------------------------------------------------- ActiveRecord -------------------------------------------------------------------------------------------------------
+
+--> Design pattern for relational database   :Active record
+--> Rails implementation of active record design pattern
+--> Retrieve and manipulate data as objects, not a static row
+
+
+
+# Creating a new first record in a table
+
+: Firstly we have to launch a ruby console using
+	
+	$ rails console / c
+	
+	namandua@NAMAN-Ubuntu:~/Project/blog_system$ rails c
+	Loading development environment (Rails 7.0.3.1)
+	3.0.0 :001 >
+
+
+: Now adding our first record
+
+Syntax : object_name = Model_name.new(-----Data according to column name-----)
+
+3.0.0 :001 > detail = Detail.new(name: 'Marketing')
+ => #<Detail:0x00007fad7831bf00 id: nil, name: "Marketing", type: nil, created_at: nil, updated_at: nil
+ 
+ 
+--> After creating the data we will not able to locate or see the record in table, firstly we have to save the data using
+
+3.0.0 :001 > object_name.save
+
+
+TRANSACTION (0.4ms)  BEGIN
+Detail Create (1.2ms)  INSERT INTO `details` (`name`, `type`, `created_at`, `updated_at`) VALUES ('Marketing', NULL, '2022-08-27 16:33:45.175969', '2022-08-27 16:33:45.175969')
+TRANSACTION (43.1ms)  COMMIT                                         
+ => true
+ 
+ --> Now we can use data
+ 
+ 
+ 
+ # Updating the data
+ 
+ 3.0.0 :009 > once.type = 'Health'
+ => "Health" 
+3.0.0 :010 > once.save
+  TRANSACTION (0.4ms)  BEGIN
+  Detail Update (1.0ms)  UPDATE `details` SET `details`.`type` = 'Health', `details`.`updated_at` = '2022-08-28 10:08:14.476088' WHERE `details`.`id` = 4
+  TRANSACTION (43.8ms)  COMMIT                              
+ => true                               
+ 
+ 
+ # Deleting the data
+ 
+ 3.0.0 :011 > once.destroy
+  TRANSACTION (0.5ms)  BEGIN
+  Detail Destroy (1.0ms)  DELETE FROM `details` WHERE `details`.`id` = 4
+  TRANSACTION (18.7ms)  COMMIT                              
+ => #<Detail:0x000055ea4fb28740 id: 4, name: "Healthcare", type: "Health", created_at: Sun, 28 Aug 2022 10:07:32.946312000 UTC +00:00, updated_at: Sun, 28 Aug 2022 10:08:14.476088000 UTC +00:00>
+ 
+ 
+ # For viewing all entries
+ 
+ 3.0.0 :002 > Detail.all
+  Detail Load (0.4ms)  SELECT `details`.* FROM `details`
+ =>                                                                                       
+[#<Detail:0x00005586975b6ad0 id: 1, name: "Technology", category: "Computer", created_at: Mon, 29 Aug 2022 10:57:00.000000000 UTC +00:00, updated_at: Mon, 29 Aug 2022 10:57:00.000000000 UTC +00:00>,
+ #<Detail:0x00005586975b6990 id: 2, name: "dip", category: "boy", created_at: Mon, 29 Aug 2022 05:42:02.837355000 UTC +00:00, updated_at: Mon, 29 Aug 2022 05:42:02.837355000 UTC +00:00>,
+ #<Detail:0x00005586975b68c8 id: 3, name: "Technology", category: nil, created_at: Mon, 29 Aug 2022 05:47:20.308831000 UTC +00:00, updated_at: Mon, 29 Aug 2022 05:47:20.308831000 UTC +00:00>] 
+ 
+ 
+ 
+ # For viewing specific entry by id 
+  
+ 3.0.0 :004 > Detail.find(1)
+  Detail Load (0.4ms)  SELECT `details`.* FROM `details` WHERE `details`.`id` = 1 LIMIT 1
+ => #<Detail:0x0000558697544a20 id: 1, name: "Technology", category: "Computer", created_at: Mon, 29 Aug 2022 10:57:00.000000000 UTC +00:00, updated_at: Mon, 29 Aug 2022 10:57:00.000000000 UTC +00:00> 
+
+
+------------------------------------------------------------------------------------------ Active Relation -----------------------------------------------------------------------------------------------
+
+
+--> Also known as 'Arel'
+--> Simplifies the generation of complex database queries
+--> Small queries are chainable
+
+
+# Finding the record with specific entry
+
+
+3.0.0 :003 > Detail.where(:name => 'Technology')
+  Detail Load (0.4ms)  SELECT `details`.* FROM `details` WHERE `details`.`name` = 'Technology'
+ =>                                                                                       
+[#<Detail:0x0000558697a84e90 id: 1, name: "Technology", category: "Computer", created_at: Mon, 29 Aug 2022 10:57:00.000000000 UTC +00:00, updated_at: Mon, 29 Aug 2022 10:57:00.000000000 UTC +00:00>,
+ #<Detail:0x0000558697a84dc8 id: 3, name: "Technology", category: nil, created_at: Mon, 29 Aug 2022 05:47:20.308831000 UTC +00:00, updated_at: Mon, 29 Aug 2022 05:47:20.308831000 UTC +00:00>] 
+
+
+# Ordering the entries
+
+
+3.0.0 :006 > Detail.order("name")
+  Detail Load (0.4ms)  SELECT `details`.* FROM `details` ORDER BY name
+ =>                                                                                 
+[#<Detail:0x00007f470c4a4700 id: 2, name: "dip", category: "boy", created_at: Mon, 29 Aug 2022 05:42:02.837355000 UTC +00:00, updated_at: Mon, 29 Aug 2022 05:42:02.837355000 UTC +00:00>,
+ #<Detail:0x00007f470c4a4638 id: 1, name: "Technology", category: "Computer", created_at: Mon, 29 Aug 2022 10:57:00.000000000 UTC +00:00, updated_at: Mon, 29 Aug 2022 10:57:00.000000000 UTC +00:00>,
+ #<Detail:0x00007f470c4a44f8 id: 3, name: "Technology", category: nil, created_at: Mon, 29 Aug 2022 05:47:20.308831000 UTC +00:00, updated_at: Mon, 29 Aug 2022 05:47:20.308831000 UTC +00:00>] 
+ 
+ 
+ 
+ # Limiting the entries
+ 
+ 3.0.0 :006 > Detail.order("name")
+  Detail Load (0.4ms)  SELECT `details`.* FROM `details` ORDER BY name
+ =>                                                                                 
+[#<Detail:0x00007f470c4a4700 id: 2, name: "dip", category: "boy", created_at: Mon, 29 Aug 2022 05:42:02.837355000 UTC +00:00, updated_at: Mon, 29 Aug 2022 05:42:02.837355000 UTC +00:00>,
+ #<Detail:0x00007f470c4a4638 id: 1, name: "Technology", category: "Computer", created_at: Mon, 29 Aug 2022 10:57:00.000000000 UTC +00:00, updated_at: Mon, 29 Aug 2022 10:57:00.000000000 UTC +00:00>
+
+
+

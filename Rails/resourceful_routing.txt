@@ -1,0 +1,72 @@
+	********************************** Resourceful routing **********************************
+	
+--> It is a predefined routing in rails which cover the CRUD actions in controller
+
+Syntax:   resources :[controller_name]
+
+--> It is a combination of routes and controller actions to perform CRUD operations
+--> It is applied in controller.rb
+
+
+=> After applying resourceful routing we can check the routes that was created by this by rails route command
+
+
+# Checking the routes
+
+     Prefix     Verb   	     URI Pattern                                                 Controller#Action
+       root     GET    	/                                                	 friends#index
+      friends   GET    	/friends(.:format)                                               friends#index
+                POST   	/friends(.:format)                                               friends#create
+    new_friend  GET    	/friends/new(.:format)                                           friends#new
+    edit_friend GET    	/friends/:id/edit(.:format)                                      friends#edit
+    friend      GET    	/friends/:id(.:format)                                           friends#show
+                PATCH  	/friends/:id(.:format)                                           friends#update
+                PUT    	/friends/:id(.:format)                                           friends#update
+                DELETE 	/friends/:id(.:format)                                           friends#destroy
+
+All these routes are created by this resourceful routes i.e index, create, new, edit, show, update, destroy
+
+
+
+# If we want to ignore some path to add, we use
+
+resources :[controller_name], except: [:show]
+
+
+# If we want to add only particular routes, then we use
+
+resources :[controller_name], only: [:create, :edit]
+
+
+
+# Adding custom routes in resources 
+
+resources :[controller_name] do
+	member do
+	get :delete	    --> get :delete is not included in resourceful routes by default, we can add it through blocks
+	end
+            end	
+
+
+# If we have to give the path of views which was created in resulrceful routing
+
+--> We use the prefix of the routes and add _path or _url as a suffix to give a link to that view page
+
+
+E.g :-	We want to move to edit page 
+	<%= "Edit", edit_friend_path %>
+	
+	This will create a link to the edit page naming the button as "Edit"
+	
+	
+	
+# Usuage of routes path
+
+
+friend_path	=>  {:controller => "friend", :action => "show"}
+friend_path(2)  =>  {:controller => "friend", :action => "show", :id => 2}
+		OR
+friend/2	=>  {:controller => "friend", :action => "show", :id => 2}
+
+
+Above hash is known as paramters and can be accessed by params[:key]
