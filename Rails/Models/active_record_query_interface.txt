@@ -102,5 +102,48 @@ Note: The take method returns nil if no record is found and no exception will be
  updated_at: Wed, 31 Aug 2022 07:48:32.353049000 UTC +00:00,  
  emails: nil>                                                
  
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Retrieve multiple objects
+
+=> find_each
+
+--> This method retrieves records in batches and then yields each one to the block.
+
+3.0.0 :007 > Doctor.find_each do |doc|
+3.0.0 :008 >   puts doc.name
+3.0.0 :009 > end
+  Doctor Load (0.8ms)  SELECT `doctors`.* FROM `doctors` ORDER BY `doctors`.`id` ASC LIMIT 1000
+Subhash Atreja                                                                   
+Suresh                                                                           
+ => nil  
+
+--> This retrieves customers in batches of 1000 and yields them to the block one by one.
+
+:Options
+
+-- :batch_size = Specify size to give record in batch
+-- :start = used from which number of record we have to start
+-- :finish = used at which number we have to stop
+-- :error_on_ignore = Overrides the application config to specify if an error should be raised when an order is present in the relation.
 
 
+=> find_in_batches
+
+--> The find_in_batches method is similar to find_each, since both retrieve batches of records. The difference is that find_in_batches yields batches to the block as an array of models, instead of individually. Array Block size is here too 1000
+
+
+	Doctor.find_in_batches do |doc|
+	       doc.each do |d|
+	           puts d.name
+	       end
+	end
+	
+:Options
+
+-- :batch_size
+-- :start
+-- :finish
+-- :error_on_ignore
+
+----------------------------------------------------------------------------------------------------------------------------------
