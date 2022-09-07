@@ -226,3 +226,79 @@ Book.where("created_at >= :start_date AND created_at <= :end_date",{start_date: 
 	
 ----------------------------------------------------------------------------------------------------------------------------------
 
+# Ordering
+
+To retrieve data in a specific order from database
+
+	Book.order(:created_at)
+	          
+	          OR
+	          
+	Book.order("created_at")
+	
+: For specifying ASC or DESC
+
+	Book.order(created_at: :desc)
+	          
+	          OR
+	          
+	Book.order(created_at: :asc)
+	          
+	          OR
+	          
+	Book.order("created_at DESC")
+	          
+	          OR
+	          
+	Book.order("created_at ASC")
+
+
+:Ordering multiple fields
+
+	Book.order(title: :asc, created_at: :desc)
+		
+		OR
+		
+	Book.order(:title, created_at: :desc)
+		
+		OR
+		
+	Book.order("title ASC, created_at DESC")
+		
+		OR
+		
+	Book.order("title ASC", "created_at DESC")
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Selecting specific fields
+
+--> By default, Model.find selects all the fields from the result set using select *. To select only a subset of fields from the result set, you can specify the subset via the select method.
+
+	Book.select(:isbn, :out_of_print)
+		
+		OR
+		
+	Book.select("isbn, out_of_print")
+
+	--> This will return the record of only two columns
+	
+: If we want to select distinct record, then you use
+
+	Customer.select(:last_name).distinct
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Limit and offset
+
+--> Limit is used to return limited records
+
+	Customer.limit(5)
+	--> This will return only 5 records
+	
+--> Offset is used to skip the records
+
+	Customer.limit(5).offset(30)
+	--> This will return the 5 records after skipping 30 records
+	
+----------------------------------------------------------------------------------------------------------------------------------
