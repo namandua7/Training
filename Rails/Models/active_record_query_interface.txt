@@ -290,7 +290,6 @@ To retrieve data in a specific order from database
 ----------------------------------------------------------------------------------------------------------------------------------
 
 # Limit and offset
-
 --> Limit is used to return limited records
 
 	Customer.limit(5)
@@ -301,4 +300,100 @@ To retrieve data in a specific order from database
 	Customer.limit(5).offset(30)
 	--> This will return the 5 records after skipping 30 records
 	
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Group
+
+--> To apply a GROUP BY clause to the SQL fired by the finder, you can use the group method.
+
+	Order.select("created_at").group("created_at")
+	--> This will select the column created_at and group the distinct dates
+	
+:Total of grouped items
+
+	Order.group(:status).count
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Having
+
+--> This method is used when group method is used 
+	
+	Order.select("created_at, sum(total) as total_price").group("created_at").having("sum(total) > ?", 200)
+	
+:Passing the above Object to a varibale
+
+              big_orders = Order.select("created_at, sum(total) as total_price").group("created_at").having("sum(total) > ?", 200)
+	big_orders[0].total_price
+	--> Returns the total price for the first Order object
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Overriding conditions
+
+1. unscope
+--> You can specify certain conditions to be removed using the unscope method. For example:
+
+	Book.where('id > 100').limit(20).order('id desc').unscope(:order)
+	--> This will execute the where and limit method and leave the order method
+	
+	Book.where(id: 10, out_of_print: false).unscope(where: :id)
+	--> This will remove the id condition from the query
+	
+2. only
+--> only is used to specify which methods is to be performed
+
+	Book.where('id > 10').limit(20).order('id desc').only(:order, :where)
+	
+3. reselect
+--> The reselect method overrides an existing select statement.
+
+	Book.select(:title, :isbn).reselect(:created_at)
+
+4. reorder
+--> If your association have already specified any ordering way. Then you can use reorder to override it.
+
+For. e.g - Author class includes
+
+	class Author < ApplicationRecord
+	  has_many :books, -> { order(year_published: :desc) }
+	end
+	
+           We execute:
+                
+                Author.find(10).books
+
+	SQL execute :-
+		SELECT * FROM authors WHERE id = 10 LIMIT 1
+		SELECT * FROM books WHERE author_id = 10 ORDER BY year_published DESC
+           We execute:
+           
+	Author.find(10).books.reorder('year_published ASC')
+
+	SQL execute :-
+		SELECT * FROM authors WHERE id = 10 LIMIT 1
+		SELECT * FROM books WHERE author_id = 10 ORDER BY year_published ASC
+		
+5. reverse_order
+--> This method reverse the ordering clause if specified
+
+For e.g - 	Book.where("author_id > 10").order(:year_published).reverse_order
+	
+	SQL execute :-
+		SELECT * FROM books WHERE author_id > 10 ORDER BY year_published DESC
+
+: If no ordering clause is present, then this method orders the primary key in reverse order.
+
+	Book.where("author_id > 10").reverse_order
+
+	SQL execute :-
+		SELECT * FROM books WHERE author_id > 10 ORDER BY books.id DESC
+
+6. rewhere
+--> This method overrides an existing, named where condition.
+
+For e.g -	Book.where(out_of_print: true).rewhere(out_of_print: false)
+	
+	SQL execute :-
+		SELECT * FROM books WHERE `out_of_print` = 0
 ----------------------------------------------------------------------------------------------------------------------------------
