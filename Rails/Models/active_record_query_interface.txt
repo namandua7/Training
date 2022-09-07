@@ -1,0 +1,106 @@
+
+		*********************** Active Record Query Interface ***********************
+		
+--> In active record , we can find the data using Rails instead of SQL queries. Active record will perform queries on database for you and is compatible with MySQL, MariaDB, PostgreSQL and SQLite.
+
+
+# Retrieving objects from database
+
+--> To retrieve object, active record provides finder methods.
+
+--> Methods are as follows:
+
+:annotate
+:find
+:create_with
+:distinct
+:eager_load
+:extending
+:extract_associated
+:from
+:group
+:having
+:includes
+:joins
+:left_outer_joins
+:limit
+:lock
+:none
+:offset
+:optimizer_hints
+:order
+:preload
+:readonly
+:references
+:reorder
+:reselect
+:reverse_order
+:select
+:where
+
+
+# Retrieving a single object
+
+=> find
+
+--> method will give the result corresponding to the specified primary key that matches any supplied options
+
+3.0.0 :003 > Doctor.find(2)
+  Doctor Load (0.8ms)  SELECT `doctors`.* FROM `doctors` WHERE `doctors`.`id` = 2 LIMIT 1
+ =>                                                           
+#<Doctor:0x0000559fe6491fc0                                   
+ id: 2,                                                       
+ name: "Subhash Atreja",                                      
+ mobile: "9864572826",                                        
+ address: "SCO-12, Sector - 5, Karnal",                       
+ experience: 10,                                              
+ created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,  
+ updated_at: Thu, 01 Sep 2022 11:51:19.552535000 UTC +00:00,  
+ emails: nil>
+ 
+ Doctor.find([1,5]) - will give the records with ID's from 1 to 5                            
+ 
+ Note : The find method will raise an ActiveRecord::RecordNotFound exception unless a matching record is found for all of the supplied primary keys.
+ 
+
+=> take
+
+--> retrieve records without any implicit ordering
+
+Doctor.take
+  Doctor Load (0.8ms)  SELECT `doctors`.* FROM `doctors` LIMIT 1
+ =>                                                           
+#<Doctor:0x00007fac80661690                                   
+ id: 2,                                                       
+ name: "Subhash Atreja",                                      
+ mobile: "9864572826",                                        
+ address: "SCO-12, Sector - 5, Karnal",                       
+ experience: 10,                                              
+ created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,  
+ updated_at: Thu, 01 Sep 2022 11:51:19.552535000 UTC +00:00,  
+ emails: nil>
+ 
+Note: The take method returns nil if no record is found and no exception will be raised.
+
+--> We can also pass arguments in numeric integer, which will give result upto that number of results
+
+
+=> find_by
+
+--> gives the first record matching the condition
+
+3.0.0 :006 > Doctor.find_by(name: 'Suresh')			# =~ Doctor.where(name: 'Suresh).take
+  Doctor Load (0.4ms)  SELECT `doctors`.* FROM `doctors` WHERE `doctors`.`name` = 'Suresh' LIMIT 1
+ =>                                                           
+#<Doctor:0x00007fac8054c2c8                                   
+ id: 3,                                                       
+ name: "Suresh",                                              
+ mobile: "9876543210",                                        
+ address: "Sco - 90,  Sector-10, Faridabad",                  
+ experience: 5,                                               
+ created_at: Wed, 31 Aug 2022 07:48:32.353049000 UTC +00:00,  
+ updated_at: Wed, 31 Aug 2022 07:48:32.353049000 UTC +00:00,  
+ emails: nil>                                                
+ 
+
+
