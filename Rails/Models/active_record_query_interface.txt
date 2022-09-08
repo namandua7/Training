@@ -756,3 +756,63 @@ For e.g -		class Book < ApplicationRecord
 		SELECT books.* FROM books WHERE books.out_of_print
 		
 ----------------------------------------------------------------------------------------------------------------------------------
+
+# Dynamic finder
+
+--> For every field (also known as an attribute) you define in your table, Active Record provides a finder method
+
+For e.g -
+
+	Model:- Doctor
+	field:- name
+	
+		> Doctor.find_by_name("Vimal")
+		
+		  Doctor Load (0.5ms)  SELECT `doctors`.* FROM `doctors` WHERE `doctors`.`name` = 'Vimal' LIMIT 1
+		 =>                                                           
+		#<Doctor:0x00007f9ac47ffec0                                   
+		 id: 2,                                                       
+		 name: "Vimal",                                               
+		 mobile: "9864572826",                                        
+		 address: "SCO-12, Sector - 5, Karnal",                       
+		 experience: 10,                                              
+		 created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,  
+		 updated_at: Thu, 08 Sep 2022 10:38:21.838718000 UTC +00:00,  
+		 emails: nil,                                                 
+		 lock_version: 3>   
+		 
+Note: You can specify an exclamation point (!) on the end of the dynamic finders to get them to raise an 			ActiveRecord::RecordNotFound error if they do not return any records
+
+:If we want to find the record by entering two details, then we can chain this by using "_and_"
+
+	> Doctor.find_by_name_and_find_by_mobile("Vimal", "9864572826")
+	
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Enum 
+
+--> An enum lets you define an Array of values for an attribute and refer to them by name.
+--> The actual value stored in the database is an integer that has been mapped to one of the values.
+
+	            1. Enum acts as a inclusion validator in itself
+                            2. Enum's integer starts from 0 index.
+                            3. While inserting values in the column that we have mapped with an Enum.
+                                    - we can either pass the indexes, string values from enum, or symbols from enum.
+                            4. But the datatype of the column in the migration must be Integer.
+                            
+Model:	
+	class Order < ApplicationRecord
+	  enum :status, [:shipped, :being_packaged, :complete, :cancelled]
+	end
+	# These scopes are created automatically and can be used to find all objects with or without a particular value 	  for status
+	# For this, there must be column named status having datatype integer
+	
+	> Order.shipped
+	--> Returns all the orders whose status is shipped
+	
+Options:
+
+: Order.shipped!
+: Order.not_shipped
+: Order.shipped?
+: Order.not_shipped.not_delivered
