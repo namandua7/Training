@@ -978,3 +978,74 @@ For e.g -
 	  Doctor Pluck (0.9ms)  SELECT `doctors`.`id` FROM `doctors`
  	=> [2, 3, 8] 
 ----------------------------------------------------------------------------------------------------------------------------------
+
+# Existence of a objects
+
+1. exists?
+
+--> To check whether the object is present or not there is a method called exists?
+
+--> The exists? method also takes multiple values, but the fact is that it will return true if any one of those records exists.
+
+		> Doctor.exists?
+		
+	  Doctor Exists? (0.3ms)  SELECT 1 AS one FROM `doctors` LIMIT 1
+	  => true    
+	  
+		> Doctor.where(name: "Arjun").exists?
+	  Doctor Exists? (0.5ms)  SELECT 1 AS one FROM `doctors` WHERE `doctors`.`name` = 'Arjun' LIMIT 1
+	  => false  
+	  
+2. any?
+
+--> true if any one record is available
+
+3. many?
+
+--> true if two or more records are available
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Calculations
+
+1. count
+
+--> Used to count the number of records in the model
+
+		> Doctor.count
+		
+		  	Doctor Count (19.1ms)  SELECT COUNT(*) FROM `doctors`
+		 	=> 3        
+		 
+		> Doctor.count(:mobile)
+		 
+			  Doctor Count (0.4ms)  SELECT COUNT(`doctors`.`mobile`) FROM `doctors`
+			 => 2      
+			 
+2. average
+
+--> Used to find the average of an integer column
+--> Returns a floating point number
+
+		> Doctor.average(:id)
+		
+			  Doctor Average (0.4ms)  SELECT AVG(`doctors`.`id`) FROM `doctors`
+			 => 0.43333e1  
+			 
+3. sum
+
+--> used to sum the integer column
+
+		> Doctor.sum(:id)
+		
+  			  Doctor Sum (0.9ms)  SELECT SUM(`doctors`.`id`) FROM `doctors`
+			  => 13   
+			  
+4. maximum
+
+--> returns the maximum value of the column
+
+5. minimum
+
+--> returns the minimum value of the column
+----------------------------------------------------------------------------------------------------------------------------------
