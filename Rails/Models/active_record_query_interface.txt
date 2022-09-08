@@ -397,3 +397,80 @@ For e.g -	Book.where(out_of_print: true).rewhere(out_of_print: false)
 	SQL execute :-
 		SELECT * FROM books WHERE `out_of_print` = 0
 ----------------------------------------------------------------------------------------------------------------------------------
+
+# Null relation
+
+3.0.0 :001 > Doctor.none
+ => [] 
+
+--> Returns an empty relation and fires no queries
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Readonly objects
+
+--> After defining an object to readonly we cannot modify any attribute to that object.
+
+3.0.0 :003 > doctor = Doctor.readonly.first
+  Doctor Load (0.5ms)  SELECT `doctors`.* FROM `doctors` ORDER BY `doctors`.`id` ASC LIMIT 1
+ =>                                                                                            
+#<Doctor:0x000055d81488de38         
+3.0.0 :005 > doctor.name = "Ajay"
+ => "Ajay" 
+3.0.0 :006 > doctor.save
+/home/namandua/.rvm/gems/ruby-3.0.0/gems/activerecord-7.0.3.1/lib/active_record/persistence.rb:1123:in `_raise_readonly_record_error': Doctor is marked as readonly (ActiveRecord::ReadOnlyRecord)
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Locking record for update
+
+--> It is useful when multiple users are working on same database
+--> Ensuring atomic updates
+
+This have two locking mechanisms:
+
+1. Optimistic locking
+
+--> This allows multiple users to access the same record for edits, and assumes a minimum of conflicts with the data.
+--> It does this by checking whether another process has made changes to a record since it was opened
+--> An ActiveRecord::StaleObjectError exception is thrown if that has occurred and the update is ignored.
+
+To run optimistic locking we have to create a column name lock_version using migration
+
+	$ rails g migration AddLockVersionToDoctor lock_version:integer
+	
+	$ raild db:migrate
+	
+3.0.0 :012 > d1 = Doctor.find(2)
+  Doctor Load (0.4ms)  SELECT `doctors`.* FROM `doctors` WHERE `doctors`.`id` = 2 LIMIT 1
+ =>                                                                
+#<Doctor:0x00007f9ac47c5ab8                                        
+...                                                                
+3.0.0 :013 > d2 = Doctor.find(2)
+  Doctor Load (0.4ms)  SELECT `doctors`.* FROM `doctors` WHERE `doctors`.`id` = 2 LIMIT 1
+ =>                                                                
+#<Doctor:0x00005604f9a492d8                                        
+...                                                                
+3.0.0 :014 > d1.name = "Subhash"
+ => "Subhash" 
+3.0.0 :015 > d1.save
+  TRANSACTION (0.5ms)  BEGIN
+  Doctor Update (1.1ms)  UPDATE `doctors` SET `doctors`.`name` = 'Subhash', `doctors`.`updated_at` = '2022-09-08 06:05:55.772756', `doctors`.`lock_version` = 2 WHERE `doctors`.`id` = 2 AND `doctors`.`lock_version` = 1                                                     
+  TRANSACTION (43.8ms)  COMMIT                                     
+ => true   
+                                                              
+3.0.0 :017 > d2.name = "Arjun"
+ => "Arjun" 
+3.0.0 :018 > d2.save
+  TRANSACTION (0.5ms)  BEGIN
+  Doctor Update (0.8ms)  UPDATE `doctors` SET `doctors`.`name` = 'Arjun', `doctors`.`updated_at` = '2022-09-08 06:06:18.087316', `doctors`.`lock_version` = 2 WHERE `doctors`.`id` = 2 AND `doctors`.`lock_version` = 1                                              
+  TRANSACTION (0.5ms)  ROLLBACK                           
+/home/namandua/.rvm/gems/ruby-3.0.0/gems/activerecord-7.0.3.1/lib/active_record/locking/optimistic.rb:108:in `_update_row': Attempted to update a stale object: Doctor. (ActiveRecord::StaleObjectError)
+
+
+
+2. Pessimistic locking
+
+--> Pessimistic locking uses a locking mechanism provided by the underlying database.
+--> Using lock when building a relation obtains an exclusive lock on the selected rows.    
+
+----------------------------------------------------------------------------------------------------------------------------------
