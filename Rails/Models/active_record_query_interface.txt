@@ -816,3 +816,165 @@ Options:
 : Order.not_shipped
 : Order.shipped?
 : Order.not_shipped.not_delivered
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Methods chaining
+
+--> The Active Record pattern implements Method Chaining, which allow us to use multiple Active Record methods together in a simple and straightforward way.
+
+--> You can chain methods in a statement when the previous method called returns an ActiveRecord::Relation, like all, where, and joins. 
+
+--> Methods that return a single object (see Retrieving a Single Object Section) have to be at the end of the statement.
+
+For e.g - 
+		Customer
+		  .select('customers.id, customers.last_name, reviews.body')
+		  .joins(:reviews)
+		  .where('reviews.created_at < ?', 2020-12-31)
+	
+		Book
+		  .select('books.id, books.title, authors.first_name')
+		  .joins(:author)
+		  .find_by(title: 'Abstraction and Specification in Program Development')
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Find or build a new object
+
+--> It's common that you need to find a record or create it if it doesn't exist. You can do that with the find_or_create_by and find_or_create_by! methods.
+
+
+1. find_or_create_by
+
+--> The find_or_create_by method checks whether a record with the specified attributes exists.If it doesn't, then create is called
+
+	 > Doctor.find_or_create_by(name: "Subhash")
+
+  Doctor Load (0.5ms)  SELECT `doctors`.* FROM `doctors` WHERE `doctors`.`name` = 'Subhash' LIMIT 1
+  TRANSACTION (0.3ms)  BEGIN                                                         
+  Doctor Create (0.5ms)  INSERT INTO `doctors` (`name`, `mobile`, `address`, `experience`, `created_at`, `updated_at`, `emails`, `lock_version`) VALUES ('Subhash', NULL, NULL, NULL, '2022-09-08 12:15:20.632933', '2022-09-08 12:15:20.632933', NULL, 0)                                      
+  TRANSACTION (43.8ms)  COMMIT                                                       
+ =>                                                                                  
+#<Doctor:0x00005604fb68f8e8                                                          
+ id: 8,                                                                              
+ name: "Subhash",                                                                    
+ mobile: nil,                                                                        
+ address: nil,                                                                       
+ experience: nil,                                                                    
+ created_at: Thu, 08 Sep 2022 12:15:20.632933000 UTC +00:00,                         
+ updated_at: Thu, 08 Sep 2022 12:15:20.632933000 UTC +00:00,                         
+ emails: nil,                                                                        
+ lock_version: 0>  
+ 
+ --> As we don't have the record with name "Subhash" so it created the record into the database
+ --> But if we have the record then it will return the record
+ 
+ 
+2. find_or_create_by!
+
+--> You can also use find_or_create_by! to "raise an exception" if the new record is invalid i.e not satifying the validations
+
+
+3. find_or_initialize_by
+
+--> The find_or_initialize_by method will work just like find_or_create_by but it will call new instead of create. This means that a new model instance will be created in memory but won't be saved to the database.
+
+ 	> Doctor.find_or_initialize_by(name: "Naina")
+ 
+  Doctor Load (0.4ms)  SELECT `doctors`.* FROM `doctors` WHERE `doctors`.`name` = 'Naina' LIMIT 1
+ => #<Doctor:0x00005604fb81c850 id: nil, name: "Naina", mobile: nil, address: nil, experience: nil, created_at: nil, updated_at: nil, emails: nil, lock_version: 0> 
+
+:For saving the record to database, we have to call the .save method
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Find by SQL
+
+--> If you'd like to use your own SQL to find records in a table you can use find_by_sql.
+--> The find_by_sql method will return an array of objects even if the underlying query returns just a single record.
+
+For e.g :
+	 > Doctor.find_by_sql("SELECT * FROM doctors")
+	 
+  Doctor Load (0.5ms)  SELECT * FROM doctors
+ =>                                                                   
+[#<Doctor:0x00005604fbae4330                                          
+  id: 2,                                                              
+  name: "Vimal",                                                      
+  mobile: "9864572826",                                               
+  address: "SCO-12, Sector - 5, Karnal",                              
+  experience: 10,                                                     
+  created_at: Tue, 30 Aug 2022 09:29:46.453074000 UTC +00:00,         
+  updated_at: Thu, 08 Sep 2022 10:38:21.838718000 UTC +00:00,         
+  emails: nil,                                                        
+  lock_version: 3>,                                                   
+ #<Doctor:0x00005604fbae4268                                          
+  id: 3,                                                              
+  name: "Suresh",                                             
+  mobile: "9876543210",
+  address: "Sco - 90,  Sector-10, Faridabad",
+  experience: 5,
+  created_at: Wed, 31 Aug 2022 07:48:32.353049000 UTC +00:00,
+  updated_at: Wed, 31 Aug 2022 07:48:32.353049000 UTC +00:00,
+  emails: nil,
+  lock_version: 0>]
+
+
+1. select_all
+
+--> This method also takes SQL as arguement and return an instance of "ActiveRecord::Result" class 
+
+	> Doctor.connection.select_all("SELECT * FROM doctors")
+	
+   (0.6ms)  SELECT * FROM doctors
+ =>                                                                                     
+#<ActiveRecord::Result:0x00005604f9174928                                               
+ @column_types={},                                                                      
+ @columns=["id", "name", "mobile", "address", "experience", "created_at", "updated_at", "emails", "lock_version"],
+ @hash_rows=nil,                                                                        
+ @rows=                                                                                 
+  [[2, "Vimal", "9864572826", "SCO-12, Sector - 5, Karnal", 10, 2022-08-30 09:29:46.453074 UTC, 2022-09-08 10:38:21.838718 UTC, nil, 3],
+   [3, "Suresh", "9876543210", "Sco - 90,  Sector-10, Faridabad", 5, 2022-08-31 07:48:32.353049 UTC, 2022-08-31 07:48:32.353049 UTC, nil, nil],
+   [8, "Subhash", nil, nil, nil, 2022-09-08 12:15:20.632933 UTC, 2022-09-08 12:15:20.632933 UTC, nil, 0]]> 
+
+
+Note: calling to_a at the end of this method will return the records in array format
+
+
+2. pluck
+
+--> It accepts a list of column names as an argument and returns an array of values of the specified columns with the corresponding data type.
+
+For e.g -
+
+	 > Doctor.pluck(:id)
+	 
+	  Doctor Pluck (0.4ms)  SELECT `doctors`.`id` FROM `doctors`
+	 => [2, 3, 8] 
+	 
+# For multiple columns
+	 
+	 > Doctor.pluck(:id, :name)
+	 
+	  Doctor Pluck (0.4ms)  SELECT `doctors`.`id`, `doctors`.`name` FROM `doctors`
+	 => [[2, "Vimal"], [3, "Suresh"], [8, "Subhash"]] 
+	 
+# For querying multiple tables
+
+	> Doctor.joins(:patient).pluck("doctors.name, patients.name, doctors.id")
+	
+	  Doctor Pluck (1.1ms)  SELECT doctors.name, patients.name, doctors.id FROM `doctors` INNER JOIN `patients` ON 		`patients`.`doctor_id` = `doctors`.`id`
+	 => [["Vimal", "Arjun", 2]]
+	 
+
+3. ids
+
+--> This can be used to pluck all the IDs for the relation using the table's primary key.
+
+For e.g -
+	> Doctor.ids
+	
+	  Doctor Pluck (0.9ms)  SELECT `doctors`.`id` FROM `doctors`
+ 	=> [2, 3, 8] 
+----------------------------------------------------------------------------------------------------------------------------------
