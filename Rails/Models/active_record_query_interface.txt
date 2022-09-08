@@ -474,3 +474,150 @@ To run optimistic locking we have to create a column name lock_version using mig
 --> Using lock when building a relation obtains an exclusive lock on the selected rows.    
 
 ----------------------------------------------------------------------------------------------------------------------------------
+
+# Joining tables
+
+--> SQL join caluse is same as join method 
+
+=> Using string format
+
+	Doctor.joins("INNER JOIN patients ON patients.doctor_id = doctors.id")
+	
+	SQL execute :-
+		SELECT doctors.* FROM doctors INNER JOIN patients ON patients.doctor_id = doctors.id
+		
+=> Using Array/Hash format
+
+--> Active Record lets you use the names of the associations defined on the model as a shortcut for specifying JOIN clauses for those associations when using the joins method.
+
+:Joining single association
+
+	Doctor.join(:patients)
+	
+	SQL execute :-
+		SELECT doctors.* FROM doctors INNER JOIN patients ON patients.doctor_id = doctors.id
+		
+:Joining multiple associations
+
+	Doctor.join(:patients, :histories)
+	
+	SQL execute :-
+		SELECT doctors.* FROM doctors INNER JOIN patients ON patients.doctor_id = doctors.id
+			              INNER JOIN histories ON histories.doctor_id = doctors.id
+			              
+:Joining nested association
+
+	Doctor.join(patients: :histories)
+	
+	SQL execute :-
+		SELECT doctors.* FROM doctors INNER JOIN patients ON patients.doctor_id = doctors.id
+			              INNER JOIN histories ON histories.doctor_id = doctors.id
+			           
+			           
+=> Left outer join
+
+--> If you want to select a set of records whether or not they have associated records you can use the left_outer_joins method.
+
+For e.g :-
+
+Customer.left_outer_joins(:reviews).distinct.select('customers.*, COUNT(reviews.*) AS reviews_count').group('customers.id')
+
+	SQL execute :-
+		SELECT DISTINCT customers.*, COUNT(reviews.*) AS reviews_count FROM customers
+		LEFT OUTER JOIN reviews ON reviews.customer_id = customers.id GROUP BY customers.id
+		
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Eager loading associations
+
+--> Eager loading is the mechanism for loading the associated records of the objects returned by Model.find using as few queries as possible.
+
+		: N+1 queries problem
+		
+		books = Book.limit(10)
+
+		books.each do |book|
+		  puts book.author.last_name
+		end
+
+		--> This code looks fine at the first sight. But the problem lies within the total number of 			    queries executed.
+		--> The above code executes 1 (to find 10 books) + 10 (one per each book to load the author) = 11
+		    (11 queries in total)
+		    
+:Solution to N+1 query problem 
+
+--> Active Record lets you specify in advance all the associations that are going to be loaded.
+
+The methods are:
+
+=> includes
+=> preload
+=> eager_load
+
+
+1. includes
+
+--> With includes, Active Record ensures that all of the specified associations are loaded using the minimum possible number of queries.
+
+
+		books = Book.includes(:author).limit(10)
+
+		books.each do |book|
+		  puts book.author.last_name
+		end
+
+		-->The above code will execute just 2 queries, as opposed to the 11 queries from the original case
+
+		SELECT `books`.* FROM `books` LIMIT 10
+		SELECT `authors`.* FROM `authors`
+		      WHERE `authors`.`book_id` IN (1,2,3,4,5,6,7,8,9,10)
+		      
+:Eager loading with multiple associations
+
+--> Active Record lets you eager load any number of associations with a single Model.find call by using an array, hash, or a nested hash of array/hash with the includes method.
+
+		> Customer.includes(:orders, :reviews)
+		
+		--> This loads all the customers and the associated orders and reviews for each.
+		
+	:Nested association hash
+	
+	> Customer.includes(orders: {books: [:supplier, :author]}).find(1)
+	
+	--> This will find the customer with id 1 and eager load all of the associated orders for it, the books for all 	    of the orders, and the author and supplier for each of the books.
+	
+
+2. preload
+
+--> With preload, Active Record loads each specified association using one query per association.
+
+Note :- When you do "includes" rails automatically decides which strategy to use for you. [Default is 2 Query i.e., Preload in 		itself]
+
+		books = Book.preload(:author).limit(10)
+
+		books.each do |book|
+		  puts book.author.last_name
+		end
+	SQL execute :-
+	
+		SELECT `books`.* FROM `books` LIMIT 10
+			SELECT `authors`.* FROM `authors`
+			WHERE `authors`.`book_id` IN (1,2,3,4,5,6,7,8,9,10)
+
+3. eager_load
+
+--> With eager_load, Active Record loads all specified associations using a LEFT OUTER JOIN.
+
+		books = Book.eager_load(:author).limit(10)
+
+		books.each do |book|
+		  puts book.author.last_name
+		end
+	SQL execute :-
+
+		SELECT DISTINCT `books`.`id` FROM `books` LEFT OUTER JOIN `authors` ON `authors`.`book_id` = 			`books`.`id` LIMIT 10
+		
+		SELECT `books`.`id` AS t0_r0, `books`.`last_name` AS t0_r1, ...
+		  FROM `books` LEFT OUTER JOIN `authors` ON `authors`.`book_id` = `books`.`id`
+		  WHERE `books`.`id` IN (1,2,3,4,5,6,7,8,9,10)
+
