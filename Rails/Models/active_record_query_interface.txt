@@ -621,3 +621,138 @@ Note :- When you do "includes" rails automatically decides which strategy to use
 		  FROM `books` LEFT OUTER JOIN `authors` ON `authors`.`book_id` = `books`.`id`
 		  WHERE `books`.`id` IN (1,2,3,4,5,6,7,8,9,10)
 
+----------------------------------------------------------------------------------------------------------------------------------
+
+# Scopes
+
+--> Scoping allows you to specify commonly-used queries which can be referenced as method calls on the association objects or 		models.
+--> With these scopes, you can use every method previously covered such as where, joins and includes.
+--> All scope bodies should return an ActiveRecord::Relation or nil to allow for further methods (such as other scopes) to be 		called on it.
+
+--> To define scope we use scope method and pass the query which we want to run while scope is called. Scope is defined in model 	class
+
+For e.g -		class Book < ApplicationRecord
+		  scope :out_of_print, -> { where(out_of_print: true) }
+		end
+
+	: To call this scope, we use
+		
+		> Book.out_of_print
+		
+
+=> Passing an argument
+
+		class Book < ApplicationRecord
+		  scope :costs_more_than, ->(amount) { where("price > ?", amount) }
+		end
+
+	: To call this scope, we use
+		
+		> Book.cost_more_than(110)
+		
+: Duplicating the functionality of scope by class method
+
+		class Book < ApplicationRecord
+		  def self.costs_more_than(amount)
+		    where("price > ?", amount)
+		  end
+		end
+
+		--> This method is accessible on the association of objects
+		
+		> author = Author.first
+		> author.books.costs_more_than(110)
+		
+=> Using conditional
+
+		class Order < ApplicationRecord
+		  scope :created_before, ->(time) { where("created_at < ?", time) if time.present? }
+		end
+
+: Like others , this will also behave similarly to class methods
+
+		class Order < ApplicationRecord
+		  def self.created_before(time)
+		    where("created_at < ?", time) if time.present?
+		  end
+		end
+
+Note:- A scope will always return an ActiveRecord::Relation object, even if the conditional evaluates to false, whereas a class 	method, will return nil.
+       This can cause NoMethodError when chaining class methods with conditionals, if any of the conditionals return false.
+
+
+=> Applying default scope
+
+--> If we wish for a scope to be applied across all queries to the model we can use the default_scope method within the model itself.
+
+		class Book < ApplicationRecord
+		  default_scope { where(out_of_print: false) }
+		end
+
+	SQL execute :-
+		SELECT * FROM books WHERE (out_of_print = false)
+
+:If we want to add more complex things to default scope, then we define a method in class as default scope
+
+		class Book < ApplicationRecord
+		  def self.default_scope
+		    # Code
+		  end
+		end
+
+Note: Default scope is automatically applied while creating a record if the scope arguments are given as hash.
+      It is not applied while updating the record.
+      
+Note: When given in the Array format, default_scope query arguments cannot be converted to a Hash for default attribute assignment.
+
+Note: If we use Model.unscoped.new , then default scope is not applied.
+
+
+=> Merging of scopes
+
+--> Just like where clauses, scopes are merged using AND conditions in SQL query.
+
+For e.g -		class Book < ApplicationRecord
+		  scope :in_print, -> { where(out_of_print: false) }
+		  scope :out_of_print, -> { where(out_of_print: true) }
+		
+		  scope :recent, -> { where('year_published >= ?', Date.current.year - 50 )}
+		  scope :old, -> { where('year_published < ?', Date.current.year - 50 )}
+		end
+
+		> Book.out_of_print.old
+	SQL execute:-
+		SELECT books.* FROM books WHERE books.out_of_print = 'true' AND books.year_published < 1969
+		
+:We can mix and match scope and where condition and the final sql query will execute after applying all condition using AND
+
+		> Book.in_print.where('price < 100')
+	SQL execute:-
+		SELECT books.* FROM books WHERE books.out_of_print = 'false' AND books.price < 100
+		
+:If we do want the last where clause to win then merge can be used.
+
+		> Book.in_print.merge(Book.out_of_print)
+	SQL execute:-
+		SELECT books.* FROM books WHERE books.out_of_print = true
+		
+=> Removing all scopes
+
+--> If we want to remove any scope for any reason then we can use unscoped method
+--> This is useful when default_scope is defined in the model and should not be used for a particular query
+
+		> Book.unscoped.all
+	SQL execute:-
+		SELECT books.* FROM books
+		
+		> Book.where(out_of_print: true).unscoped.all
+	SQL execute:-
+		SELECT books.* FROM books
+		
+:unscoped can also accept a block
+
+		> Book.unscoped { Book.out_of_print }
+	SQL execute:-
+		SELECT books.* FROM books WHERE books.out_of_print
+		
+----------------------------------------------------------------------------------------------------------------------------------
