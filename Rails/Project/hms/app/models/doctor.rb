@@ -1,4 +1,9 @@
 class Doctor < ApplicationRecord
+    
+    # has_one :patient
+
+    has_many :patients, through: :appointments
+    has_many :appointments
 
     # validates :name, presence: true #{ message: "Must be present" }
     # validates :email, presence: true #{ message: "Must be present" }
@@ -43,7 +48,7 @@ class Doctor < ApplicationRecord
     # after_destroy AfterDestroyCallback.new
 
 
-    private
+    # private
 
     
     # def record_destroy
