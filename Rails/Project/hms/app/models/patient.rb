@@ -5,7 +5,6 @@ class Patient < ApplicationRecord
     # validates :dob, presence: true #{ message: "Must be present" }
 
     # validates :mobile, length: {maximum: 10}
-
-    # validates :email, uniqueness: true
+    
 
 end
