@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Page title</title>
+        <link rel="icon" type="image/x-icon" href="w3schools.jpg">
+        <style>
+            table, tr, td, th{
+                            border: 1px solid black;
+                            text-align: center;
+                            width: auto;
+                            font-size: 30px;
+            }
+            tr:hover {background-color: aqua;}
+            .center {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style>
+    </head>
+
+    <body style="background-color:rgb(255, 14, 14)">
+
+        <h1 title="I am a header" 
+            style="text-align:center ;">
+            This is a <del>heading</del> <ins> large heading</ins>
+        </h1>
+
+        <hr>
+
+        <b><p style="font-size:40px ;">
+            This is a <mark>paragraph</mark>
+        </p></b>
+
+        <strong><p style="font-size: 40px; text-align: center;">This is strong paragraph</p></strong>
+
+        <p style="font-size: 30px; text-align: center;"> This is for <q>practicing</q> quotation</p>
+
+        <p style="text-align:right; font-size:30px"><abbr title="Hyper Text Markup Language">HTML</abbr> abbr tag is used here.</p>
+
+        <h1>To visit W3Schools website <a href="https://www.w3schools.com/" target="_top">Click here</a></h1>
+
+        <p style="font-size:25px ;">Click on this image to move to W3schools website</p>
+        <a href="https://www.w3schools.com/"><img src="w3schools.jpg" alt="W3School image" style="width:100px ; height:auto;"></a>
+
+        <a href="mailto:duanaman9@gmail.com">Send email</a>
+
+        <h1 style="text-align:center;">How to use table tag</h1>
+        
+        <table class="center">
+            <tr>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Roll no.</th>
+            </tr>
+            <tr>
+                <td>Naman</td>
+                <td>CSE</td>
+                <td>69</td>
+            </tr>
+            <tr>
+                <td>Nancy</td>
+                <td>CSE</td>
+                <td>70</td>
+            </tr>
+        </table>
+
+        <iframe src="w3schools.jpg" name="iframe_a" style="width:500px;height: 300px;" title="Iframe example"></iframe>
+        <p><a href="https://www.youtube.com/" target="iframe_a">Link for youtube.com</a></p>
+
+        <p id="demo"></p>
+        <script>
+            document.getElementById("demo").style.fontSize="30px"
+            document.getElementById("demo").style.textAlign="center"
+            document.getElementById("demo").innerHTML="Hello Javascript!";
+        </script>
+
+        <p style="font-size: 25px;">Choose your favourite course</p>
+        <form action="https://www.youtube.com/" target="_blank">
+            <input type="radio" id="b.tech" name="Course">
+            <label for="b.tech">B.tech</label><br>
+            <input type="radio" id="m.tech" name="Course">
+            <label for="m.tech">M.tech</label><br>
+            <input type="radio" id="bca" name="Course">
+            <label for="bca">BCA</label><br>
+            <input type="radio" id="bba" name="Course">
+            <label for="bba">BBA</label><br>
+            <input type="submit" value="Submit">
+            <br>
+            <br>
+            <label for="course" style="font-size:25px ;">Select your course:</label>
+            <br>
+            <select id="course" name="Course" style="font-size:15px;">
+                <option value="B.tech">B.tech</option>
+                <option value="M.tech" selected>M.tech</option>
+                <option value="BCA">BCA</option>
+                <option value="BBA">BBA</option>
+            </select>
+        </form>
+
+    </body>
+
+</html>
