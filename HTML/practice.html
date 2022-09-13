@@ -11,15 +11,46 @@
                             width: auto;
                             font-size: 30px;
             }
+
             tr:hover {background-color: aqua;}
             .center {
                 margin-left: auto;
                 margin-right: auto;
             }
+
+            #bg {
+                background-image: url(bg-image.jpg);
+                color: aliceblue;
+                background-repeat: no-repeat;
+                background-position: center;
+                /* background-attachment: fixed; */
+            }
+
+            .dir {
+                direction: rtl;
+                unicode-bidi: bidi-override;
+                font-size: 30px;
+            }
+
+            .pos{
+                position: absolute;
+                top: auto;
+                left: auto;
+                right: 240px;
+                bottom: -115px;
+            }
+
+            .over{
+                width: 250px;
+                height:100px;
+                overflow:auto;
+                border: 3px solid black;
+            }
+
         </style>
     </head>
 
-    <body style="background-color:rgb(255, 14, 14)">
+    <body style="background-color:rgb(223, 80, 80)">
 
         <h1 title="I am a header" 
             style="text-align:center ;">
@@ -32,7 +63,7 @@
             This is a <mark>paragraph</mark>
         </p></b>
 
-        <strong><p style="font-size: 40px; text-align: center;">This is strong paragraph</p></strong>
+        <strong><p style="color:aliceblue;font-size: 40px; text-align: center; background-image: url(bg-image.jpg);">This is strong paragraph</p></strong>
 
         <p style="font-size: 30px; text-align: center;"> This is for <q>practicing</q> quotation</p>
 
@@ -45,7 +76,7 @@
 
         <a href="mailto:duanaman9@gmail.com">Send email</a>
 
-        <h1 style="text-align:center;">How to use table tag</h1>
+        <h1 id="bg" style="text-align:center;">How to use table tag</h1>
         
         <table class="center">
             <tr>
@@ -66,6 +97,8 @@
         </table>
 
         <iframe src="w3schools.jpg" name="iframe_a" style="width:500px;height: 300px;" title="Iframe example"></iframe>
+        <img style="width:300px;height:auto;float:right" src="w3schools.jpg" alt="W3school">
+             <div class="pos">I'm at left</div>
         <p><a href="https://www.youtube.com/" target="iframe_a">Link for youtube.com</a></p>
 
         <p id="demo"></p>
@@ -98,6 +131,11 @@
             </select>
         </form>
 
+        <p class="dir">This is used to practice direction of writing text</p>
+
+        <p class="over">This paragraph is for the practiceof overflow. By default it is visible.
+            You can use the overflow property when you want to have better control of the layout.
+            This line is repaeated. This line is repaeated. This line is repaeated. This line is repaeated.</p>
     </body>
 
 </html>
