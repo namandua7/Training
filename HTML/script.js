@@ -19,3 +19,8 @@ const person = {
         return this.firstName+' '+this.lastName;
     }
 };
+
+document.getElementById("rand").innerHTML = Math.floor(Math.random() * 101);
+
+const date = new Date();
+document.getElementById("date").innerHTML = date;
