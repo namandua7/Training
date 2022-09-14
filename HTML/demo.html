@@ -5,7 +5,6 @@
 
         <title>Practice Javascript</title>
         <link rel="icon" type="image/x-icon" href="js-logo.jpg">
-        <script src="script.js"></script>
 
     </head>
 
@@ -37,7 +36,11 @@
 
         <hr>
 
-        
+        <p style="text-align:center ; font-size:20px;">Details of person who make this page</p>
+        <p id="info"></p>
+
+        <script type="text/Javascript" src="script.js"></script>
+        <script>document.getElementById('info').innerHTML=person.fullName();</script>
 
     </body>
 

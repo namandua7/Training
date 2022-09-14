@@ -7,5 +7,15 @@ function windowAlert() {
 }
 
 function findPower(num){
-    alert('Value of number to the power number is ' + num**num)
+    alert('Value of number to the power number is ' + num**num);
 }
+
+const person = {
+    firstName: 'Naman',
+    lastName: 'Dua',
+    id: 69,
+
+    fullName: function() {
+        return this.firstName+' '+this.lastName;
+    }
+};
