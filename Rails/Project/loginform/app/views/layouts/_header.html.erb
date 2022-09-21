@@ -1,0 +1,27 @@
+<div>
+       
+    <ul class='header'>
+
+    <li><%= link_to 'Home', root_path %></li>
+    <li><%= link_to 'All products', products_path %></li>
+    <% if session[:user_id] %>
+
+        <li class='right'><%= button_to "Log out", sessions_sign_out_path, method: :delete%> </li>
+
+    <% elsif admin_signed_in? %>
+
+        <li><a href='/products/new'>Add product</a></li>
+        <li class= 'right'><%= link_to 'Admin out', destroy_admin_session_path, data: {turbo_method: :delete} %>
+
+    <% else %>
+
+        <li><a href='/products/new'>Add product</a></li>
+        <li class='right'><%= link_to "Sign in", sessions_sign_in_path %></li>
+        <li class='right'><%= link_to "Sign up", users_sign_up_path %></li>
+        <li class='right'><%= link_to "Admin sign in", new_admin_session_path %></li>
+
+    <% end %>
+  
+    </ul>
+
+</div>

@@ -1,0 +1,27 @@
+<h1>Edit product details</h1>
+
+<%= form_with model: @product do |form| %>
+
+<% @product.attributes.keys.each do |attr| %>
+    <div class = 'sign_up_error' ><%= @product.errors.full_messages_for(attr.to_sym).first %></div>
+<% end %><br>
+    
+    <div class='new_product'>
+
+        <%= form.label :name, :class => 'label' %><br>
+        <%= form.text_field :name, :class => 'field' %><br>
+
+        <%= form.label :category, :class => 'label' %><br>
+        <%= form.select :category,['Beauty', 'Electronic', 'Fashion', 'Grocery', 'Sports', 'Medicine'], :class => 'category_product' %><br>
+            
+        <%= form.label :price, :class => 'label' %><br>
+        <%= form.number_field :price, :class => 'field' %><br>
+
+        <%= form.label :image, :class => 'label' %><br>
+        <%= form.file_field :image, :class => 'field' %><br>
+            
+        <%= form.submit %>
+
+    </div>
+
+<%end%>
