@@ -29,6 +29,12 @@
             <div class = 'sign_up_error' ><%= @product.errors.full_messages_for(:image).first %></div>
         </div>
 
+        <div>    
+            <%= form.label :description, :class => 'product_form_label' %><br>
+            <%= form.rich_text_area :description, :class => 'product_form_fields' %><br>
+            <div class = 'sign_up_error' ><%= @product.errors.full_messages_for(:description).first %></div>
+        </div>
+
         <p class='submit_product_details'><%= form.submit %>
 
     </div>

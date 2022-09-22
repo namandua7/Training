@@ -7,6 +7,8 @@ class Product < ApplicationRecord
 
     # mount_uploader :image, ProductImageUploader
 
+    has_rich_text :description
+    
     has_one_attached :image
 
     belongs_to :admin

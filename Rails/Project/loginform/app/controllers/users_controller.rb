@@ -11,10 +11,13 @@ class UsersController < ApplicationController
     def sign_up
 
         if session[:user_id]
-            redirect_to root_path
+            redirect_to root_path, notice: "User signed in already"
+        elsif admin_signed_in?
+            redirect_to root_path, notice: "Admin signed in already"
+        else
+            @user = User.new
         end
 
-        @user = User.new
     end
     
     def create

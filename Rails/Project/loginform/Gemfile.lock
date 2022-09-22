@@ -255,7 +255,7 @@ DEPENDENCIES
   carrierwave
   debug
   devise
-  image_processing (>= 1.2)
+  image_processing (~> 1.2)
   importmap-rails
   jbuilder
   mysql2 (~> 0.5)

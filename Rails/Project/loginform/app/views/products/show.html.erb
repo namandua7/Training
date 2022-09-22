@@ -1,4 +1,6 @@
 <h1>Name: <%= @product.name %></h1>
 <h1>Category: <%= @product.category %></h1>
 <h1>Price: <%= @product.price %></h1>
-<center><%= image_tag @product.image, class: "product_image" if @product.image.attached? %><center>
+<center><%= image_tag @product.image, class: "product_image" if @product.image.attached? %>
+<h2><%= @product.description %></h2>
+<center>

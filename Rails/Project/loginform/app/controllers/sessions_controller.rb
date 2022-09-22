@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
 
         if @user.present? #&& user.authenticate(params[:password])
             session[:user_id]=@user.id
-            redirect_to products_path, notice: "Logged in successfuly"
+            redirect_to products_path, notice: "User logged in successfuly"
         else
             redirect_to sessions_sign_in_path, notice: "Invalid email or password"
         end
@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
 
     def destroy
         session[:user_id] = nil
-        redirect_to sessions_sign_in_path
+        redirect_to sessions_sign_in_path, notice: "User signed out successfully"
     end
 
 end
