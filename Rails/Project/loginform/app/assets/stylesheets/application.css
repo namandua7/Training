@@ -102,6 +102,12 @@
     padding: 15px;
 }
 
+.admin_sign_up_error {
+    text-align: center;
+    font-size: 15px;
+    color: red;
+}
+
 .admin_devise_links {
     font-size: 20px;
     text-align: center;
@@ -115,6 +121,12 @@
     margin-right: 400px;
     margin-top: 40px;
     padding: 15px;
+}
+
+.admin_sign_in_error {
+    text-align: center;
+    font-size: 15px;
+    color: red;
 }
 
 .admin_resend_confirmation_mail {
@@ -179,9 +191,16 @@
     display: block;
 }
 
+.product_image {
+    width: 200px;
+    height: auto;
+}
 
-
-
+.notice_and_alert_message {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
 
 
 

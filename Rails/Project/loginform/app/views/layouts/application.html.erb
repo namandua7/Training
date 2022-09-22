@@ -14,8 +14,10 @@
    
     <%= render 'layouts/header' %>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <div class='notice_and_alert_message' >
+      <b><%= notice %></b>
+      <b><%= alert %></b>
+    </div>
 
     <%= yield %>
 

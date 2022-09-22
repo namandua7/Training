@@ -7,34 +7,31 @@
       <div>
         <%= f.label :name %><br />
         <%= f.text_field :name, autofocus: true %>
-        <%= resource.errors.full_messages_for(:name).first %>
+        <b><div class = 'admin_sign_up_error' ><%= resource.errors.full_messages_for(:name).first %></div></b>
       </div>
 
       <div>
         <%= f.label :mobile %><br />
         <%= f.text_field :mobile %>
-        <%= resource.errors.full_messages_for(:mobile).first %>
+        <b><div class = 'admin_sign_up_error' ><%= resource.errors.full_messages_for(:mobile).first %></div></b>
       </div>
       
       <div>
         <%= f.label :email %><br />
         <%= f.email_field :email, autocomplete: "email" %>
-        <%= resource.errors.full_messages_for(:email).first %>
+        <b><div class = 'admin_sign_up_error' ><%= resource.errors.full_messages_for(:email).first %></div></b>
       </div>
 
       <div>
-        <%= f.label :password %>
-        <% if @minimum_password_length %>
-        <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %><br />
+        <%= f.label :password %><br />
         <%= f.password_field :password, autocomplete: "new-password" %>
-        <%= resource.errors.full_messages_for(:password).first %>
+        <b><div class = 'admin_sign_up_error' ><%= resource.errors.full_messages_for(:password).first %></div></b>
       </div>
 
       <div>
         <%= f.label :password_confirmation %><br />
         <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-        <%= resource.errors.full_messages_for(:password_confirmation).first %>
+        <b><div class = 'admin_sign_up_error' ><%= resource.errors.full_messages_for(:password_confirmation).first %></div></b>
       </div>
 
       <div class="actions">

@@ -6,13 +6,14 @@
       <div class="field">
         <%= f.label :email %><br />
         <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-        <%= resource.errors.full_messages_for(:email).first %>
+        <b><div class = 'admin_sign_in_error' ><%= resource.errors.full_messages_for(:email).first %></div></b>
       </div>
 
       <div class="field">
         <%= f.label :password %><br />
-        <%= f.password_field :password, autocomplete: "current-password" %>
-        <%= resource.errors.full_messages_for(:password).first %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "password_field" %>
+        <input type='button' id='passwd' value='Show'>
+        <b><div class = 'admin_sign_in_error' ><%= resource.errors.full_messages_for(:password).first %></div></b>
       </div>
 
       <% if devise_mapping.rememberable? %>
@@ -30,3 +31,22 @@
     <p class='admin_devise_links'><%= render "admins/shared/links" %></p>
 
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+    
+<script>
+
+    $(document).ready(function(){
+          $("#passwd").click(function(){
+             if ($("#passwd").attr('value')=='Show'){
+              $("#passwd").attr('value', 'Hide')
+              $(".password_field").attr('type', 'text')
+             }
+             else {
+              $("#passwd").attr('value', 'Show')
+              $(".password_field").attr('type', 'password')
+             }
+          })
+      })
+
+</script>

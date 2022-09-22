@@ -7,6 +7,12 @@ class ApplicationController < ActionController::Base
 
     before_action :update_allowed_parameters, if: :devise_controller?
 
+    before_action :set_query
+
+    def set_query
+        @products_search = Product.ransack(params[:q])
+    end
+
     protected
 
     def update_allowed_parameters

@@ -1,27 +1,45 @@
-<h1>Edit product details</h1>
+<h1>Enter product details</h1>
 
 <%= form_with model: @product do |form| %>
-
-<% @product.attributes.keys.each do |attr| %>
-    <div class = 'sign_up_error' ><%= @product.errors.full_messages_for(attr.to_sym).first %></div>
-<% end %><br>
     
-    <div class='new_product'>
+    <div class='adding_new_product'>
 
-        <%= form.label :name, :class => 'label' %><br>
-        <%= form.text_field :name, :class => 'field' %><br>
+        <div>
+            <%= form.label :name, :class => 'product_form_label' %><br>
+            <%= form.text_field :name, :class => 'product_form_fields' %><br>
+            <div class = 'sign_up_error' ><%= @product.errors.full_messages_for(:name).first %></div>
+        </div>
 
-        <%= form.label :category, :class => 'label' %><br>
-        <%= form.select :category,['Beauty', 'Electronic', 'Fashion', 'Grocery', 'Sports', 'Medicine'], :class => 'category_product' %><br>
+        <div>
+            <%= form.label :category, :class => 'product_form_label' %><br>
+            <%= form.select :category,['Beauty', 'Electronic', 'Fashion', 'Grocery', 'Sports', 'Medicine'], :class => 'product_form_fields' %><br>
+            <div class = 'sign_up_error' ><%= @product.errors.full_messages_for(:category).first %></div>
+        </div>
             
-        <%= form.label :price, :class => 'label' %><br>
-        <%= form.number_field :price, :class => 'field' %><br>
+        <div>    
+            <%= form.label :price, :class => 'product_form_label' %><br>
+            <%= form.number_field :price, :class => 'product_form_fields' %><br>
+            <div class = 'sign_up_error' ><%= @product.errors.full_messages_for(:price).first %></div>
+        </div>
 
-        <%= form.label :image, :class => 'label' %><br>
-        <%= form.file_field :image, :class => 'field' %><br>
-            
-        <%= form.submit %>
+        <div>
+            <%= form.label :image, :class => 'product_form_label' %><br>
+            <%= form.file_field :image, :class => 'product_form_file_field', onchange: "imagePreview(event)" %><br>
+            <div align='center'><%= image_tag '', id: "preview_product_image" %></div>
+            <div class = 'sign_up_error' ><%= @product.errors.full_messages_for(:image).first %></div>
+        </div>
+
+        <p class='submit_product_details'><%= form.submit %>
 
     </div>
 
 <%end%>
+
+<script>
+
+    function imagePreview(event) {
+        var preview = document.getElementById('preview_product_image');
+        preview.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+</script>

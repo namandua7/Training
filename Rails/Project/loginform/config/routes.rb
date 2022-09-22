@@ -12,6 +12,10 @@ Rails.application.routes.draw do
 
   # get 'admins', to: 'devise/registrations#new'
 
+  get "search", to: 'products#search'
+
+  post "search", to: 'products#search'
+
   root "products#index"
 
   get "help", to: "help#help"

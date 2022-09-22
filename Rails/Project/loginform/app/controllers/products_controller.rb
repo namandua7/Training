@@ -16,6 +16,15 @@ class ProductsController < ApplicationController
 
     end
 
+    def search
+
+        # @products = Product.where("name LIKE?","%" + params[:q] + "%")
+        @products_search = Product.ransack(params[:q])
+        @query = @products_search.result(distinct: true)
+        # @products = Product.ransack(params[:q])
+
+    end
+
     def new
 
         if !(admin_signed_in?)
