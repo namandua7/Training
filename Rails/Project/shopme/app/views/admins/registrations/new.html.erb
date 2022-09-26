@@ -1,0 +1,43 @@
+<p>Admin Sign up</p>
+
+<div class='admin_sign_up_form'>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: {turbo: false}) do |f| %>
+
+      <div>
+        <%= f.label :name %><br />
+        <%= f.text_field :name,placeholder: "Name", autofocus: true %>
+        <b><div class = 'admin_sign_up_error' ><%= resource.errors.full_messages_for(:name).first %></div></b>
+      </div>
+
+      <div>
+        <%= f.label :mobile %><br />
+        <%= f.text_field :mobile, placeholder: "Mobile" %>
+        <b><div class = 'admin_sign_up_error' ><%= resource.errors.full_messages_for(:mobile).first %></div></b>
+      </div>
+      
+      <div>
+        <%= f.label :email %><br />
+        <%= f.email_field :email,placeholder: "Email" %>
+        <b><div class = 'admin_sign_up_error' ><%= resource.errors.full_messages_for(:email).first %></div></b>
+      </div>
+
+      <div>
+        <%= f.label :password %><br />
+        <%= f.password_field :password,placeholder: "Password" %>
+        <b><div class = 'admin_sign_up_error' ><%= resource.errors.full_messages_for(:password).first %></div></b>
+      </div>
+
+      <div>
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation,placeholder: "Confirm password" %>
+        <b><div class = 'admin_sign_up_error' ><%= resource.errors.full_messages_for(:password_confirmation).first %></div></b>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Sign up" %>
+      </div>
+    <% end %>
+
+    <p class='admin_devise_links'><%= render "admins/shared/links" %></p>
+</div>

@@ -1,0 +1,67 @@
+<div>
+
+    <p>Sign Up</p>
+
+    <%= form_with model: @user do |form| %>
+    
+        <div class='user_sign_up_form'>
+
+            <div class='user_sign_up_form_inside_content'>
+                <div>
+                    <%= form.label :name, :class => 'user_sign_up_label' %>
+                    <%= form.text_field :name,placeholder: "Name",autofocus: true, :class => 'user_sign_up_field' %>
+                    <b><div class = 'sign_up_error' ><%= @user.errors.full_messages_for(:name).first %></div></b><br>
+                </div>
+
+                <div>
+                    <%= form.label :mobile, :class => 'user_sign_up_label' %>
+                    <%= form.text_field :mobile,placeholder: "Mobile", :class => 'user_sign_up_field' %>
+                    <b><div class = 'sign_up_error' > <%= @user.errors.full_messages_for(:mobile).first %> </div></b><br>
+                </div>
+                    
+                <div>
+                    <%= form.label :interests, :class => 'user_sign_up_checkbox_label' %>
+
+                        <div class='check_box_sign_up' >
+                            <%= check_box_tag 'user[category][]', 'Beauty' %><%= 'Beauty' %>
+                            <%= check_box_tag 'user[category][]', 'Medicines' %><%= 'Medicines' %>
+                            <%= check_box_tag 'user[category][]', 'Electronic' %><%= 'Electronic' %>
+                            <%= check_box_tag 'user[category][]', 'Sports' %><%= 'Sports' %>
+                            <%= check_box_tag 'user[category][]', 'Grocery' %><%= 'Grocery' %>
+                            <%= check_box_tag 'user[category][]', 'Fashion' %><%= 'Fashion' %>
+                        </div>
+
+                    <b><div class = 'sign_up_error' ><%= @user.errors.full_messages_for(:category).first %></div></b><br>
+                </div>
+
+                <div>
+                    <%= form.label :email, :class => 'user_sign_up_label' %>
+                    <%= form.email_field :email,placeholder: "Email", :class => 'user_sign_up_field' %>
+                    <b><div class = 'sign_up_error' ><%= @user.errors.full_messages_for(:email).first %></div></b><br>
+                </div>
+
+                <div>
+                    <%= form.label :password, :class => 'user_sign_up_label' %>
+                    <%= form.password_field :password,placeholder: "Password", :class => 'user_sign_up_field' %>
+                    <b><div class = 'sign_up_error' ><%= @user.errors.full_messages_for(:password).first %></div></b><br>
+                </div>
+
+                <div>
+                    <div class='user_sign_up_confirm_password_div'>
+                    <%= form.label :confirm_password, :class => 'user_sign_up_label' %>
+                    </div>
+                    <%= form.password_field :password_confirmation,placeholder: "Confirm password", :class => 'user_sign_up_field' %>
+                    <b><div class = 'sign_up_error' ><%= @user.errors.full_messages_for(:password_confirmation).first %></div></b><br>
+                </div>
+
+                <p class='user_sign_up_sign_in_link'>Already a member? <%= link_to "Sign in", sessions_sign_in_path %><br></p>
+
+                <p class='user_sign_up_sign_in_link'><%= form.submit %></p>
+
+            </div>
+
+        </div>
+
+    <%end%>
+
+</div>

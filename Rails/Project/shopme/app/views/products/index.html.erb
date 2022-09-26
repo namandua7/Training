@@ -1,0 +1,29 @@
+<div class='products_index_page'>
+    <p>List of all products</p>
+        
+        <center>
+            <table>
+                <tr>
+                    <td>Id</td>
+                    <td>Name</td>
+                    <td>Action</td>
+                </tr>
+
+                <% @products.each do |prod| %>
+                <tr>
+                        <td><%= prod.id %></td>
+                        <td><%=image_tag prod.image, class: 'product_index_page_image' %><br><%= prod.name %></td>
+                        <td><%= link_to 'Show', product_path(prod) %>
+                            <% if admin_signed_in? %>
+                            <%= link_to 'Edit', edit_product_path(prod) %>
+                            <%= link_to 'Delete', product_path(prod), method: :delete, data: {confirm: "Are you sure?"} %>
+                            <% end %>
+                        </td>
+                </tr>
+                <% end %>
+            </table>
+
+            <%= will_paginate @products %>
+
+        </center>
+</div>

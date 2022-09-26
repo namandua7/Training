@@ -1,0 +1,310 @@
+.header {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
+}
+
+.user_sign_up_form_inside_content{
+    margin-top: 15px;
+}
+
+.user_sign_up_form {
+    border: 3px solid green;
+    background-color: aliceblue;
+    border-radius: 10px;
+    margin-left: 450px;
+    margin-right: 450px;
+    padding: 15px;
+    margin-bottom: 100px;
+}
+
+.user_sign_up_label{
+    margin-left: 30px;
+    font-size: 25px;
+    padding-right: 160px;
+}
+
+.user_sign_up_confirm_password_div {
+    position: absolute;
+}
+
+.user_sign_up_field {
+    float: right;
+    width: 200px;
+    height: 22px;
+    margin-right: 20px;
+}
+
+.user_sign_up_sign_in_link{
+    text-align: center;
+    font-size: 20px;
+    font-family: 'Alata';
+}
+
+.user_sign_up_checkbox_label{
+    margin-left: 25px;
+    font-size: 25px;
+}
+
+.check_box_sign_up {
+    display: inline-block;
+    text-align: right;
+    font-size: 20px;
+    margin-left: 200px;
+    margin-right: 20px;
+}
+
+.sign_up_error {
+    text-align: center;
+    margin-left: 50%;
+    padding: 10px;
+    color: #e65252;
+}
+
+.user_sign_in_form {
+    border: 3px solid green;
+    background-color: aliceblue;
+    border-radius: 10px;
+    margin-left: 450px;
+    margin-right: 450px;
+    margin-top: 0px;
+    padding: 15px;
+    margin-bottom: 100px;
+    }
+
+.user_sign_in_label {
+    float: left;
+    margin-left: 30px;
+    font-size: 25px;
+    padding-right: 160px;
+}
+
+.user_sign_in_email {
+    margin-left: 35px;
+}
+
+.user_sign_in_form_inside_content {
+    margin-top: 15px;
+}
+
+.user_sign_in_field {
+    width: 200px;
+    height: 22px;
+}
+
+.sign_in_user_password_visibility_checkbox{
+    margin-left: 300px;
+}
+
+.sign_in_email_error {
+    text-align: right;
+    color: #e65252;
+    margin-right: 65px;
+}
+
+.sign_in_password_error {
+    text-align: right;
+    color: #e65252;
+    margin-right: 65px;
+}
+
+.admin_sign_up_form {
+    text-align: center;
+    font-size: 25px;
+    border: 3px solid green;
+    background-color: aliceblue;
+    border-radius: 10px;
+    margin-left: 450px;
+    margin-right: 450px;
+    margin-top: 40px;
+    padding: 15px;
+    margin-bottom: 100px;
+}
+
+.admin_sign_up_error {
+    text-align: center;
+    font-size: 15px;
+    color: #e65252;
+}
+
+.admin_devise_links {
+    font-size: 20px;
+    text-align: center;
+}
+
+.admin_sign_in_form {
+    text-align: center;
+    font-size: 25px;
+    border: 3px solid green;
+    background-color: aliceblue;
+    border-radius: 10px;
+    margin-left: 450px;
+    margin-right: 450px;
+    padding: 15px;
+}
+
+.admin_sign_in_error {
+    text-align: center;
+    font-size: 15px;
+    color: #e65252;
+}
+
+.admin_resend_confirmation_mail {
+    text-align: center;
+    font-size: 25px;
+    border: 3px solid green;
+    background-color: aliceblue;
+    border-radius: 10px;
+    margin-left: 450px;
+    margin-right: 450px;
+    margin-top: 40px;
+    padding: 15px;
+}
+
+.admin_forgot_password_page {
+    text-align: center;
+    font-size: 25px;
+    border: 3px solid green;
+    background-color: aliceblue;
+    border-radius: 10px;
+    margin-left: 450px;
+    margin-right: 450px;
+    margin-top: 40px;
+    padding: 15px;
+}
+
+.admin_resend_unlock_instruction_page {
+    text-align: center;
+    font-size: 25px;
+    border: 3px solid green;
+    background-color: aliceblue;
+    border-radius: 10px;
+    margin-left: 450px;
+    margin-right: 450px;
+    margin-top: 40px;
+    padding: 15px;
+}
+
+.adding_new_product {
+    text-align: center;
+    font-size: 25px;
+    border: 3px solid green;
+    background-color: aliceblue;
+    border-radius: 10px;
+    margin-left: 350px;
+    margin-right: 350px;
+    margin-top: 40px;
+    margin-bottom: 100px;
+    padding: 15px;
+}
+
+.product_form_label {
+    display: inline-block;
+    text-align: center;
+    margin-left: 150px;
+    margin-top: 10px;
+    font-size: 25px;
+    padding-right: 160px;
+}
+
+.product_form_fields {
+    font-size: 15px;
+    float: center;
+}
+
+.submit_product_details {
+    text-align: center;
+}
+
+#preview_product_image {
+    width: 100px;
+    height: auto;
+    display: block;
+}
+
+.product_image {
+    width: 500px;
+    height: auto;
+    float: left;
+    margin-top: 150px;
+}
+
+.product_index_page_image {
+    width: 100px;
+    height: auto;
+}
+
+.products_index_page{
+    margin-bottom: 100px;
+}
+
+.product_showing {
+    margin-left: 700px;
+    margin-bottom: 100px;
+    margin-top: 100px;
+    font-size: 30px;
+}
+
+.notice_and_alert_message {
+    color: #e65252;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+table td {
+    border: 2px solid black;
+    border-collapse: collapse ;
+    text-align: center;
+    width: 150px;
+    height: auto;
+    font-size: 20px;
+}
+
+.searched_product_page {
+    margin-bottom: 100px;
+}
+
+li {
+    display: inline-block;
+    color: aliceblue;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.header_log_out_button {
+    float: right;
+}
+
+li a:hover{
+    background-color: blueviolet;
+}
+
+body {
+    background-color: white;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    background-color: #000000;
+    text-align: center;
+    margin-top: -30px;
+}
+
+p {
+    text-align: center;
+    font-size: 60px;
+    font-family: 'Albert Sans';
+}

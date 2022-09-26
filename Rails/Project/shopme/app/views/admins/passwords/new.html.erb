@@ -1,0 +1,20 @@
+<p>Forgot your password?</p>
+
+<div class ='admin_forgot_password_page'>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "admins/shared/error_messages", resource: resource %>
+
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true,placeholder: "Email" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Send me reset password instructions" %>
+      </div>
+    <% end %>
+
+    <p class = 'admin_devise_links'> <%= render "admins/shared/links" %> </p>
+
+</div>

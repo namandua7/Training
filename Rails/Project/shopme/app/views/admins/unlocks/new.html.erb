@@ -1,0 +1,20 @@
+<p>Resend unlock instructions</p>
+
+<div class='admin_resend_unlock_instruction_page'>
+
+    <%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "admins/shared/error_messages", resource: resource %>
+
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, placeholder: "Email" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Resend unlock instructions" %>
+      </div>
+    <% end %>
+
+    <p class = 'admin_devise_links'> <%= render "admins/shared/links" %> </p>
+
+</div>

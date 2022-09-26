@@ -1,0 +1,9 @@
+<%= image_tag @product.image, class: "product_image" if @product.image.attached? %>
+<div class='product_showing'>
+
+    <h1><%= @product.name %></h1>
+    <h3>Category: <%= @product.category %></h3>
+    <h3>Rs <%= @product.price %></h3>
+    <%= @product.description %>
+
+</div>
