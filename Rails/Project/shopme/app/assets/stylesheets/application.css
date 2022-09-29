@@ -23,7 +23,6 @@
 .user_sign_up_label{
     margin-left: 30px;
     font-size: 25px;
-    padding-right: 160px;
 }
 
 .user_sign_up_confirm_password_div {
@@ -44,7 +43,7 @@
 }
 
 .user_sign_up_checkbox_label{
-    margin-left: 25px;
+    margin-left: 30px;
     font-size: 25px;
 }
 
@@ -123,10 +122,32 @@
     margin-bottom: 100px;
 }
 
+.admin_sign_up_form_label {
+    margin-left: 30px;
+    font-size: 25px;
+    padding-right: 160px;
+}
+
+.admin_sign_up_form_field {
+    width: 200px;
+    height: 22px;
+    float: right;
+}
+
+.admin_sign_up_label_and_field {
+    margin-top: 15px;
+}
+
 .admin_sign_up_error {
     text-align: center;
-    font-size: 15px;
+    margin-left: 300px;
+    padding: 10px;
     color: #e65252;
+    font-size: 18px;
+}
+
+.actions {
+    margin-top: 20px;
 }
 
 .admin_devise_links {
@@ -143,6 +164,35 @@
     margin-left: 450px;
     margin-right: 450px;
     padding: 15px;
+}
+
+.admin_sign_in_label {
+    float: left;
+    margin-left: 30px;
+    font-size: 25px;
+    padding-right: 160px;
+}
+
+.admin_sign_in_field {
+    float: right;
+    width: 200px;
+    height: 22px;
+    margin-right: 20px;
+}
+
+.password_field {
+    width: 200px;
+    height: 22px;
+    margin-right: 7px;
+}
+
+.admin_sign_in_email_field {
+    margin-left: 35px;
+}
+
+#passwd {
+    margin-left: 123px;
+    margin-top: 15px;
 }
 
 .admin_sign_in_error {
@@ -232,7 +282,7 @@
 }
 
 .product_index_page_image {
-    width: 100px;
+    width: 150px;
     height: auto;
 }
 
@@ -258,9 +308,9 @@ table td {
     border: 2px solid black;
     border-collapse: collapse ;
     text-align: center;
-    width: 150px;
+    width: 250px;
     height: auto;
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .searched_product_page {
