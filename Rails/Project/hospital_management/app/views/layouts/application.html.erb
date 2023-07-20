@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HospitalManagement</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= turbo_include_tags %>
+
+  </head>
+
+  <body>
+  
+    <%= render 'layouts/header' %>
+
+    <div class = "flash_notices_and_alerts" >
+      <b><%= notice %></b>
+      <b><%= alert %></b>
+    </div>
+    
+    <%= yield %>
+
+  </body>
+</html>

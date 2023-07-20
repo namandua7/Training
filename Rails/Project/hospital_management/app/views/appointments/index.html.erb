@@ -1,0 +1,6 @@
+<body style="background-color: wheat">
+<div id="appointments">
+  <%= turbo_stream_from 'appointments' %>
+  <%= render @appointments %>
+</div>
+<%= button_to "Book an appointment", new_appointment_path, method: :get, class:  "book_appointment_button" %>

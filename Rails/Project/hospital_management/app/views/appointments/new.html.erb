@@ -1,0 +1,48 @@
+<%= turbo_stream_from 'appointments' %>
+<body style="background-color: blue">
+  <%= turbo_frame_tag do %>
+    <h1 class="appointment_booking_keyword">Book an appointment</h1>
+    <div class="appointment_new">
+      <center>
+        <%= form_with model: @appointment, format: 'html',data: { turbo: "false" } do |form| %>
+          <div class="appointment_labels">
+            <%= form.label :appointment_date %>
+          </div><br>
+          <%= form.date_field :appointment_date, class: "appointment_field" %>
+          <%= @appointment.errors.full_messages_for(:appointment_date).first %>
+          <br>
+
+          <div class="appointment_labels">
+            <%= form.label :appointment_time %>
+          </div><br>
+          <%= form.time_field :appointment_time, class: "appointment_field" %>
+          <%= @appointment.errors.full_messages_for(:appointment_time).first %>
+          <br>
+
+          <div class="appointment_labels">
+            <%= form.label :doctor_name %>
+          </div><br>
+          <%= form.text_field :doctor_name, class: "appointment_field", placeholder: "Doctor Name" %>
+          <%= @appointment.errors.full_messages_for(:doctor_name).first %>
+          <br>
+
+          <div class="appointment_labels">
+            <%= form.label :disease %>
+          </div><br>
+          <%= form.text_field :disease, class: "appointment_field", placeholder: "Disease" %>
+          <%= @appointment.errors.full_messages_for(:disease).first %>
+          <br>
+
+          <%= form.submit "Submit", class: "appointment_submit_button", format: :html, data: { action: "submit->appointments#create" } %>
+        <% end %>
+      </center>
+    </div>
+  <% end %>
+</body>
+<script>
+  document.addEventListener("turbo:submit-end", function(event) {
+    if (event.target.action === "<%= appointments_path %>") {
+      Turbo.visit("<%= appointments_path %>");
+    }
+  });
+</script>

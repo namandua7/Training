@@ -1,0 +1,35 @@
+<style>
+* {
+  box-sizing: border-box;
+}
+</style>
+
+<div class="list_of_doctor_and_patient_row">
+  <%= turbo_frame_tag 'doctors' do %>
+  <div class="list_of_doctor_and_patient_column">
+    <h2>Doctors</h2>
+    <p>
+    <% for i in 0...@doctor.length %>
+        <%= i+1 %>.<br><br>
+        Name = <%= @doctor[i].name %><br>
+        Specialist = <%= @doctor[i].specialist %><br>
+        Experience = <%= @doctor[i].experience %> years<br><br>
+    <% end %>
+    </p>
+  </div>
+  <% end %>
+  <div class="list_of_doctor_and_patient_column">
+  <%= turbo_frame_tag 'patients' do %>
+    <h2>Patients</h2>
+    <p>
+    <% for i in 0...@patient.length %>
+        <%= i+1 %>.<br><br>
+        Name = <%= @patient[i].name %><br>
+        Gender = <%= @patient[i].gender %><br>
+        Age = <%= @patient[i].age %> years<br>
+        Mobile = <%= @patient[i].mobile %><br><br>
+    <% end %>
+    </p>
+  </div>
+  <% end %>
+</div>

@@ -1,0 +1,37 @@
+<body style = "background-color:blue">
+<%= turbo_frame_tag dom_id(@appointment) do %>
+<h1 class = "appointment_booking_keyword" >Edit your appointment </h1>
+<div class = "appointment_new" >
+    <center>
+    <%= form_with model: @appointment, format: 'html', data: { turbo: "false", turbo_stream: 'submit-end' } do |form| %>
+
+        <div class = "appointment_labels"><%= form.label :appointment_date %></div><br>
+        <%= form.date_field :appointment_date, class: "appointment_field" %>
+        <%= @appointment.errors.full_messages_for(:appointment_date).first %>
+        
+        <br>
+
+        <div class = "appointment_labels"><%= form.label :appointment_time %></div><br>
+        <%= form.time_field :appointment_time, class: "appointment_field" %>
+        <%= @appointment.errors.full_messages_for(:appointment_time).first %>
+
+        <br>
+
+        <div class = "appointment_labels"><%= form.label :doctor_name %></div><br>
+        <%= form.text_field :doctor_name, class: "appointment_field", placeholder: "Doctor Name" %>
+        <%= @appointment.errors.full_messages_for(:doctor_name).first %>
+
+        <br>
+
+        <div class = "appointment_labels"><%= form.label :disease %></div><br>
+        <%= form.text_field :disease, class: "appointment_field", placeholder: "Disease" %>
+        <%= @appointment.errors.full_messages_for(:disease).first %>
+
+        <br>
+
+        <%= form.submit "Update", class: "appointment_submit_button" %>
+
+    <% end %>
+    </center>
+</div>
+<% end %>
