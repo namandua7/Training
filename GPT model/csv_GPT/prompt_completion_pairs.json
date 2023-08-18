@@ -1,0 +1,62 @@
+[
+    {
+        "prompt": "Write a summary of User 1",
+        "completion": "User ID: 1, Subscription Type: Basic, Monthly Revenue: 10, Join Date: 15-01-22, Last Payment Date: 10-06-23, Country: United States, Age: 28, Gender: Male, Device: Smartphone, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 2",
+        "completion": "User ID: 2, Subscription Type: Premium, Monthly Revenue: 15, Join Date: 05-09-21, Last Payment Date: 22-06-23, Country: Canada, Age: 35, Gender: Female, Device: Tablet, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 3",
+        "completion": "User ID: 3, Subscription Type: Standard, Monthly Revenue: 12, Join Date: 28-02-23, Last Payment Date: 27-06-23, Country: United Kingdom, Age: 42, Gender: Male, Device: Smart TV, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 4",
+        "completion": "User ID: 4, Subscription Type: Standard, Monthly Revenue: 12, Join Date: 10-07-22, Last Payment Date: 26-06-23, Country: Australia, Age: 51, Gender: Female, Device: Laptop, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 5",
+        "completion": "User ID: 5, Subscription Type: Basic, Monthly Revenue: 10, Join Date: 01-05-23, Last Payment Date: 28-06-23, Country: Germany, Age: 33, Gender: Male, Device: Smartphone, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 6",
+        "completion": "User ID: 6, Subscription Type: Premium, Monthly Revenue: 15, Join Date: 18-03-22, Last Payment Date: 27-06-23, Country: France, Age: 29, Gender: Female, Device: Smart TV, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 7",
+        "completion": "User ID: 7, Subscription Type: Standard, Monthly Revenue: 12, Join Date: 09-12-21, Last Payment Date: 25-06-23, Country: Brazil, Age: 46, Gender: Male, Device: Tablet, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 8",
+        "completion": "User ID: 8, Subscription Type: Basic, Monthly Revenue: 10, Join Date: 02-04-23, Last Payment Date: 24-06-23, Country: Mexico, Age: 39, Gender: Female, Device: Laptop, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 9",
+        "completion": "User ID: 9, Subscription Type: Standard, Monthly Revenue: 12, Join Date: 20-10-22, Last Payment Date: 23-06-23, Country: Spain, Age: 37, Gender: Male, Device: Smartphone, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 10",
+        "completion": "User ID: 10, Subscription Type: Premium, Monthly Revenue: 15, Join Date: 07-01-23, Last Payment Date: 22-06-23, Country: Italy, Age: 44, Gender: Female, Device: Smart TV, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 11",
+        "completion": "User ID: 11, Subscription Type: Basic, Monthly Revenue: 10, Join Date: 16-05-22, Last Payment Date: 22-06-23, Country: United States, Age: 31, Gender: Female, Device: Smartphone, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 12",
+        "completion": "User ID: 12, Subscription Type: Premium, Monthly Revenue: 15, Join Date: 23-03-23, Last Payment Date: 28-06-23, Country: Canada, Age: 45, Gender: Male, Device: Tablet, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 13",
+        "completion": "User ID: 13, Subscription Type: Standard, Monthly Revenue: 12, Join Date: 30-11-21, Last Payment Date: 27-06-23, Country: United Kingdom, Age: 48, Gender: Female, Device: Laptop, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 14",
+        "completion": "User ID: 14, Subscription Type: Basic, Monthly Revenue: 10, Join Date: 01-08-22, Last Payment Date: 26-06-23, Country: Australia, Age: 27, Gender: Male, Device: Smartphone, Plan Duration: 1 Month"
+    },
+    {
+        "prompt": "Write a summary of User 15",
+        "completion": "User ID: 15, Subscription Type: Standard, Monthly Revenue: 12, Join Date: 09-05-23, Last Payment Date: 28-06-23, Country: Germany, Age: 38, Gender: Female, Device: Smart TV, Plan Duration: 1 Month"
+    }
+]
