@@ -1,6 +1,11 @@
-<body style="background-color: wheat">
+<%= button_to "+ New", new_appointment_path, method: :get, class:  "book_appointment_button" %>
+<h1 style='text-align:center'>Appointments scheduled </h1>
+ <div class="appointment-heading">
+    <div class="doctor-name">Doctor Name</div>
+    <div class="appointment-details">Appointment Details</div>
+    <div class="actions">Actions</div>
+  </div>
 <div id="appointments">
   <%= turbo_stream_from 'appointments' %>
   <%= render @appointments %>
 </div>
-<%= button_to "Book an appointment", new_appointment_path, method: :get, class:  "book_appointment_button" %>

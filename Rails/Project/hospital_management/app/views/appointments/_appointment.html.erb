@@ -1,14 +1,14 @@
 <%= turbo_frame_tag dom_id(appointment) do%>
-    <div class="appointment_list">
-        <div id="<%= dom_id appointment %>">
-            <div class="appointment_details">
-                <b><%= appointment.doctor_name %></b><br>
-                    <%= appointment.appointment_date %><br>
-                    <%= appointment.appointment_time %><br>
-                    <%= appointment.disease %>
-            </div>
-        </div>
+  <div class="appointment">
+    <div class="doctor-name"><b><%= appointment.doctor_name %></b></div>
+    <div class="appointment-details">
+      <div class="date"><%= appointment.appointment_date %></div>
+      <div class="time"><%= appointment.appointment_time.strftime("%H:%M:%S") %></div>
+      <div class="disease"><%= appointment.disease %></div>
     </div>
-<%= link_to "Edit", edit_appointment_path(appointment), class: "appointment_edit_button", data: { turbo: false } %>
-<%= button_to "Cancel", appointment_path(appointment), method: :delete, class: "appointment_edit_delete_button" %>
+    <div class="actions">
+      <%= link_to "Edit", edit_appointment_path(appointment), data: { turbo: false } %>
+      <%= button_to "Cancel", appointment_path(appointment), method: :delete %>
+    </div>
+  </div>
 <% end %>

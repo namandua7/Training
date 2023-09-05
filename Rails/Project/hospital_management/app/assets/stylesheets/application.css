@@ -360,6 +360,60 @@ li {
 }
 
 .book_appointment_button {
-    margin-top: 20px;
-    margin-left: 650px;
+    margin-top: 30px;
+    position: absolute;
+    font-size: 18px;
+    background-color: #428bca;
+    color: white;
+    border: #428bca;
+    border-radius: 5px;
 }
+
+.appointment-heading {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .appointment {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+  }
+  
+  .doctor-name {
+    flex: 1;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .appointment-details {
+    flex: 2;
+  }
+  
+  .date,
+  .time,
+  .disease {
+    margin-bottom: 5px;
+  }
+  
+  .actions {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+  .actions a,
+  .actions button {
+    margin-top: 5px;
+  }
+  
