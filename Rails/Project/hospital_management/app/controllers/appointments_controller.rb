@@ -19,7 +19,7 @@ class AppointmentsController < ApplicationController
     end 
     if doctor_signed_in?
       @doctor = current_doctor
-      @appointments = @doctor.appointments 
+      @appointments = @doctor.appointments.includes(:patient)
     end
     respond_to do |format|
       format.html # Render HTML format

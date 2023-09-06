@@ -1,10 +1,18 @@
+<% if patient_signed_in? %>
 <%= button_to "+ New", new_appointment_path, method: :get, class:  "book_appointment_button" %>
+<%end%>
 <h1 style='text-align:center'>Appointments scheduled </h1>
  <div class="appointment-heading">
-    <div class="doctor-name">Doctor Name</div>
-    <div class="appointment-details">Appointment Details</div>
-    <div class="actions">Actions</div>
-  </div>
+  <% if patient_signed_in? %>
+  <div class="doctor-name">Doctor Name</div>
+  <div class="appointment-details">Appointment Details</div>
+  <div class="actions">Actions</div>
+  <%end%>
+  <% if doctor_signed_in? %>
+  <div class="doctor-name">Patient Name</div>
+  <div class="appointment-details">Appointment Details</div>
+  <%end%>
+</div>
 <div id="appointments">
   <%= turbo_stream_from 'appointments' %>
   <%= render @appointments %>
