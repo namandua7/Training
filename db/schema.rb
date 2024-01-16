@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_16_083103) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_16_100444) do
   create_table "blogs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -22,13 +22,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_16_083103) do
   end
 
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.text "content"
-    t.bigint "user_id", null: false
-    t.string "commentable_type", null: false
-    t.bigint "commentable_id", null: false
+    t.string "content"
+    t.integer "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.bigint "user_id", null: false
+    t.bigint "blog_id", null: false
+    t.index ["blog_id"], name: "index_comments_on_blog_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -56,5 +56,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_16_083103) do
   end
 
   add_foreign_key "blogs", "users"
+  add_foreign_key "comments", "blogs"
   add_foreign_key "comments", "users"
 end

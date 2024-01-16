@@ -14,3 +14,10 @@
     </div>
 <% end %>
 </div>
+<strong>Comments:</strong>
+<% if @blog.comments.any? %>
+    <% @blog.comments.each do |comment| %>
+    <%= comment.content %>
+    <%end%>
+<%end%>
+<%= render 'comments/form' %>
