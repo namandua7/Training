@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :blogs
   devise_for :users
-  root 'blogs#index'
+  devise_scope :user do
+    root to: "devise/sessions#new"
+  end  
   get "up" => "rails/health#show", as: :rails_health_check
 end

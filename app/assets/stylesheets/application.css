@@ -239,3 +239,54 @@ header{
         gap: 0;
     }
 }
+.blog-form {
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #3498db;
+  }
+  
+  .btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+  }
+
+  .btn:hover {
+    background-color: #fff;
+    color: #3498db;
+  }
+  
+  .btn-primary:hover {
+    background-color: #fff;
+    color: #3498db;
+  }
+  
