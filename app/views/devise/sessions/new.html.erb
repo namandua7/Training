@@ -1,26 +1,56 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<body>
+<div class="wrapper">
+  <nav class="nav">
+    <div class="nav-logo">
+    <p>BLOGGING</p>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
+  <div class="nav-menu" id="navMenu">
+  <ul>
+    <li><a href="#" class="link active">Home</a></li>
+    <li><a href="#" class="link">Blog</a></li>
+    <li><a href="#" class="link">Services</a></li>
+    <li><a href="#" class="link">About</a></li>
+  </ul>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+  <div class="nav-button">
+    <button class="btn white-btn" id="loginBtn" onclick="login()">Sign In</button>
+    <%= button_to "Sign Up", new_user_registration_path, method: :get, class: "btn", id: "registerBtn" %>
+  </div>
+  <div class="nav-menu-btn">
+    <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+  </div>
+  </nav>
+  <div class="form-box">
+    <div class="login-container" id="login">
+      <div class="top">
+      <span>Don't have an account? <%= link_to "Sign Up", new_user_registration_path %></span>
+      <header>Login</header>
+      </div>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="input-box">
+        <%= f.email_field :email, autofocus: true, class: "input-field", autocomplete: "email" %>
+        <i class="bx bx-user"></i>
+        </div>
+        <div class="input-box">
+        <%= f.password_field :password, class: "input-field", autocomplete: "current-password" %>
+        <i class="bx bx-lock-alt"></i>
+        </div>
+        <div class="input-box">
+        <%= f.submit "Log in", class: "submit" %>
+        </div>
+        <div class="two-col">
+        <% if devise_mapping.rememberable? %>
+        <div class="one">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+        <% end %>
+        <div class="two">
+          <label><a href="#">Forgot password?</a></label>
+        </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>   
+</body>
