@@ -17,7 +17,12 @@
 <strong>Comments:</strong>
 <% if @blog.comments.any? %>
     <% @blog.comments.each do |comment| %>
-    <%= comment.content %>
+        <%= comment.content %>
+        <%if comment.replies.any?%>
+        <% comment.replies.each do |reply| %>
+        <%=reply.content%>
+        <%end%>
+        <%end%>
     <%end%>
 <%end%>
 <%= render 'comments/form' %>

@@ -1,4 +1,4 @@
-<%= form_with(model: [@blog, @comment, @comment.replies.build], url: blog_comment_replies_path(@blog, @comment)) do |f| %>
+<%= form_with(model: [@blog, @comment, @reply], url: blog_comment_replies_path(@blog, @comment)) do |f| %>
   <%= f.text_field :content %>
   <%= f.submit "Add reply" %>
 <% end %>

@@ -32,6 +32,9 @@ class BlogsController < ApplicationController
   def show
     @blog = Blog.find(params[:id])
     @comment = @blog.comments
+    @comment.each do |comment|
+    @reply = comment.replies
+    end
   end
   private
   def blog_params
