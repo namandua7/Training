@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_16_100444) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_16_122111) do
   create_table "blogs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -30,6 +30,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_16_100444) do
     t.bigint "blog_id", null: false
     t.index ["blog_id"], name: "index_comments_on_blog_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "replies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "content"
+    t.bigint "user_id", null: false
+    t.bigint "comment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_replies_on_comment_id"
+    t.index ["user_id"], name: "index_replies_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -58,4 +68,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_16_100444) do
   add_foreign_key "blogs", "users"
   add_foreign_key "comments", "blogs"
   add_foreign_key "comments", "users"
+  add_foreign_key "replies", "comments"
+  add_foreign_key "replies", "users"
 end

@@ -4,8 +4,10 @@ class CommentsController < ApplicationController
         @comment = @blog.comments.build
     end
     def create
+        @user = current_user
         @blog = Blog.find(params[:blog_id])
         @comment = @blog.comments.new(comment_params)
+        @comment.user_id = @user.id
         if @comment.save
           redirect_to @blog
         else
@@ -20,6 +22,6 @@ class CommentsController < ApplicationController
     end
     private
     def comment_params
-        params.require(:comment).permit(:content)
+        params.require(:comment).permit(:content, :user_id, :blog_id)
     end
 end
