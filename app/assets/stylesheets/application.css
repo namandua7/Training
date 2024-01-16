@@ -289,4 +289,50 @@ header{
     background-color: #fff;
     color: #3498db;
   }
+  /* app/assets/stylesheets/styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
   
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f2f2f2;
+  }
+  
+  .new-button, .logout-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 4px;
+  }
+  
+  .new-button {
+    background-color: #0076e4;
+  }
+  
+  .logout-button {
+    background-color: #f44336;
+  }
+
+  .blogs-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+  }
+  
+  .blog-card {
+    width: 400px;
+    height: 200px;
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+  }
