@@ -1,10 +1,10 @@
 class BlogsController < ApplicationController
   def index
-    @blogs = Blog.all.paginate(page: params[:page], per_page: 10)
+    @blogs = Blog.all.paginate(page: params[:page], per_page: 12)
   end
   def search
     @blog_search = Blog.ransack(params[:q])
-    @query = @blog_search.result(distinct: true).paginate(page: params[:page], per_page: 10)
+    @query = @blog_search.result(distinct: true).paginate(page: params[:page], per_page: 12)
   end
   def new
     @blog = Blog.new

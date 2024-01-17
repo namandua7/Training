@@ -5,9 +5,7 @@
   <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'logout-button' %>
   <%end%>
 </div>
-
 <h1>All blogs</h1>
-
 <div class="blogs-container">
   <% @blogs.each do |blog| %>
     <div class="blog-card">

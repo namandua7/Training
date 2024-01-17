@@ -3,14 +3,12 @@
   <%= render 'blogs/search' %>
   <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'logout-button' %>
 </div>
-
 <% if @query.count == 0 %>
     <h2>No blog with this name</h2>
 <%end%>
 <% if @query.count() != 0 %>
     <h2><%= @query.count() %> Results</h2>
 <% end %>
-
 <div class="blogs-container">
   <% @query.each do |blog| %>
     <div class="blog-card">

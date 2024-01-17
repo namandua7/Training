@@ -1,4 +1,5 @@
-<%= comment.content %><br>
+<% @user = User.find(comment.user_id) %>
+<b><%= @user.name %>:</b> <%= comment.content %><br>
 <a href="#" class="reply_form_display" data-comment-id="<%= comment.id %>">reply<br></a>
 <div class="reply_form">
     <%= render partial: 'comments/form', locals: { blog: @blog, comment: comment } %>
@@ -9,7 +10,6 @@
     <%= render partial: 'comments/comment', locals: { comment: sub_comment } %>
 </div>
 <% end %>
-
 <script>
 document.querySelectorAll('.reply_form_display').forEach((el) =>{
     el.addEventListener('click',(ev) => {
