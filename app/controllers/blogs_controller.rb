@@ -1,12 +1,17 @@
 class BlogsController < ApplicationController
   def index
-    @blogs = Blog.all
+    @blogs = Blog.all.paginate(page: params[:page], per_page: 10)
+  end
+  def search
+    @blog_search = Blog.ransack(params[:q])
+    @query = @blog_search.result(distinct: true).paginate(page: params[:page], per_page: 10)
   end
   def new
     @blog = Blog.new
   end
   def create
-    @blog = Blog.new(blog_params)
+    @user = current_user
+    @blog = @user.blogs.new(blog_params)
     if @blog.save
       redirect_to @blog
     else
