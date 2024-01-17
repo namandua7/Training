@@ -1,7 +1,9 @@
 <div class="header">
   <%= button_to "+ New", new_blog_path, method: :get, class: 'new-button' %>
   <%= render 'blogs/search' %>
+  <% if user_signed_in? %>
   <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'logout-button' %>
+  <%end%>
 </div>
 
 <h1>All blogs</h1>

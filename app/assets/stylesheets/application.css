@@ -8,6 +8,7 @@
     font-family: 'Poppins', sans-serif;
 }
 body {
+    background-image: url(1.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -84,7 +85,6 @@ body {
     justify-content: center;
     width: 512px;
     height: 420px;
-    overflow: hidden;
     z-index: 2;
 }
 .login-container{
@@ -97,7 +97,6 @@ body {
 }
 .register-container{
     position: absolute;
-    right: -520px;
     width: 500px;
     display: flex;
     flex-direction: column;
@@ -132,6 +131,7 @@ header{
     height: 50px;
     width: 100%;
     padding: 0 10px 0 45px;
+    margin-top: 5px;
     border: none;
     border-radius: 30px;
     outline: none;
@@ -141,12 +141,6 @@ header{
     background: rgba(255, 255, 255, 0.25);
 }
 ::-webkit-input-placeholder{
-    color: #fff;
-}
-.input-box i{
-    position: relative;
-    top: -35px;
-    left: 17px;
     color: #fff;
 }
 .submit{
@@ -161,6 +155,7 @@ header{
     background: rgba(255, 255, 255, 0.7);
     cursor: pointer;
     transition: .3s ease-in-out;
+    margin-top: 5px;
 }
 .submit:hover{
     background: rgba(255, 255, 255, 0.5);
@@ -300,7 +295,6 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    background-color: #f2f2f2;
   }
   
   .new-button, .logout-button {
@@ -312,10 +306,12 @@ body {
   }
   
   .new-button {
+    border-radius: 10px;
     background-color: #0076e4;
   }
   
   .logout-button {
+    border-radius: 10px;
     background-color: #f44336;
   }
 
@@ -332,13 +328,14 @@ body {
     margin: 20px;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 10px;
     background-color: #fff;
   }
 
   .blogs_pagination {
     font-size: 25px;
     text-align: center;
+    color: white;
   }
 
   .reply_form {
@@ -347,4 +344,24 @@ body {
 
   .comment_replies {
     padding-left: 20px;
+  }
+.search-field {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    font-size: 16px;
+  }
+  
+  .search-button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3;
   }
