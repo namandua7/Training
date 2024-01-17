@@ -336,3 +336,11 @@ body {
     border-radius: 4px;
     background-color: #fff;
   }
+
+  .reply_form {
+    display: none;
+  }
+
+  .comment_replies {
+    padding-left: 20px;
+  }

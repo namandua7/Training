@@ -2,11 +2,9 @@ class BlogsController < ApplicationController
   def index
     @blogs = Blog.all
   end
-
   def new
     @blog = Blog.new
   end
-
   def create
     @blog = Blog.new(blog_params)
     if @blog.save
@@ -15,11 +13,9 @@ class BlogsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-
   def edit
     @blog = Blog.find(params[:id])
   end
-
   def update
     @blog = Blog.find(params[:id])
     if @blog.update(blog_params)
@@ -28,13 +24,9 @@ class BlogsController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
-
   def show
     @blog = Blog.find(params[:id])
-    @comment = @blog.comments
-    @comment.each do |comment|
-    @reply = comment.replies
-    end
+    @comment = @blog.comments.where(parent_id: nil).order(created_at: :desc)
   end
   private
   def blog_params

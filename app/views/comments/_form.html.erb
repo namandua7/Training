@@ -1,4 +1,5 @@
 <%= form_with(model: [@blog, @comment], url: blog_comments_path(@blog)) do |f| %>
+  <%= f.hidden_field :parent_id %>
   <%= f.text_field :content %>
   <%= f.submit "Add comment" %>
 <% end %>

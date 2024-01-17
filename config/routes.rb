@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   resources :blogs do
-    resources :comments do
-      resources :replies, only: [:create, :destroy]
-    end
+    resources :comments
   end  
   devise_for :users
   devise_scope :user do
