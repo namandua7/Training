@@ -1,2 +1,15 @@
-<h1>Blogs#edit</h1>
-<p>Find me in app/views/blogs/edit.html.erb</p>
+<%= link_to "<- Back", blogs_path, class: "back_button" %>
+<center><h1>Edit Blog</h1></center>
+<%= form_with model: @blog, html: { class: 'blog-form' } do |form| %>
+  <br><br><br>
+  <div class="form-group">
+    <%= form.label :title, class: "blog_form_label" %>
+    <%= form.text_field :title, class: 'form-control', placeholder: 'Enter Title' %>
+  </div>
+  <br><br>
+  <div class="form-group">
+    <%= form.label :description, class: "blog_form_label" %>
+    <%= form.text_area :description, class: 'form-control', placeholder: 'Enter Description' %>
+  </div>
+  <%= form.submit 'Update', class: 'btn btn-primary' %>
+<% end %>

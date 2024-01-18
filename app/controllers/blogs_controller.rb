@@ -33,6 +33,11 @@ class BlogsController < ApplicationController
     @blog = Blog.find(params[:id])
     @comment = @blog.comments.where(parent_id: nil).order(created_at: :desc)
   end
+  def destroy
+    @blog = Blog.find(params[:id])
+    @blog.destroy
+    redirect_to blogs_path
+  end
   private
   def blog_params
     params.require(:blog).permit(:title, :description)

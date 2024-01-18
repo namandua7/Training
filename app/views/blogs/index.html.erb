@@ -9,10 +9,18 @@
 <div class="blogs-container">
   <% @blogs.each do |blog| %>
     <div class="blog-card">
-      <h2><%= link_to blog.title, blog_path(blog) %></h2>
-      <%@user=User.find(blog.user_id)%>
-      <b>By: <i><%= @user.name%></i></b>
-      <p><%= truncate(blog.description, length: 200) %></p>
+      <div class="blog-card-content">
+        <h2 class="blog_title_index_page"><%= link_to blog.title, blog_path(blog) %></h2>
+        <% @user = User.find(blog.user_id) %>
+        <b>By: <i><%= @user.name %></i></b>
+        <p><%= truncate(blog.description, length: 200) %></p>
+      </div>
+      <div class="blog-card-actions">
+        <div class="actions-inner">
+          <%= link_to "Edit", edit_blog_path(blog), class: "edit-link" %>
+          <%= button_to "Delete", blog_path(blog), method: :delete, data: { confirm: "Are you sure you want to delete this blog?" }, class: "delete-link" %>
+        </div>
+      </div>
     </div>
   <% end %>
 </div>

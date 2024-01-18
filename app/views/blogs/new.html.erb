@@ -1,11 +1,14 @@
+<%= link_to "<- Back", blogs_path, class: "back_button" %>
 <center><h1>Create Blog</h1></center>
 <%= form_with model: @blog, html: { class: 'blog-form' } do |form| %>
+  <br><br><br>
   <div class="form-group">
-    <%= form.label :title %>
+    <%= form.label :title, class: "blog_form_label" %>
     <%= form.text_field :title, class: 'form-control', placeholder: 'Enter Title' %>
   </div>
+  <br><br>
   <div class="form-group">
-    <%= form.label :description %>
+    <%= form.label :description, class: "blog_form_label" %>
     <%= form.text_area :description, class: 'form-control', placeholder: 'Enter Description' %>
   </div>
   <%= form.submit 'Submit', class: 'btn btn-primary' %>

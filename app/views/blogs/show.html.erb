@@ -1,3 +1,4 @@
+<%= link_to "<- Back", blogs_path, class: "back_button" %>
 <div class="blog-content">
 <% if @blog.image.present? %>
   <%= image_tag @blog.image.url, alt: @blog.title %>
