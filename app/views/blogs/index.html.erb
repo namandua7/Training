@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-<h1>Blogs#index</h1>
-<p>Find me in app/views/blogs/index.html.erb</p>
-<%= button_to "Logout", destroy_user_session_path, method: :delete %>
-
-<%= button_to "+ New", new_blog_path, method: :get %>
-=======
 <div class="header">
   <%= button_to "+ New", new_blog_path, method: :get, class: 'new-button' %>
   <%= render 'blogs/search' %>
@@ -12,12 +5,13 @@
   <%= button_to "Logout", destroy_user_session_path, method: :delete, class: 'logout-button' %>
   <%end%>
 </div>
-<h1>All blogs</h1>
+<center><h1>All blogs</h1></center>
 <div class="blogs-container">
   <% @blogs.each do |blog| %>
     <div class="blog-card">
       <h2><%= link_to blog.title, blog_path(blog) %></h2>
-      <br>
+      <%@user=User.find(blog.user_id)%>
+      <b>By: <i><%= @user.name%></i></b>
       <p><%= truncate(blog.description, length: 200) %></p>
     </div>
   <% end %>
@@ -25,4 +19,3 @@
 <div class="blogs_pagination">
   <%= will_paginate @blogs %>
 </div>
->>>>>>> 94840faec5931e58964bfba6f41046e42ca70000
