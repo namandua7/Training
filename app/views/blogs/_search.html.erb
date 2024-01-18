@@ -1,0 +1,4 @@
+<%= form_for(@blog_search, url: search_path, method: :get) do |blog| %>
+  <%= blog.search_field :title_i_cont_any, placeholder: "Search...", class: "search-field" %>
+  <%= blog.submit "Search", class: "search-button" %>
+<% end %>

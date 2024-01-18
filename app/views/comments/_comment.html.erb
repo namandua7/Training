@@ -1,0 +1,23 @@
+<% @user = User.find(comment.user_id) %>
+<b><%= @user.name %>:</b> <%= comment.content %><br>
+<a href="#" class="reply_form_display" data-comment-id="<%= comment.id %>">reply<br></a>
+<div class="reply_form">
+    <%= render partial: 'comments/form', locals: { blog: @blog, comment: comment } %>
+</div>
+<%= button_to "Delete", blog_comment_path(@blog, comment), method: :delete %>
+<% comment.comments.each do |sub_comment| %>
+<div class="comment_replies">
+    <%= render partial: 'comments/comment', locals: { comment: sub_comment } %>
+</div>
+<% end %>
+<script>
+document.querySelectorAll('.reply_form_display').forEach((el) =>{
+    el.addEventListener('click',(ev) => {
+        ev.preventDefault();
+        var commentId = el.dataset.commentId;
+        var form = el.nextElementSibling.querySelector('form');
+        form.querySelector('input[name="comment[parent_id]"]').value = commentId;
+        el.nextElementSibling.style = 'display: block;'
+    })
+})
+</script>
