@@ -10,19 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema[7.1].define(version: 2024_01_16_073447) do
-=======
 ActiveRecord::Schema[7.1].define(version: 2024_01_16_125048) do
->>>>>>> 94840faec5931e58964bfba6f41046e42ca70000
   create_table "blogs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
-<<<<<<< HEAD
-=======
     t.bigint "user_id"
     t.index ["user_id"], name: "index_blogs_on_user_id"
   end
@@ -36,7 +30,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_16_125048) do
     t.bigint "blog_id", null: false
     t.index ["blog_id"], name: "index_comments_on_blog_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
->>>>>>> 94840faec5931e58964bfba6f41046e42ca70000
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -62,10 +55,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_16_125048) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-<<<<<<< HEAD
-=======
   add_foreign_key "blogs", "users"
   add_foreign_key "comments", "blogs"
   add_foreign_key "comments", "users"
->>>>>>> 94840faec5931e58964bfba6f41046e42ca70000
 end

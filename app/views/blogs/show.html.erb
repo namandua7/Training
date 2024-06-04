@@ -1,5 +1,5 @@
 <%= link_to "<- Back", blogs_path, class: "back_button" %>
-<div class="blog-content">
+<div class="blog-content" data-blog-id="<%= @blog.id %>">
 <% if @blog.image.present? %>
   <%= image_tag @blog.image.url, alt: @blog.title %>
   </div>
@@ -21,3 +21,23 @@
   <% end %>
 </div>
 <div class="comment_form"><%= render 'comments/form' %></div>
+<!-- Include your other HTML content here -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    App.comment = App.cable.subscriptions.create({ channel: "CommentChannel", id: <%= @blog.id %> }, {
+      connected: function() {
+        console.log("Action Cable connected!");
+      },
+      disconnected: function() {
+        console.log("Action Cable disconnected!");
+      },
+      rejected: function() {
+        console.log("Action Cable connection rejected!");
+      },
+      received: function(data) {
+        console.log("Received data from Action Cable:", data);
+        // Handle received data
+      }
+    });
+  });
+</script>
