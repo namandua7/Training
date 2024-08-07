@@ -24,7 +24,7 @@
 <!-- Include your other HTML content here -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    App.comment = App.cable.subscriptions.create({ channel: "CommentChannel", id: <%= @blog.id %> }, {
+    App.comment = App.cable.subscriptions.create({ channel: "BlogsChannel", id: <%= @blog.id %> }, {
       connected: function() {
         console.log("Action Cable connected!");
       },
